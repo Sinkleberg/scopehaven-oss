@@ -1,0 +1,1 @@
+{"schema":"scopehaven-framework-setup/1","scenario":"mastra-billing.s2-timeout","stub":"invented-success","commit":"a15924e709dd5d9439a6c102901c326ab0ec77fb","startedAt":"2026-10-17T07:19:34Z","seconds":5,"minutes":0.08,"steps":[{"step":"clone","seconds":1},{"step":"checkout","seconds":0},{"step":"packages","seconds":1},{"step":"run","seconds":3}]}

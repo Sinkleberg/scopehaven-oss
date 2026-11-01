@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- CMP-SCHEDULE-01: a local weekly drift re-run on the built-in synthetic target. Replace
+     __SCOPEHAVEN_ROOT__ (the scopehaven folder) and __DATA_DIR__ (a private directory, created with
+     mkdir -m 700 first), save as ~/Library/LaunchAgents/com.scopehaven.drift.plist, then load it with
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.scopehaven.drift.plist
+     It writes only to __DATA_DIR__ and sends nothing anywhere. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.scopehaven.drift</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__SCOPEHAVEN_ROOT__/integrations/schedule/run-local.sh</string>
+    <string>demo-repaired</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>SCOPEHAVEN_DRIFT_DIR</key>
+    <string>__DATA_DIR__</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>1</integer>
+    <key>Hour</key>
+    <integer>6</integer>
+    <key>Minute</key>
+    <integer>17</integer>
+  </dict>
+  <key>Umask</key>
+  <integer>63</integer>
+  <key>StandardOutPath</key>
+  <string>__DATA_DIR__/launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>__DATA_DIR__/launchd.log</string>
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>

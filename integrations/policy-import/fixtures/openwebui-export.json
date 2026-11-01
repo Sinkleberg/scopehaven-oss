@@ -1,0 +1,23 @@
+{
+  "openWebUiVersion": "0.11.4",
+  "users": [
+    { "id": "u-alice", "role": "user", "alias": "alice" },
+    { "id": "u-bob", "role": "user", "alias": "bob" },
+    { "id": "u-carol", "role": "user", "alias": "carol" },
+    { "id": "u-admin", "role": "admin", "alias": "admin" },
+    { "id": "u-pending", "role": "pending", "alias": "pending" }
+  ],
+  "groups": [{ "id": "g-support", "member_ids": ["u-bob"] }],
+  "resources": [
+    { "type": "knowledge", "id": "kb-private", "user_id": "u-alice" },
+    { "type": "knowledge", "id": "kb-support", "user_id": "u-alice" },
+    { "type": "knowledge", "id": "kb-everyone", "user_id": "u-alice" },
+    { "type": "knowledge", "id": "kb-legacy-public", "user_id": "u-alice", "access_control": null },
+    { "type": "file", "id": "f-legacy", "user_id": "u-alice", "access_control": null }
+  ],
+  "grants": [
+    { "resource_type": "knowledge", "resource_id": "kb-support", "principal_type": "group", "principal_id": "g-support", "permission": "read" },
+    { "resource_type": "knowledge", "resource_id": "kb-everyone", "principal_type": "user", "principal_id": "*", "permission": "read" },
+    { "resource_type": "knowledge", "resource_id": "kb-everyone", "principal_type": "user", "principal_id": "u-carol", "permission": "write" }
+  ]
+}

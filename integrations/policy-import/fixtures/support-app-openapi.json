@@ -1,0 +1,21 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Owned synthetic support app (examples/observed-support-app.mjs), init hook fixture", "version": "1.0.0" },
+  "servers": [{ "url": "/api" }],
+  "security": [{ "bearer": [] }],
+  "components": { "securitySchemes": { "bearer": { "type": "http", "scheme": "bearer" } } },
+  "paths": {
+    "/me": { "get": { "operationId": "me", "responses": { "200": { "description": "the signed-in agent" } } } },
+    "/orders/{orderId}": { "get": { "operationId": "getOrder", "responses": { "200": { "description": "an order of the agent's company" }, "404": { "description": "not found" } } } },
+    "/orders/{orderId}/refunds": {
+      "post": { "operationId": "refund",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["reason"], "properties": { "reason": { "type": "string", "example": "customer asked" } } } } } },
+        "responses": { "201": { "description": "refund requested" }, "404": { "description": "not found" } } }
+    },
+    "/assistant/chat": {
+      "post": { "operationId": "chat",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["orderId"], "properties": { "orderId": { "type": "string", "example": "A-1" } } } } } },
+        "responses": { "200": { "description": "the assistant's reply" } } }
+    }
+  }
+}

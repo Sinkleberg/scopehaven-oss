@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "demonstration": "owned-isolated-loopback",
+  "baseline": {
+    "schemaVersion": 1,
+    "outcome": "assessment-failed",
+    "exitCode": 1,
+    "reasons": [
+      "checks-failed"
+    ],
+    "current": {
+      "runId": "f8c2e7fe-89b9-4697-af68-fae980847fa4",
+      "targetId": "demo-vulnerable",
+      "checksTotal": 22,
+      "counts": {
+        "pass": 7,
+        "fail": 15,
+        "inconclusive": 0,
+        "error": 0,
+        "not_applicable": 0
+      },
+      "evidenceOrigin": "synthetic-local-http",
+      "evidenceScope": "owned-synthetic-backend",
+      "restorationLabel": "Fixed",
+      "interpretation": "Owned synthetic backend evidence; no production or model security certification.",
+      "allowedControls": {
+        "required": 7,
+        "passed": 7,
+        "status": "pass"
+      }
+    },
+    "comparison": {
+      "requested": false,
+      "compatibility": "not-requested"
+    }
+  },
+  "repaired": {
+    "schemaVersion": 1,
+    "outcome": "clean",
+    "exitCode": 0,
+    "reasons": [],
+    "current": {
+      "runId": "47aa3272-ca72-4a02-aeb9-a466d18e1dc8",
+      "targetId": "demo-repaired",
+      "checksTotal": 22,
+      "counts": {
+        "pass": 22,
+        "fail": 0,
+        "inconclusive": 0,
+        "error": 0,
+        "not_applicable": 0
+      },
+      "evidenceOrigin": "synthetic-local-http",
+      "evidenceScope": "owned-synthetic-backend",
+      "restorationLabel": "Fixed",
+      "interpretation": "Owned synthetic backend evidence; no production or model security certification.",
+      "allowedControls": {
+        "required": 7,
+        "passed": 7,
+        "status": "pass"
+      }
+    },
+    "comparison": {
+      "requested": true,
+      "baselineRunId": "f8c2e7fe-89b9-4697-af68-fae980847fa4",
+      "compatibility": "compatible",
+      "allowedControlsPass": true,
+      "summary": {
+        "fixed": 15,
+        "stillFailing": 0,
+        "newFailures": 0,
+        "preservedPasses": 7,
+        "unverified": 0
+      },
+      "evidenceScope": "Owned synthetic backend evidence.",
+      "restorationLabel": "Fixed",
+      "labels": {
+        "fixed": 15,
+        "contract-restored": 0,
+        "regression": 0,
+        "still-failing": 0,
+        "preserved": 7,
+        "unverified": 0,
+        "incompatible": 0,
+        "blocked-by-controls": 0,
+        "not-applicable": 0
+      }
+    }
+  },
+  "coreSha256": {
+    "baseline": "4d10c538757b449556af777d68c3d1921d7a22a21f89aaff6d0eeb1b59d113e8",
+    "repaired": "472c82c89ff22f24568156d097f8f60652a0385a1222f7b81a53971f3f7632fc"
+  },
+  "retention": "Temporary core evidence and gate summaries removed on exit; this receipt retains summaries and their source core hashes only."
+}

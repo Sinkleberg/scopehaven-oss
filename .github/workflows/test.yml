@@ -1,0 +1,60 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
+  workflow_dispatch:
+
+# New commits supersede older runs of this workflow on the same PR or branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # The suite runs as parallel shards. Node's --test-shard gives each test file to exactly one shard, so the shards
+  # together run the whole suite once. Drafts skip the suite; marking a PR ready starts the complete required check.
+  suite:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    name: suite ${{ matrix.shard }}/${{ matrix.total }}
+    strategy:
+      # Every shard runs to the end, so one red run names every failing file.
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+        total: [4]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+      - run: node --version
+      # Shard 1 also runs the CI helper scripts' own tests.
+      - name: Test CI helper scripts (shard 1)
+        if: matrix.shard == 1
+        run: node --test --test-reporter=tap .github/scripts/parse-suite-log.test.mjs .github/scripts/run-suite.test.mjs
+      # A red run gets at most one rerun of only 1..8 identified failed files; incomplete or unknown output stays red.
+      # See .github/scripts/run-suite.sh and suite-retry-README.md.
+      - name: Run test suite
+        run: bash .github/scripts/run-suite.sh false "${{ matrix.shard }}/${{ matrix.total }}"
+
+  # The required check. It passes only when every shard passed, so `test` still means the whole suite passed.
+  test:
+    needs: suite
+    if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Every shard passed
+        env:
+          RESULT: ${{ needs.suite.result }}
+        run: |
+          echo "suite result: $RESULT"
+          test "$RESULT" = success

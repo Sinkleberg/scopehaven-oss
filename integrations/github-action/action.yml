@@ -1,0 +1,709 @@
+name: Scopehaven assessment
+description: Run a Scopehaven HTTP assessment (loopback, or an authorized remote HTTPS origin), optionally gate it against a saved baseline run and diff two policy matrices, export SARIF and write a job summary.
+inputs:
+  profile:
+    description: Path to the HTTP target profile JSON, relative to working-directory. Credentials are referenced only by SCOPEHAVEN_TARGET_ environment names set by the caller.
+    required: true
+  authorization:
+    description: Path to the authorization record (scopehaven-authorization/1, docs/RULES-OF-ENGAGEMENT.md), relative to working-directory. A configured target runs only under a record that covers it now (and covers wait-url's origin, when set); the prepare step checks it before the wait or any request, and without one the action exits 2 before contacting the target. The record's checksum is unkeyed, so keep the file where the application under test cannot write it.
+    required: false
+    default: ''
+  target:
+    description: Target id in the profile. Optional when the profile defines exactly one target.
+    required: false
+    default: ''
+  baseline-run:
+    description: Optional path to a saved run JSON (run.json from an earlier evidence artifact, or a store runs file). When set, the regression gate performs the one assessment and compares it with this baseline.
+    required: false
+    default: ''
+  fail-on:
+    description: 'fail: CI follows Scopehaven; the job fails whenever scopehaven assess or the regression gate would exit non-zero (any gate reason, including soft ones such as model-identity-malformed), and on the same conditions recomputed from the saved run. inconclusive: an alias of fail, kept for existing workflows. never: report only. Setup errors always fail.'
+    required: false
+    default: fail
+  report-only:
+    description: 'true: a report-only rollout through report-only-until. Until that date the job does not fail on what the checks find (failed, inconclusive or uncontrolled checks, a gate verdict of assessment-failed); the job summary, report.html, comparison.html and the SARIF results say REPORT-ONLY, and the gate summary records the real verdict. Setup errors, errored checks, require-model-identity and fail-on-policy-diff still fail the job, and a report that cannot be marked REPORT-ONLY ends the relaxation for that job. After the date the job follows fail-on again. false (default): off.'
+    required: false
+    default: 'false'
+  report-only-until:
+    description: 'The last day of the report-only window, YYYY-MM-DD in UTC, at most 90 days after the run date. Required with report-only true, refused without it. The gate CLI also takes a number of runs; the action does not, because each job starts a fresh evidence directory, so a count would never advance.'
+    required: false
+    default: ''
+  require-model-identity:
+    description: 'true: require a baseline-run and a comparable model identity on both HTTP runs, observed by a model tap Scopehaven held in its own process (set SCOPEHAVEN_MODEL_TAP_UPSTREAM and SCOPEHAVEN_MODEL_TAP_PORT in the step env). Missing, malformed, partial, mixed or unobserved identity, or one read from a tap log file (subject-writable-custody), fails closed, even with fail-on never. Model readings are what the upstream reported, not attested weights. The run digest is a checksum, not a signature: a baseline edited and resealed passes, so keep baseline-run where the application cannot write it. The tap sees only calls sent to its port. See the Action guide. false (default): the earlier gate behaviour.'
+    required: false
+    default: 'false'
+  self-test:
+    description: 'true: run the known-negative self-test (--self-test, docs/SELF-TEST.md) before the assessment or gate: every check''s planted violations go through the pure evaluators, contacting nothing. A check with a predicate that cannot fail or always fails keeps the run from reading clean (assess exits 1; the gate adds check-cannot-fail or check-always-fails), so with fail-on fail the job fails; the run is still made and its verdicts are unchanged. The report is in gate-summary.json (selfTest) or, without a baseline, in assess.json in the evidence artifact. false (default): no self-test.'
+    required: false
+    default: 'false'
+  trials:
+    description: 'Optional, with baseline-run only: the gate runs the target this many times (2 to 100), one after another under one lock and the authorization window, and reads pass^k per check over the trials (gate --trials, integrations/regression-gate/README.md "Repeated trials and pass^k"). A check reads PASS only when every trial passed (on a forwarded or remote target, each pass also paired with a passing same-route control); one that passed some trials with pass^k below pass-k-floor reads FAIL-flaky, and the gate adds checks-flaky. Every trial''s own gate reasons count, so trials never relax the verdict. Trials are fresh runs of one HTTP contract target, only as independent as the application and its state between runs. The job summary shows the readings; the evidence artifact gets trials.html and trials.sarif (the code scanning upload stays the first trial''s SARIF). Empty (default): one run.'
+    required: false
+    default: ''
+  pass-k:
+    description: 'Optional, with trials only: the k of pass^k (gate --pass-k), 1 to the number of trials. Empty: the gate''s default, 1.'
+    required: false
+    default: ''
+  pass-k-floor:
+    description: 'Optional, with trials only: the pass^k floor (gate --pass-k-floor), 1 or a reduced fraction a/b such as 9/10. A check that passed some trials and is below it reads FAIL-flaky; a floor below 1 never makes a check PASS. Empty: the gate''s default, 1.'
+    required: false
+    default: ''
+  single-identity:
+    description: 'true: assess a tenant-scoped profile (one that declares tenantValues) that has fewer than two credentialed identities in distinct declared tenants anyway (assess --single-identity, docs/ONBOARDING.md "Two identities by default"); its cross-tenant checks then run from one side only, and the assess output says so. Without it, assess refuses such a profile (exit 2) before anything is authorized or sent. The gate (baseline-run) does not refuse it and takes no waiver: with baseline-run the input stops the action (docs/KNOWN-LIMITS.md).'
+    required: false
+    default: 'false'
+  policy-baseline-matrix:
+    description: Optional path to the previous policy matrix (scopehaven-policy-matrix/2, from `scopehaven policy import`; a /1 matrix is read, and its gaps are compared fail-closed), relative to working-directory. Set it together with policy-matrix to print the policy matrix diff.
+    required: false
+    default: ''
+  policy-matrix:
+    description: Optional path to the current policy matrix of the same application and layer. Set it together with policy-baseline-matrix.
+    required: false
+    default: ''
+  fail-on-policy-diff:
+    description: 'true: fail the job when the policy matrix diff has a widened, added-open, became-unknown or became-undeclared cell, or a gap (a statement or row the importer could not read) the previous matrix does not have, or is unavailable or not comparable. false (default): report only. Independent of fail-on.'
+    required: false
+    default: 'false'
+  pack-updates:
+    description: 'For a profile with check packs (integrations/packs-v2). One version of each pack ships with this action, so a pin behind it no longer loads. report (default): the job summary lists each pinned pack against the shipped version (current, pull, major, older, local, missing) and the shipped packs the profile does not use, and pack-status.json goes into the evidence artifact; nothing else changes. pull: in the assess mode only, each pin behind the shipped version in the same major is taken: the prepare step writes a copy of the profile into its private work directory, locks it as pack lock does (each pack''s own cases, then the load gate), checks the authorization record against that copy, and assessing uses it. The committed profile and scopehaven.lock are never written, and pack-pull.json records each pinned and pulled version. A newer major, a pin newer than this action ships or a pack that no longer ships stops the job before any request (exit 2), as does an operator''s own pack when another pin would be pulled. pull is refused with baseline-run, pack-lock or baseline-from-ledger (exit 2), since each was taken with the pinned versions. A pull takes new versions of the packs the profile already uses; a new pack is listed, never added: it needs its parameters once. off: neither. A profile without packs is unaffected.'
+    required: false
+    default: report
+  upload-sarif:
+    description: Upload SARIF to GitHub code scanning. Private repositories need paid GitHub Code Security, and the job needs security-events write permission.
+    required: false
+    default: 'false'
+  sarif-category:
+    description: Code scanning category for the SARIF upload.
+    required: false
+    default: scopehaven
+  working-directory:
+    description: Directory used to resolve relative profile, authorization and baseline-run paths.
+    required: false
+    default: '.'
+  wait-url:
+    description: Optional loopback URL to wait for before assessing, http://127.0.0.1:PORT or http://localhost:PORT with an optional path. Its origin must be one of the authorization record's origins (refused in the prepare step otherwise, authorization-origin).
+    required: false
+    default: ''
+  wait-timeout-seconds:
+    description: Maximum seconds to wait for wait-url, from 1 to 900.
+    required: false
+    default: '60'
+  artifact-name:
+    description: Name of the uploaded evidence artifact. Must be unique within the workflow run.
+    required: false
+    default: scopehaven-evidence
+  sign:
+    description: 'true: sign run.json, report.html, scopehaven.sarif (and comparison.html when gating) into NAME.dsse.json envelopes with the existing export signing (integrations/attest, Ed25519), using the key in signing-key-dir; the job then verifies every envelope and fails (exit 2, signed-export-unverified) if one does not verify. The public key goes into the evidence artifact; no key material is printed. Refused with report-only true, which marks reports after export. false (default): exports are unsigned.'
+    required: false
+    default: 'false'
+  signing-key-dir:
+    description: 'With sign true: an absolute path to an existing 0700 folder holding scopehaven-signing-key.pem (0600) and scopehaven-signing-key.pub.pem (integrations/attest/cli.mjs keygen), which the workflow writes from a secret. The action never creates a key.'
+    required: false
+    default: ''
+  ledger-dir:
+    description: 'An absolute path to an operator-kept evidence ledger folder (integrations/ledger, initialized with cli.mjs init; the action never starts a ledger). Needs sign true, ledger-key-dir and ledger-run-files. After export, the signed run.json envelope is appended with integrations/ledger/cli.mjs append and the ledger verified with cli.mjs verify; a refused append or a failed verification fails the job (exit 2, a named reason). Empty (default): no ledger.'
+    required: false
+    default: ''
+  ledger-key-dir:
+    description: 'With ledger-dir: an absolute path to a 0700 folder holding the ledger key pair (scopehaven-signing-key.pem and .pub.pem from integrations/attest/cli.mjs keygen). It may be the signing key folder.'
+    required: false
+    default: ''
+  ledger-run-files:
+    description: 'With ledger-dir: an absolute path to an operator-kept 0700 folder where the action keeps each appended run.json as RUN_ID.json, for cli.mjs verify --run-files and for baseline-from-ledger.'
+    required: false
+    default: ''
+  baseline-from-ledger:
+    description: 'true: gate against the latest run of this target and application in the verified ledger (its kept, signed run file), instead of baseline-run. When the ledger holds no such run yet, the run is assessed without a gate. Needs ledger-dir; refused with baseline-run, trials, require-model-identity and single-identity. false (default): off.'
+    required: false
+    default: 'false'
+  pack-lock:
+    description: 'Optional path to the profile''s packs-v2 lockfile (the scopehaven.lock beside the profile), relative to working-directory. The prepare step verifies the profile''s packs against it with the packs-v2 load check before any request (refused otherwise, exit 2) and records the pinned pack names, versions and digests in the job summary and pack-lock.json.'
+    required: false
+    default: ''
+outputs:
+  run-id:
+    description: Saved run id, or empty when no run was produced.
+    value: ${{ steps.summary.outputs.run-id }}
+  status-counts:
+    description: JSON object of check counts by status.
+    value: ${{ steps.summary.outputs.status-counts }}
+  gate-verdict:
+    description: Gate outcome (clean, assessment-failed, config-or-runtime-error), not-requested, or unavailable.
+    value: ${{ steps.summary.outputs.gate-verdict }}
+  sarif-path:
+    description: Absolute path of the exported SARIF file on the runner, or empty.
+    value: ${{ steps.summary.outputs.sarif-path }}
+  policy-diff:
+    description: Policy matrix diff state (clean, gated, not-comparable, unavailable) or not-requested.
+    value: ${{ steps.summary.outputs.policy-diff }}
+  report-only:
+    description: Report-only state (off, applied, ended, not-applied, invalid). applied means a green job is not a pass on its own; see the job summary.
+    value: ${{ steps.summary.outputs.report-only }}
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js 24.22.2
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      with:
+        # Exact, equal to the launcher's pinned download (scopehaven/scopehaven); no newer 24.x.
+        node-version: '24.22.2'
+        check-latest: false
+    - name: Prepare Scopehaven workspace
+      id: prepare
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        SH_PROFILE: ${{ inputs.profile }}
+        SH_AUTHORIZATION: ${{ inputs.authorization }}
+        SH_TARGET: ${{ inputs.target }}
+        SH_BASELINE_RUN: ${{ inputs.baseline-run }}
+        SH_FAIL_ON: ${{ inputs.fail-on }}
+        SH_REPORT_ONLY: ${{ inputs.report-only }}
+        SH_REPORT_ONLY_UNTIL: ${{ inputs.report-only-until }}
+        SH_REQUIRE_MODEL_IDENTITY: ${{ inputs.require-model-identity }}
+        SH_SELF_TEST: ${{ inputs.self-test }}
+        SH_SINGLE_IDENTITY: ${{ inputs.single-identity }}
+        SH_TRIALS: ${{ inputs.trials }}
+        SH_PASS_K: ${{ inputs.pass-k }}
+        SH_PASS_K_FLOOR: ${{ inputs.pass-k-floor }}
+        SH_UPLOAD_SARIF: ${{ inputs.upload-sarif }}
+        SH_PACK_UPDATES: ${{ inputs.pack-updates }}
+        SH_WAIT_URL: ${{ inputs.wait-url }}
+        SH_WAIT_TIMEOUT: ${{ inputs.wait-timeout-seconds }}
+        SH_POLICY_BEFORE: ${{ inputs.policy-baseline-matrix }}
+        SH_POLICY_AFTER: ${{ inputs.policy-matrix }}
+        SH_FAIL_ON_POLICY: ${{ inputs.fail-on-policy-diff }}
+        SH_SIGN: ${{ inputs.sign }}
+        SH_SIGNING_KEY_DIR: ${{ inputs.signing-key-dir }}
+        SH_LEDGER_DIR: ${{ inputs.ledger-dir }}
+        SH_LEDGER_KEY_DIR: ${{ inputs.ledger-key-dir }}
+        SH_LEDGER_RUN_FILES: ${{ inputs.ledger-run-files }}
+        SH_BASELINE_FROM_LEDGER: ${{ inputs.baseline-from-ledger }}
+        SH_PACK_LOCK: ${{ inputs.pack-lock }}
+      run: |
+        umask 077
+        nl=$'\n'
+        die() { echo "::error::Scopehaven action: $1"; exit 2; }
+        case "$SH_FAIL_ON" in fail|inconclusive|never) ;; *) die "fail-on must be fail, inconclusive or never" ;; esac
+        # Report-only: decided once, here, against today's UTC date (applied or ended); the later steps follow this decision.
+        case "$SH_REPORT_ONLY" in true|false) ;; *) die "report-only must be true or false" ;; esac
+        report_only=off
+        if [ "$SH_REPORT_ONLY" = true ]; then
+          # One stdout line, the state or the refusal code; stderr (a Node warning, say) never reaches the output.
+          report_only=$(node "$GITHUB_ACTION_PATH/../regression-gate/report-only.mjs" window --until "$SH_REPORT_ONLY_UNTIL" 2>/dev/null) || true
+          case "$report_only" in
+            applied|ended) ;;
+            *) [[ $report_only =~ ^report-only-[a-z-]+$ ]] || report_only=report-only-window-invalid
+               die "report-only refused ($report_only): report-only-until must be a date, YYYY-MM-DD in UTC, at most 90 days ahead" ;;
+          esac
+        elif [ -n "$SH_REPORT_ONLY_UNTIL" ]; then die "report-only-until needs report-only: true"; fi
+        case "$SH_REQUIRE_MODEL_IDENTITY" in true|false) ;; *) die "require-model-identity must be true or false" ;; esac
+        [ "$SH_REQUIRE_MODEL_IDENTITY" = false ] || [ -n "$SH_BASELINE_RUN" ] || die "require-model-identity needs baseline-run"
+        case "$SH_SELF_TEST" in true|false) ;; *) die "self-test must be true or false" ;; esac
+        case "$SH_SINGLE_IDENTITY" in true|false) ;; *) die "single-identity must be true or false" ;; esac
+        [ "$SH_SINGLE_IDENTITY" = false ] || [ -z "$SH_BASELINE_RUN" ] || die "single-identity applies to the assess mode only; the gate (baseline-run) takes no waiver"
+        # Trials: the shape only here (the gate checks the count, k and floor before anything is read or sent, exit 2).
+        if [ -n "$SH_TRIALS" ]; then
+          [[ $SH_TRIALS =~ ^[1-9][0-9]{0,2}$ ]] || die "trials must be a whole number from 2 to 100"
+          [ -n "$SH_BASELINE_RUN" ] || die "trials needs baseline-run: repeated trials are a gate option"
+        fi
+        if [ -n "$SH_PASS_K" ]; then
+          [ -n "$SH_TRIALS" ] || die "pass-k needs trials"
+          [[ $SH_PASS_K =~ ^[1-9][0-9]{0,2}$ ]] || die "pass-k must be a whole number from 1 to trials"
+        fi
+        if [ -n "$SH_PASS_K_FLOOR" ]; then
+          [ -n "$SH_TRIALS" ] || die "pass-k-floor needs trials"
+          [[ $SH_PASS_K_FLOOR =~ ^(1|[1-9][0-9]{0,6}/[1-9][0-9]{0,6})$ ]] || die "pass-k-floor must be 1 or a fraction a/b"
+        fi
+        case "$SH_UPLOAD_SARIF" in true|false) ;; *) die "upload-sarif must be true or false" ;; esac
+        case "$SH_PACK_UPDATES" in report|pull|off) ;; *) die "pack-updates must be report, pull or off" ;; esac
+        [ "$SH_PACK_UPDATES" != pull ] || [ -z "$SH_BASELINE_RUN" ] || die "pack-updates pull applies to the assess mode only: a pulled pack changes the checks the baseline was taken with"
+        [ "$SH_PACK_UPDATES" != pull ] || { [ -z "$SH_PACK_LOCK" ] && [ "$SH_BASELINE_FROM_LEDGER" != true ]; } || die "pack-updates pull cannot be combined with pack-lock or baseline-from-ledger: a pull takes newer pack versions than the pinned lock and the baseline were taken with"
+        case "$SH_WAIT_TIMEOUT" in ''|*[!0-9]*) die "wait-timeout-seconds must be a whole number" ;; esac
+        case "$SH_FAIL_ON_POLICY" in true|false) ;; *) die "fail-on-policy-diff must be true or false" ;; esac
+        { [ -n "$SH_POLICY_BEFORE" ] && [ -n "$SH_POLICY_AFTER" ]; } || { [ -z "$SH_POLICY_BEFORE" ] && [ -z "$SH_POLICY_AFTER" ]; } || die "set policy-baseline-matrix and policy-matrix together"
+        [ "$SH_FAIL_ON_POLICY" = false ] || [ -n "$SH_POLICY_AFTER" ] || die "fail-on-policy-diff needs policy-baseline-matrix and policy-matrix"
+        # CI mode (all off by default): signed exports, the evidence ledger, a baseline read from it, pinned packs.
+        case "$SH_SIGN" in true|false) ;; *) die "sign must be true or false" ;; esac
+        case "$SH_BASELINE_FROM_LEDGER" in true|false) ;; *) die "baseline-from-ledger must be true or false" ;; esac
+        # A key folder: an absolute, single-line path to a real folder holding both attest key files (the action never makes one).
+        key_dir() {
+          case "$1" in /*) ;; *) die "$2 must be an absolute path" ;; esac
+          case "$1" in *"$nl"*) die "$2 must be a single line" ;; esac
+          { [ -d "$1" ] && [ ! -L "$1" ]; } || die "$2 must be an existing folder, not a symlink"
+          for key_file in scopehaven-signing-key.pem scopehaven-signing-key.pub.pem; do
+            { [ -f "$1/$key_file" ] && [ ! -L "$1/$key_file" ]; } || die "$2 must hold $key_file (integrations/attest/cli.mjs keygen); the action never creates a key"
+          done
+        }
+        signing_key_dir=''
+        if [ "$SH_SIGN" = true ]; then
+          [ "$SH_REPORT_ONLY" = false ] || die "sign cannot be combined with report-only: report-only marks report.html, comparison.html and the SARIF file after export, which would break their signatures"
+          [ -n "$SH_SIGNING_KEY_DIR" ] || die "sign needs signing-key-dir"
+          key_dir "$SH_SIGNING_KEY_DIR" signing-key-dir
+          signing_key_dir=$SH_SIGNING_KEY_DIR
+        elif [ -n "$SH_SIGNING_KEY_DIR" ]; then die "signing-key-dir needs sign: true"; fi
+        ledger_dir=''; ledger_key_dir=''; ledger_run_files=''
+        if [ -n "$SH_LEDGER_DIR$SH_LEDGER_KEY_DIR$SH_LEDGER_RUN_FILES" ]; then
+          { [ -n "$SH_LEDGER_DIR" ] && [ -n "$SH_LEDGER_KEY_DIR" ] && [ -n "$SH_LEDGER_RUN_FILES" ]; } || die "set ledger-dir, ledger-key-dir and ledger-run-files together"
+          [ "$SH_SIGN" = true ] || die "ledger-dir needs sign: true: the ledger records signed runs"
+          for ledger_path in "$SH_LEDGER_DIR" "$SH_LEDGER_RUN_FILES"; do
+            case "$ledger_path" in /*) ;; *) die "ledger-dir and ledger-run-files must be absolute paths" ;; esac
+            case "$ledger_path" in *"$nl"*) die "ledger-dir and ledger-run-files must be single lines" ;; esac
+            { [ -d "$ledger_path" ] && [ ! -L "$ledger_path" ]; } || die "ledger-dir and ledger-run-files must be existing folders, not symlinks"
+          done
+          { [ -f "$SH_LEDGER_DIR/ledger.json" ] && [ ! -L "$SH_LEDGER_DIR/ledger.json" ]; } || die "ledger-dir must be an initialized ledger (integrations/ledger/cli.mjs init); the action never starts a new ledger"
+          key_dir "$SH_LEDGER_KEY_DIR" ledger-key-dir
+          ledger_dir=$SH_LEDGER_DIR; ledger_key_dir=$SH_LEDGER_KEY_DIR; ledger_run_files=$SH_LEDGER_RUN_FILES
+        fi
+        if [ "$SH_BASELINE_FROM_LEDGER" = true ]; then
+          [ -n "$ledger_dir" ] || die "baseline-from-ledger needs ledger-dir"
+          [ -z "$SH_BASELINE_RUN" ] || die "set baseline-run or baseline-from-ledger, not both"
+          [ -z "$SH_TRIALS" ] || die "trials needs baseline-run; it is not offered with baseline-from-ledger"
+          [ "$SH_REQUIRE_MODEL_IDENTITY" = false ] || die "require-model-identity needs baseline-run; it is not offered with baseline-from-ledger"
+          [ "$SH_SINGLE_IDENTITY" = false ] || die "single-identity applies to the assess mode only; baseline-from-ledger may run the gate, which takes no waiver"
+        fi
+        [ -n "$SH_PROFILE" ] || die "profile is required"
+        absolute() { case $1 in /*) printf '%s' "$1" ;; *) printf '%s/%s' "$PWD" "$1" ;; esac; }
+        profile=$(absolute "$SH_PROFILE")
+        case "$profile" in *"$nl"*) die "profile path must be a single line" ;; esac
+        { [ -f "$profile" ] && [ ! -L "$profile" ]; } || die "profile must be an existing regular file, not a symlink"
+        authorization=''
+        if [ -n "$SH_AUTHORIZATION" ]; then
+          authorization=$(absolute "$SH_AUTHORIZATION")
+          case "$authorization" in *"$nl"*) die "authorization path must be a single line" ;; esac
+          { [ -f "$authorization" ] && [ ! -L "$authorization" ]; } || die "authorization must be an existing regular file, not a symlink"
+        fi
+        baseline=''
+        if [ -n "$SH_BASELINE_RUN" ]; then
+          baseline=$(absolute "$SH_BASELINE_RUN")
+          case "$baseline" in *"$nl"*) die "baseline-run path must be a single line" ;; esac
+          { [ -f "$baseline" ] && [ ! -L "$baseline" ]; } || die "baseline-run must be an existing regular file, not a symlink"
+        fi
+        policy_before=''; policy_after=''
+        if [ -n "$SH_POLICY_AFTER" ]; then
+          policy_before=$(absolute "$SH_POLICY_BEFORE"); policy_after=$(absolute "$SH_POLICY_AFTER")
+          case "$policy_before$policy_after" in *"$nl"*) die "policy matrix paths must be single lines" ;; esac
+          for matrix in "$policy_before" "$policy_after"; do
+            { [ -f "$matrix" ] && [ ! -L "$matrix" ]; } || die "policy matrices must be existing regular files, not symlinks"
+          done
+        fi
+        pack_lock=''
+        if [ -n "$SH_PACK_LOCK" ]; then
+          pack_lock=$(absolute "$SH_PACK_LOCK")
+          case "$pack_lock" in *"$nl"*) die "pack-lock path must be a single line" ;; esac
+          { [ -f "$pack_lock" ] && [ ! -L "$pack_lock" ]; } || die "pack-lock must be an existing regular file, not a symlink"
+        fi
+        root=$(CDPATH= cd -- "$GITHUB_ACTION_PATH/../.." && pwd)
+        [ -x "$root/scopehaven" ] || die "the Scopehaven launcher was not found next to this action"
+        target=$(node "$GITHUB_ACTION_PATH/prepare.mjs" target-id --profile "$profile" --target "${SH_TARGET:-}") || die "could not determine the target id"
+        work=$(mktemp -d "${RUNNER_TEMP:-/tmp}/scopehaven.XXXXXX")
+        # Normalized once (bash's logical pwd drops a trailing or doubled slash and keeps a symlinked temp folder as given), so
+        # every later use, the pack pull's --out and its file check among them, compares the same string.
+        work=$(CDPATH= cd -- "$work" && pwd) || die "the private work directory could not be read"
+        case "$work" in //*) work=${work#/} ;; esac
+        chmod 700 "$work"
+        mkdir -m 700 "$work/export"
+        # Check packs (integrations/packs-v2/pull.mjs), before the authorization check, so a pulled copy is the profile the
+        # record must cover: each pin read against the shipped version, and with pull a locked copy that takes each newer
+        # same-major version. Pack commands read local files only; the committed profile and lock are never written.
+        if [ "$SH_PACK_UPDATES" != off ]; then
+          if "$root/scopehaven" pack status --config "$profile" > "$work/export/pack-status.json" 2> "$work/pack-status.err"; then
+            if [ "$SH_PACK_UPDATES" = pull ]; then
+              # stdout is the record only; stderr (a refusal, or a stray Node warning) goes to its own file.
+              "$root/scopehaven" pack pull --config "$profile" --out "$work/pack-pull" > "$work/export/pack-pull.json" 2> "$work/pack-pull.err" || {
+                pull_error=$(head -c 4096 "$work/pack-pull.err")
+                code='pack-pull-failed'
+                # Only the CLI's own refusal line names the code; other stderr lines (warnings, paths) never do.
+                while IFS= read -r line; do
+                  if [[ $line =~ ^pack:\ Check\ pack\ refused\ \((pack-[a-z-]+)\): ]]; then code=${BASH_REMATCH[1]}; break; fi
+                done <<< "$pull_error"
+                die "pack-updates pull refused ($code); nothing was sent (integrations/packs-v2/README.md, Pack updates in CI)"
+              }
+              rm -f "$work/pack-pull.err"
+              pulled_file=$(node -e 'const p = JSON.parse(require("node:fs").readFileSync(process.argv[1], "utf8")); process.stdout.write(typeof p.file === "string" ? p.file : "")' "$work/export/pack-pull.json") || die "pack-updates pull wrote no readable record"
+              if [ -n "$pulled_file" ]; then
+                # The copy must be the one file pull wrote in this job's private work directory: one line, directly under
+                # $work/pack-pull/, a regular file and not a symlink, before it becomes the profile and reaches GITHUB_OUTPUT.
+                case "$pulled_file" in *"$nl"*|"$work/pack-pull/"*/*) die "pack-updates pull refused (pack-pull-file-invalid): the pulled copy is not a file in the work directory; nothing was sent" ;; "$work/pack-pull/"?*) ;; *) die "pack-updates pull refused (pack-pull-file-invalid): the pulled copy is not a file in the work directory; nothing was sent" ;; esac
+                { [ -f "$pulled_file" ] && [ ! -L "$pulled_file" ]; } || die "pack-updates pull refused (pack-pull-file-invalid): the pulled copy is not a regular file; nothing was sent"
+                profile=$pulled_file; echo "Scopehaven: pack-updates pull; assessing the pulled copy of the profile."
+              fi
+            fi
+          else
+            rm -f "$work/export/pack-status.json"
+            # A profile without packs is unaffected. Any other refusal is reported by the load itself, with its code.
+            status_error=$(head -c 4096 "$work/pack-status.err")
+            if [[ $status_error != *'references no packs'* ]]; then
+              # Under pull, refuse with the reading's own code: the profile, not only its packs, may be what failed (an
+              # unapproved drafted line, say), and the load would refuse it the same way.
+              if [ "$SH_PACK_UPDATES" = pull ]; then
+                code='pack-status-failed'
+                if [[ $status_error =~ \(((pack|drafted)-[a-z-]+)\) ]]; then code=${BASH_REMATCH[1]}
+                elif [[ $status_error == *'drafted line(s) no one has approved'* ]]; then code='drafted-line-unapproved'; fi
+                die "pack-updates pull refused ($code): pack status could not read the profile; nothing was sent"
+              fi
+              echo "::warning::Scopehaven: the profile's pack status could not be read; the assessment's load reports why."
+            fi
+          fi
+          rm -f "$work/pack-status.err"
+        fi
+        # CMP-ROE-01: the record is checked here, before the wait or any request: the same check assess and the gate make
+        # (target, every endpoint, every credentialed account, the window now), and the wait-url's origin, which the wait
+        # contacts, must be one of the record's origins too. A refusal names its code and contacts nothing.
+        # Pinned packs, checked first: the authorization check below loads the profile too, and would refuse a lock that does not
+        # verify under a less specific code. Local files only (the packs-v2 load check); checked again when the record is written.
+        if [ -n "$pack_lock" ]; then
+          pack_lock_id=$(node "$GITHUB_ACTION_PATH/ci.mjs" pack-lock --profile "$profile" --lock "$pack_lock") || {
+            [[ $pack_lock_id =~ ^[a-z][a-z0-9-]{1,60}$ ]] || pack_lock_id=pack-lock-invalid
+            die "pack lock refused ($pack_lock_id); nothing was sent"
+          }
+        fi
+        [ -n "$authorization" ] || die "authorization refused (authorization-missing): a configured target needs an authorization record (the authorization input; docs/RULES-OF-ENGAGEMENT.md); nothing was sent"
+        wait_check=()
+        if [ -n "$SH_WAIT_URL" ]; then wait_check=(--wait-url "$SH_WAIT_URL"); fi
+        checked=$(node "$root/integrations/roe/cli.mjs" check "$authorization" --config "$profile" --target "$target" "${wait_check[@]}" 2>&1) || {
+          code='authorization-invalid'
+          if [[ $checked =~ \"code\":\"(authorization-[a-z-]+)\" ]]; then code=${BASH_REMATCH[1]}; fi
+          die "authorization refused ($code); nothing was sent (docs/RULES-OF-ENGAGEMENT.md)"
+        }
+        valid_until=''
+        if [[ $checked =~ \"validUntil\":\ \"([0-9:.TZ-]+)\" ]]; then valid_until=${BASH_REMATCH[1]}; fi
+        [ -n "$valid_until" ] || die "authorization refused (authorization-invalid); nothing was sent"
+        # Pinned packs: the load's own lock check (packs-v2) again, before any request; the record goes into the evidence artifact.
+        pack_lock_id=''
+        if [ -n "$pack_lock" ]; then
+          pack_lock_id=$(node "$GITHUB_ACTION_PATH/ci.mjs" pack-lock --profile "$profile" --lock "$pack_lock" --out "$work/export/pack-lock.json") || {
+            [[ $pack_lock_id =~ ^[a-z][a-z0-9-]{1,60}$ ]] || pack_lock_id=pack-lock-invalid
+            die "pack lock refused ($pack_lock_id); nothing was sent"
+          }
+        fi
+        # Baseline from the ledger: the latest signed run of this target and application in the verified ledger, copied into the
+        # private work folder (the gate then verifies its integrity digest as for baseline-run). None yet: assess without a gate.
+        baseline_source=input
+        [ -n "$baseline" ] || baseline_source=none
+        if [ "$SH_BASELINE_FROM_LEDGER" = true ]; then
+          baseline=$(node "$GITHUB_ACTION_PATH/ci.mjs" ledger-baseline --ledger "$ledger_dir" --ledger-key-dir "$ledger_key_dir" --signing-key-dir "$signing_key_dir" --run-files "$ledger_run_files" --profile "$profile" --target "$target" --copy "$work/ledger-baseline-run.json" --out "$work/export/ledger-baseline.json") || {
+            [[ $baseline =~ ^[a-z][a-z0-9-]{1,60}$ ]] || baseline=ledger-baseline-invalid
+            die "ledger baseline refused ($baseline); nothing was sent"
+          }
+          baseline_source=ledger
+          [ -n "$baseline" ] || baseline_source=ledger-none
+        fi
+        {
+          echo "root=$root"
+          echo "signing-key-dir=$signing_key_dir"
+          echo "ledger-dir=$ledger_dir"
+          echo "ledger-key-dir=$ledger_key_dir"
+          echo "ledger-run-files=$ledger_run_files"
+          echo "pack-lock-id=$pack_lock_id"
+          echo "baseline-source=$baseline_source"
+          echo "work=$work"
+          echo "profile=$profile"
+          echo "authorization=$authorization"
+          echo "authorization-until=$valid_until"
+          echo "baseline=$baseline"
+          echo "target=$target"
+          echo "policy-before=$policy_before"
+          echo "policy-after=$policy_after"
+          echo "report-only=$report_only"
+        } >> "$GITHUB_OUTPUT"
+        echo "Scopehaven: target $target; private evidence directory under the runner temp folder."
+    - name: Wait for the application under test
+      id: wait
+      shell: bash
+      env:
+        SH_WAIT_URL: ${{ inputs.wait-url }}
+        SH_WAIT_TIMEOUT: ${{ inputs.wait-timeout-seconds }}
+        SH_AUTHORIZATION_UNTIL: ${{ steps.prepare.outputs.authorization-until }}
+      run: |
+        if [ -z "$SH_WAIT_URL" ]; then echo "Scopehaven: no wait-url set; not waiting."; exit 0; fi
+        # The wait sends requests too, so it stops when the record's window ends (exit 2, authorization-window-ended).
+        node "$GITHUB_ACTION_PATH/wait-for.mjs" --url "$SH_WAIT_URL" --timeout-seconds "$SH_WAIT_TIMEOUT" --until "$SH_AUTHORIZATION_UNTIL"
+    - name: Assess, or gate against the baseline
+      id: assess
+      shell: bash
+      env:
+        SH_ROOT: ${{ steps.prepare.outputs.root }}
+        SH_WORK: ${{ steps.prepare.outputs.work }}
+        SH_PROFILE: ${{ steps.prepare.outputs.profile }}
+        SH_AUTHORIZATION: ${{ steps.prepare.outputs.authorization }}
+        SH_BASELINE: ${{ steps.prepare.outputs.baseline }}
+        SH_TARGET: ${{ steps.prepare.outputs.target }}
+        SH_REQUIRE_MODEL_IDENTITY: ${{ inputs.require-model-identity }}
+        SH_REPORT_ONLY: ${{ steps.prepare.outputs.report-only }}
+        SH_REPORT_ONLY_UNTIL: ${{ inputs.report-only-until }}
+        SH_SELF_TEST: ${{ inputs.self-test }}
+        SH_SINGLE_IDENTITY: ${{ inputs.single-identity }}
+        SH_TRIALS: ${{ inputs.trials }}
+        SH_PASS_K: ${{ inputs.pass-k }}
+        SH_PASS_K_FLOOR: ${{ inputs.pass-k-floor }}
+      run: |
+        umask 077
+        set +e
+        authorize=()
+        if [ -n "$SH_AUTHORIZATION" ]; then authorize=(--authorization "$SH_AUTHORIZATION"); fi
+        self_test_args=()
+        if [ "$SH_SELF_TEST" = true ]; then self_test_args=(--self-test); fi
+        single_identity_args=()
+        if [ "$SH_SINGLE_IDENTITY" = true ]; then single_identity_args=(--single-identity); fi
+        if [ -z "$SH_BASELINE" ]; then
+          store="$SH_WORK/evidence"
+          "$SH_ROOT/scopehaven" assess --config "$SH_PROFILE" --target "$SH_TARGET" --out "$store" "${authorize[@]}" "${self_test_args[@]}" "${single_identity_args[@]}" > "$SH_WORK/assess.json"
+          code=$?
+          echo "Scopehaven assess exit code: $code"
+          echo "assess-exit=$code" >> "$GITHUB_OUTPUT"
+          # The assess summary goes into the evidence artifact with the self-test report in it: run id, counts, scope, the
+          # evidence directory path and the authorization stamp; the report names ids, kinds, outcomes and reason codes only.
+          if [ "$SH_SELF_TEST" = true ]; then cp "$SH_WORK/assess.json" "$SH_WORK/export/assess.json"; fi
+          run_id=$(node "$GITHUB_ACTION_PATH/prepare.mjs" run-id --from "$SH_WORK/assess.json" 2>/dev/null)
+        else
+          store="$SH_WORK/gate"
+          baseline_id=$(node "$GITHUB_ACTION_PATH/prepare.mjs" seed-baseline --run "$SH_BASELINE" --gate-dir "$store")
+          if [ -z "$baseline_id" ]; then echo "::error::Scopehaven action: baseline-run could not be loaded"; exit 2; fi
+          echo "baseline-id=$baseline_id" >> "$GITHUB_OUTPUT"
+          identity_args=()
+          if [ "$SH_REQUIRE_MODEL_IDENTITY" = true ]; then identity_args+=(--require-model-identity); fi
+          # The gate records its own window beside its verdict (gate-summary.json); the job's decision needs it to agree.
+          report_only_args=()
+          if [ "$SH_REPORT_ONLY" = applied ] || [ "$SH_REPORT_ONLY" = ended ]; then report_only_args=(--report-only --report-only-until "$SH_REPORT_ONLY_UNTIL"); fi
+          trials_args=()
+          if [ -n "$SH_TRIALS" ]; then
+            trials_args=(--trials "$SH_TRIALS")
+            if [ -n "$SH_PASS_K" ]; then trials_args+=(--pass-k "$SH_PASS_K"); fi
+            if [ -n "$SH_PASS_K_FLOOR" ]; then trials_args+=(--pass-k-floor "$SH_PASS_K_FLOOR"); fi
+          fi
+          "$SH_ROOT/scopehaven" gate --target "$SH_TARGET" --config "$SH_PROFILE" --out "$store" --baseline "$baseline_id" "${identity_args[@]}" "${report_only_args[@]}" "${authorize[@]}" "${self_test_args[@]}" "${trials_args[@]}" > "$SH_WORK/export/gate-summary.json"
+          code=$?
+          echo "Scopehaven gate exit code: $code"
+          echo "gate-exit=$code" >> "$GITHUB_OUTPUT"
+          run_id=$(node "$GITHUB_ACTION_PATH/prepare.mjs" run-id --from "$SH_WORK/export/gate-summary.json" 2>/dev/null)
+        fi
+        echo "store=$store" >> "$GITHUB_OUTPUT"
+        echo "run-id=$run_id" >> "$GITHUB_OUTPUT"
+        exit 0
+    - name: Export run, report and SARIF
+      id: export
+      shell: bash
+      env:
+        SH_ROOT: ${{ steps.prepare.outputs.root }}
+        SH_WORK: ${{ steps.prepare.outputs.work }}
+        SH_STORE: ${{ steps.assess.outputs.store }}
+        SH_RUN_ID: ${{ steps.assess.outputs.run-id }}
+        SH_BASELINE_ID: ${{ steps.assess.outputs.baseline-id }}
+        SH_REPORT_ONLY: ${{ steps.prepare.outputs.report-only }}
+        SH_REPORT_ONLY_UNTIL: ${{ inputs.report-only-until }}
+        SH_TRIALS: ${{ inputs.trials }}
+        SH_SIGNING_KEY_DIR: ${{ steps.prepare.outputs.signing-key-dir }}
+      run: |
+        umask 077
+        set +e
+        if [ -z "$SH_RUN_ID" ]; then echo "Scopehaven: no saved run to export."; exit 0; fi
+        out="$SH_WORK/export"
+        # sign: true signs each export into NAME.dsse.json beside it with the existing export signing (the key folder must hold
+        # the key already: the prepare step checked it). Otherwise, and always with report-only (refused with sign), unsigned.
+        sign_args=(--unsigned)
+        if [ -n "$SH_SIGNING_KEY_DIR" ]; then sign_args=(--signing-key-dir "$SH_SIGNING_KEY_DIR"); fi
+        # Report-only applied: report.html, comparison.html and the SARIF file are marked REPORT-ONLY in place (run.json, the
+        # recorded run, is not). With a gate, only if the gate applied the window too. The summary step relaxes fail-on only
+        # when every file was marked (report-only-marked=true), so a green job never ships an unmarked report.
+        marking=false; marked=true; gate_check=()
+        if [ "$SH_REPORT_ONLY" = applied ]; then marking=true; fi
+        if [ -n "$SH_BASELINE_ID" ]; then gate_check=(--gate "$out/gate-summary.json"); fi
+        mark() {
+          [ "$marking" = true ] || return 0
+          node "$SH_ROOT/integrations/regression-gate/report-only.mjs" stamp --until "$SH_REPORT_ONLY_UNTIL" --file "$1" "${gate_check[@]}" > /dev/null && return 0
+          marked=false
+          echo "::warning::Scopehaven report-only: $(basename "$1") was not marked REPORT-ONLY, so fail-on applies to this job"
+        }
+        "$SH_ROOT/scopehaven" export --run "$SH_RUN_ID" --format json --out "$out/run.json" --data "$SH_STORE" "${sign_args[@]}" || echo "::warning::Scopehaven JSON export failed"
+        if "$SH_ROOT/scopehaven" export --run "$SH_RUN_ID" --format html --out "$out/report.html" --data "$SH_STORE" "${sign_args[@]}"; then mark "$out/report.html"; else marked=false; echo "::warning::Scopehaven HTML export failed"; fi
+        if "$SH_ROOT/scopehaven" export --run "$SH_RUN_ID" --format sarif --out "$out/scopehaven.sarif" --data "$SH_STORE" "${sign_args[@]}"; then
+          mark "$out/scopehaven.sarif"
+          echo "sarif-path=$out/scopehaven.sarif" >> "$GITHUB_OUTPUT"
+        else
+          marked=false
+          echo "::warning::Scopehaven SARIF export failed"
+        fi
+        if [ -n "$SH_BASELINE_ID" ]; then
+          if "$SH_ROOT/scopehaven" export --run "$SH_RUN_ID" --baseline "$SH_BASELINE_ID" --format html --out "$out/comparison.html" --data "$SH_STORE" "${sign_args[@]}"; then mark "$out/comparison.html"; else marked=false; echo "::warning::Scopehaven comparison export failed"; fi
+        fi
+        # Trials: the gate's own report and SARIF over every trial (pass^k, k, floor and each check's reading), named by the
+        # first trial and already marked REPORT-ONLY by the gate while its window applies. Copied as written, not re-marked.
+        if [ -n "$SH_TRIALS" ] && [ -n "$SH_BASELINE_ID" ]; then
+          for kind in html sarif; do
+            source="$SH_STORE/gate-summaries/$SH_RUN_ID.trials.$kind"
+            if [ -f "$source" ] && [ ! -L "$source" ] && cp "$source" "$out/trials.$kind"; then :; else marked=false; echo "::warning::Scopehaven trials $kind is missing from the evidence artifact (not written by the gate, or not copied)"; fi
+          done
+        fi
+        if [ "$marking" = true ]; then echo "report-only-marked=$marked" >> "$GITHUB_OUTPUT"; fi
+        exit 0
+    - name: Verify the signed exports and append the run to the evidence ledger
+      id: ci
+      shell: bash
+      env:
+        SH_ROOT: ${{ steps.prepare.outputs.root }}
+        SH_WORK: ${{ steps.prepare.outputs.work }}
+        SH_RUN_ID: ${{ steps.assess.outputs.run-id }}
+        SH_BASELINE_ID: ${{ steps.assess.outputs.baseline-id }}
+        SH_SIGNING_KEY_DIR: ${{ steps.prepare.outputs.signing-key-dir }}
+        SH_LEDGER_DIR: ${{ steps.prepare.outputs.ledger-dir }}
+        SH_LEDGER_KEY_DIR: ${{ steps.prepare.outputs.ledger-key-dir }}
+        SH_LEDGER_RUN_FILES: ${{ steps.prepare.outputs.ledger-run-files }}
+      run: |
+        if [ -z "$SH_SIGNING_KEY_DIR" ] && [ -z "$SH_LEDGER_DIR" ]; then echo "Scopehaven: no signing or ledger requested."; exit 0; fi
+        umask 077
+        set +e
+        # Every signed export is verified with the attest verifier; with a ledger, run.json is kept in the run files folder, its
+        # envelope appended with integrations/ledger/cli.mjs append, and the ledger verified with cli.mjs verify. The outcome is a
+        # step output (ci-state, ci-reason); the last step fails the job on it (exit 2), after the summary and the artifact.
+        args=(--root "$SH_ROOT" --export "$SH_WORK/export" --run-id "$SH_RUN_ID" --signing-key-dir "$SH_SIGNING_KEY_DIR")
+        if [ -n "$SH_BASELINE_ID" ]; then args+=(--comparison true); fi
+        if [ -n "$SH_LEDGER_DIR" ]; then args+=(--ledger "$SH_LEDGER_DIR" --ledger-key-dir "$SH_LEDGER_KEY_DIR" --run-files "$SH_LEDGER_RUN_FILES"); fi
+        node "$GITHUB_ACTION_PATH/ci.mjs" ci-evidence "${args[@]}" > "$SH_WORK/ci-outputs"
+        code=$?
+        echo "Scopehaven CI evidence exit code: $code"
+        sed -n -E '/^(ci-state|ci-reason|ledger-index|ledger-size)=[A-Za-z0-9:._-]*$/p' "$SH_WORK/ci-outputs" >> "$GITHUB_OUTPUT"
+        exit 0
+    - name: Diff the policy matrices
+      id: policy-diff
+      if: always()
+      shell: bash
+      env:
+        SH_ROOT: ${{ steps.prepare.outputs.root }}
+        SH_WORK: ${{ steps.prepare.outputs.work }}
+        SH_POLICY_BEFORE: ${{ steps.prepare.outputs.policy-before }}
+        SH_POLICY_AFTER: ${{ steps.prepare.outputs.policy-after }}
+      run: |
+        if [ -z "$SH_POLICY_AFTER" ]; then echo "Scopehaven: no policy matrices set; no policy diff."; exit 0; fi
+        umask 077
+        set +e
+        # Reads the two local files only. Exit 0 no gated change, 1 a gated cell or a new gap, 2 not comparable or unreadable.
+        "$SH_ROOT/scopehaven" policy diff "$SH_POLICY_BEFORE" "$SH_POLICY_AFTER" --out "$SH_WORK/export/policy-diff.json" > /dev/null
+        code=$?
+        echo "Scopehaven policy diff exit code: $code"
+        echo "policy-diff-exit=$code" >> "$GITHUB_OUTPUT"
+        exit 0
+    - name: Write Scopehaven summary
+      id: summary
+      if: always()
+      shell: bash
+      env:
+        SH_WORK: ${{ steps.prepare.outputs.work }}
+        SH_STORE: ${{ steps.assess.outputs.store }}
+        SH_RUN_ID: ${{ steps.assess.outputs.run-id }}
+        SH_BASELINE: ${{ steps.prepare.outputs.baseline }}
+        SH_ASSESS_EXIT: ${{ steps.assess.outputs.assess-exit }}
+        SH_SARIF_PATH: ${{ steps.export.outputs.sarif-path }}
+        SH_FAIL_ON: ${{ inputs.fail-on }}
+        SH_REQUIRE_MODEL_IDENTITY: ${{ inputs.require-model-identity }}
+        SH_UPLOAD_SARIF: ${{ inputs.upload-sarif }}
+        SH_POLICY_BEFORE: ${{ steps.prepare.outputs.policy-before }}
+        SH_POLICY_AFTER: ${{ steps.prepare.outputs.policy-after }}
+        SH_POLICY_EXIT: ${{ steps.policy-diff.outputs.policy-diff-exit }}
+        SH_FAIL_ON_POLICY: ${{ inputs.fail-on-policy-diff }}
+        SH_REPORT_ONLY: ${{ steps.prepare.outputs.report-only }}
+        SH_REPORT_ONLY_UNTIL: ${{ inputs.report-only-until }}
+        SH_REPORT_ONLY_MARKED: ${{ steps.export.outputs.report-only-marked }}
+        SH_TRIALS: ${{ inputs.trials }}
+      run: |
+        umask 077
+        run_file=''
+        if [ -n "$SH_RUN_ID" ] && [ -n "$SH_STORE" ]; then run_file="$SH_STORE/runs/$SH_RUN_ID.json"; fi
+        gate_file=''
+        if [ -n "$SH_BASELINE" ] && [ -n "$SH_WORK" ]; then gate_file="$SH_WORK/export/gate-summary.json"; fi
+        args=(--run "$run_file" --gate "$gate_file" --fail-on "$SH_FAIL_ON" --assess-exit "$SH_ASSESS_EXIT" --sarif-path "$SH_SARIF_PATH" --upload-sarif "$SH_UPLOAD_SARIF")
+        # The Release Permission Diff compares the saved baseline run with this run.
+        if [ -n "$SH_BASELINE" ]; then args+=(--baseline "$SH_BASELINE"); fi
+        # The policy matrix diff fails the job only with fail-on-policy-diff: true. The summary
+        # recomputes it from the two matrices and accepts the step's file only if it matches.
+        args+=(--fail-on-policy-diff "$SH_FAIL_ON_POLICY" --require-model-identity "$SH_REQUIRE_MODEL_IDENTITY")
+        # Report-only: the prepare step's decision, and whether the export step marked every report and SARIF file.
+        if [ -n "$SH_REPORT_ONLY" ]; then args+=(--report-only "$SH_REPORT_ONLY" --report-only-until "$SH_REPORT_ONLY_UNTIL" --report-only-marked "${SH_REPORT_ONLY_MARKED:-false}"); fi
+        # Trials: the summary needs the gate's trials block for exactly this count, or the job fails (gate-trials-unavailable).
+        if [ -n "$SH_TRIALS" ] && [ -n "$SH_BASELINE" ]; then args+=(--trials "$SH_TRIALS"); fi
+        # Check packs: the prepare step's status and pull records, when it wrote them (report only; no decision changes).
+        if [ -n "$SH_WORK" ] && [ -f "$SH_WORK/export/pack-status.json" ]; then args+=(--pack-status "$SH_WORK/export/pack-status.json"); fi
+        if [ -n "$SH_WORK" ] && [ -f "$SH_WORK/export/pack-pull.json" ]; then args+=(--pack-pull "$SH_WORK/export/pack-pull.json"); fi
+        if [ -n "$SH_POLICY_AFTER" ] && [ -n "$SH_WORK" ]; then
+          args+=(--policy-before "$SH_POLICY_BEFORE" --policy-after "$SH_POLICY_AFTER" --policy-diff "$SH_WORK/export/policy-diff.json" --policy-diff-exit "$SH_POLICY_EXIT")
+        fi
+        if [ -n "$SH_WORK" ] && [ -d "$SH_WORK/export" ]; then
+          node "$GITHUB_ACTION_PATH/summary.mjs" --format markdown "${args[@]}" > "$SH_WORK/export/summary.md"
+          cat "$SH_WORK/export/summary.md" >> "$GITHUB_STEP_SUMMARY"
+        else
+          node "$GITHUB_ACTION_PATH/summary.mjs" --format markdown "${args[@]}" >> "$GITHUB_STEP_SUMMARY"
+        fi
+        node "$GITHUB_ACTION_PATH/summary.mjs" --format outputs "${args[@]}" >> "$GITHUB_OUTPUT"
+    - name: Write the CI evidence summary
+      if: always()
+      shell: bash
+      env:
+        SH_WORK: ${{ steps.prepare.outputs.work }}
+        SH_CI_STATE: ${{ steps.ci.outputs.ci-state }}
+        SH_CI_REASON: ${{ steps.ci.outputs.ci-reason }}
+      run: |
+        if [ -z "$SH_WORK" ] || [ ! -d "$SH_WORK/export" ]; then exit 0; fi
+        umask 077
+        # Signing, the ledger entry, the ledger baseline and the pinned packs, from the records in the evidence folder (ids,
+        # hashes, names and versions only). Nothing is printed when none of them was requested.
+        node "$GITHUB_ACTION_PATH/ci.mjs" summary --export "$SH_WORK/export" --ci-state "$SH_CI_STATE" --ci-reason "$SH_CI_REASON" > "$SH_WORK/ci-summary.md" || exit 0
+        if [ -s "$SH_WORK/ci-summary.md" ]; then
+          cat "$SH_WORK/ci-summary.md" >> "$SH_WORK/export/summary.md"
+          cat "$SH_WORK/ci-summary.md" >> "$GITHUB_STEP_SUMMARY"
+        fi
+    - name: Upload Scopehaven evidence artifact
+      if: always() && steps.prepare.outputs.work != ''
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ steps.prepare.outputs.work }}/export
+        if-no-files-found: warn
+    - name: Upload SARIF to code scanning
+      id: upload-sarif
+      if: always() && inputs.upload-sarif == 'true' && steps.export.outputs.sarif-path != ''
+      continue-on-error: true
+      uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+      with:
+        sarif_file: ${{ steps.export.outputs.sarif-path }}
+        category: ${{ inputs.sarif-category }}
+    - name: Note the SARIF upload outcome
+      if: always()
+      shell: bash
+      env:
+        SH_UPLOAD_SARIF: ${{ inputs.upload-sarif }}
+        SH_OUTCOME: ${{ steps.upload-sarif.outcome }}
+      run: |
+        if [ "$SH_UPLOAD_SARIF" != true ]; then exit 0; fi
+        case "$SH_OUTCOME" in
+          success) note="SARIF upload to code scanning succeeded." ;;
+          failure) note="SARIF upload to code scanning failed and was ignored (continue-on-error). Private repositories need GitHub Code Security; the job needs security-events write." ;;
+          *) note="SARIF upload did not run because no SARIF file was exported." ;;
+        esac
+        printf '\n> %s\n' "$note" >> "$GITHUB_STEP_SUMMARY"
+    - name: Apply fail-on
+      if: always()
+      shell: bash
+      env:
+        SH_DECISION: ${{ steps.summary.outputs.decision }}
+        SH_REASON: ${{ steps.summary.outputs.decision-reason }}
+        SH_REPORT_ONLY: ${{ steps.summary.outputs.report-only }}
+        SH_WOULD_FAIL: ${{ steps.summary.outputs.would-fail }}
+        SH_SIGN: ${{ inputs.sign }}
+        SH_LEDGER_DIR: ${{ inputs.ledger-dir }}
+        SH_CI_STATE: ${{ steps.ci.outputs.ci-state }}
+        SH_CI_REASON: ${{ steps.ci.outputs.ci-reason }}
+      run: |
+        # Report-only applied: an annotation on the run page says so, so a green job is not read as a pass.
+        if [ "$SH_REPORT_ONLY" = applied ]; then
+          if [ -n "$SH_WOULD_FAIL" ]; then echo "::warning::Scopehaven REPORT-ONLY run: without report-only this job would fail ($SH_WOULD_FAIL). Not a pass."
+          else echo "::notice::Scopehaven REPORT-ONLY run: see the job summary for the real results."; fi
+        fi
+        # CI mode: a signed export that does not verify, or a ledger append or verification that failed, fails the job whatever
+        # fail-on says (exit 2, named reason), so a release never goes green without its signed, ledgered run.
+        if { [ "$SH_SIGN" = true ] || [ -n "$SH_LEDGER_DIR" ]; } && [ "$SH_CI_STATE" != ok ]; then
+          echo "::error::Scopehaven CI evidence: fail (${SH_CI_REASON:-ci-evidence-unavailable}); scopehaven decision was ${SH_DECISION:-unavailable} (${SH_REASON:-summary-unavailable})"
+          exit 2
+        fi
+        if [ "$SH_DECISION" = pass ]; then echo "Scopehaven decision: pass ($SH_REASON)"; exit 0; fi
+        echo "::error::Scopehaven decision: fail (${SH_REASON:-summary-unavailable})"
+        exit 1

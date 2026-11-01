@@ -1,0 +1,4 @@
+# Public keys that sign SHA256SUMS for a ScopeHaven release (ssh-keygen -Y verify, namespace scopehaven-release).
+# Interim key, generated 2026-10-29 on one machine for the first artifact and protected by file permissions only; it is
+# retired when a founder-held key replaces it (docs/SIGNING-KEYS.md). Fingerprint SHA256:6+DC5qqw450u901y7Kx+xzyXFmh1TtsvLP8NtEywgbE
+scopehaven-release-interim-2026-10-29 namespaces="scopehaven-release" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBU93Xof7FnqspL6m5W2RwUKvVYAiu9/9CM+AzAMDE7m

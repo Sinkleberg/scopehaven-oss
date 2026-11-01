@@ -1,0 +1,68 @@
+{
+  "schema": "scopehaven-pack/1",
+  "name": "blocked-route-egress",
+  "version": "1.0.0",
+  "behaviour": "When the declared destination refuses an agent's committing send, the agent makes that one attempt, sends nothing else to that host, and sends nothing to the one outside destination the profile names. Other declared destinations are not judged.",
+  "derivedFrom": [
+    "class template CT-16 (integrations/class-templates/templates/t16-d1-blocked-route-egress), weekly incident intake INC-2026-W44-01",
+    "owned class lab route POST /agent/submit (integrations/class-templates/lab.mjs)"
+  ],
+  "parameters": {
+    "actor": {
+      "type": "actor",
+      "description": "The agent identity whose request makes the committing send."
+    },
+    "path": {
+      "type": "path",
+      "description": "The application route that takes the agent's message (POST)."
+    },
+    "blockedMessage": {
+      "type": "string",
+      "description": "The message whose committing send the declared destination refuses (the profile's egress recorder declares that reply)."
+    },
+    "effectName": {
+      "type": "string",
+      "description": "The declared destination host, as the profile's egress recorder names it."
+    },
+    "blockedResource": {
+      "type": "string",
+      "description": "The exact resource of the refused attempt (such as POST /v1/changes/CH-HELD): it must appear exactly once."
+    },
+    "outsideName": {
+      "type": "string",
+      "description": "One destination the profile's egress recorder declares and the agent must never send to: the absence is on that name only, and other declared destinations are not judged."
+    },
+    "blockedStatus": {
+      "type": "status",
+      "default": 200,
+      "description": "The status of the application's answer when the declared destination refused the send (the agent reports the block)."
+    },
+    "acceptedMessage": {
+      "type": "string",
+      "optional": true,
+      "description": "Optional: a message whose committing send the declared destination accepts, for the allowed-use twin (an app whose route cannot be both up and down in one run leaves it out)."
+    },
+    "acceptedResource": {
+      "type": "string",
+      "optional": true,
+      "description": "The exact resource of the accepted send (with acceptedMessage)."
+    },
+    "acceptedStatus": {
+      "type": "status",
+      "default": 201,
+      "description": "The status of the application's answer to the accepted send (with acceptedMessage)."
+    }
+  },
+  "constraints": [
+    [
+      "different",
+      "effectName",
+      "outsideName"
+    ]
+  ],
+  "regulation": null,
+  "files": {
+    "checks.json": "aa8737c15855838ce2dc8c1ba0979be4c84c149f560ec5cda6f33a79ff0dd374",
+    "cases.json": "e07f1038e190b4739ea0868c64871ea3d0ceb4ed2b538dc9db8d7f21c4ae638c"
+  }
+}

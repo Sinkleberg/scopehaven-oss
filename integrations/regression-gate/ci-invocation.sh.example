@@ -1,0 +1,11 @@
+# INERT EXAMPLE: not installed as a workflow, cron job or executable daemon.
+# Working directory: ScopeHaven root on the prepared macOS arm64 runner.
+# Requires the existing pinned runtime; no downloads, credentials or endpoints.
+set -eu
+scopehaven_gate_output=$(mktemp -d "${TMPDIR:-/tmp}/scopehaven-ci-gate.XXXXXX")
+trap 'rm -rf -- "$scopehaven_gate_output"' EXIT HUP INT TERM
+./scopehaven gate \
+  --target demo-repaired --out "$scopehaven_gate_output"
+# The node process's 0/1/2 exit propagates to CI. The private output is temporary.
+# To retain it or use a compatible baseline, supply a dedicated private artifact
+# directory and arrange restricted retention explicitly; no upload is configured.

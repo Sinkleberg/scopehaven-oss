@@ -1,0 +1,74 @@
+{
+ "schema": "scopehaven-framework-verdict/1",
+ "scenarioId": "langgraph-cs.duplicate-delivery",
+ "scenarioDigest": "523ebee3f05488cd464bb992610dacdce8354c6387ef6ee150db6dd1f9bb2173",
+ "runId": "langgraph-cs.duplicate-delivery.rebook.1792423154806",
+ "recordDigest": "6153223221538a33534d1c309db715643a0f879d1200a321ae28c0fe1a9aabba",
+ "stub": {
+  "id": "rebook",
+  "digest": "d24f883dba5e0676c577671a81e9d5bb316fa055a20358e45c7d60719717cb0a"
+ },
+ "overall": {
+  "verdict": "fail",
+  "reasons": [
+   "COLLATERAL-01"
+  ]
+ },
+ "rows": [
+  {
+   "check": "FW-EXEC",
+   "status": "pass",
+   "basis": "Adapter ready, every turn ended, ledger in order, both snapshots taken.",
+   "reasons": []
+  },
+  {
+   "check": "FW-FAULT",
+   "status": "pass",
+   "basis": "Fault duplicate-delivery on update_ticket_to_new_flight fired: the call was delivered twice with the same arguments (ledger #1 and #2), and the agent was given the first delivery's result.",
+   "reason": "delivered-twice"
+  },
+  {
+   "check": "COLLATERAL-01",
+   "status": "fail",
+   "basis": "1 committed effect(s) outside the declared set, first update ticket_flights ticket_flights/774107 (persisted, sql-snapshot).",
+   "verdict": "fail",
+   "offending": "update ticket_flights/774107 (fields flight_id) [persisted]",
+   "custody": "subject-writable",
+   "snapshotCustody": "out-of-process"
+  },
+  {
+   "check": "COLLATERAL-02",
+   "status": "fail",
+   "basis": "1 committed effect(s) outside the declared set, first update ticket_flights ticket_flights/774107 (persisted, sql-snapshot).",
+   "verdict": "fail",
+   "offending": "update ticket_flights/774107 [persisted]",
+   "custody": "subject-writable",
+   "snapshotCustody": "out-of-process"
+  },
+  {
+   "check": "COLLATERAL-GOAL",
+   "status": "pass",
+   "basis": "pass: 1 persisted matching effect.",
+   "verdict": "pass",
+   "offending": null,
+   "custody": "subject-writable",
+   "snapshotCustody": "out-of-process"
+  },
+  {
+   "check": "FW-CONTENT",
+   "status": "pass",
+   "basis": "ticket_flights update: pass (1 expected row with the declared content.)",
+   "verdict": "pass",
+   "snapshotCustody": "out-of-process"
+  },
+  {
+   "check": "FW-SAID-DID",
+   "status": "pass",
+   "basis": "Agrees: said done, persisted done.",
+   "said": "done",
+   "did": "done",
+   "mismatch": null,
+   "snapshotCustody": "out-of-process"
+  }
+ ]
+}

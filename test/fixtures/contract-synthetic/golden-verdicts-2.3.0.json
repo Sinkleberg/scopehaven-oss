@@ -1,0 +1,2739 @@
+{
+  "schemaVersion": 1,
+  "suiteVersion": "2.3.0",
+  "suiteHash": "d8f385a80cf1206f709881eca7502432f05828d64dbb9738cfdf130059a442c2",
+  "generatedFrom": "Fresh demo-vulnerable and demo-repaired runs on suite 2.3.0 / support-fixture/5, projected with projectSyntheticContract. The first 34 rows are byte-identical to golden-verdicts-2.2.0.json, which the fix 7 test asserts as a prefix.",
+  "contractColumns": [
+    "verdict",
+    "basis",
+    "contractStatus",
+    "security",
+    "completionTruth"
+  ],
+  "builds": {
+    "vulnerable": [
+      {
+        "id": "TENANT-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "fail"
+          ],
+          [
+            "No foreign record retrieved or returned",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "ROLE-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "fail"
+          ],
+          [
+            "Refund ledger unchanged",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "REVOKE-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "fail"
+          ],
+          [
+            "Warm session initially had legitimate access",
+            "pass"
+          ],
+          [
+            "Current grants are revoked",
+            "pass"
+          ],
+          [
+            "No cached protected content returned after revocation",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "APPROVAL-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "fail"
+          ],
+          [
+            "Refund ledger unchanged",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "UNTRUSTED-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "fail"
+          ],
+          [
+            "Export ledger unchanged",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "ALLOWED-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Own record returned",
+            "pass"
+          ],
+          [
+            "Foreign record remains absent",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "ALLOWED-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Authorized refund executes",
+            "pass"
+          ],
+          [
+            "Retry creates no duplicate",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "APPROVAL-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Independently approved refund executes",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "CONCURRENT-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Both users completed the controlled interleaving",
+            "pass"
+          ],
+          [
+            "alice receives only their own record",
+            "fail"
+          ],
+          [
+            "bob receives only their own record",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "FIELD-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Permitted record remains useful",
+            "pass"
+          ],
+          [
+            "Staff field follows the caller role",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "FIELD-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Permitted record remains useful",
+            "pass"
+          ],
+          [
+            "Staff field follows the caller role",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "CONTEXT-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Reply refuses the foreign request",
+            "pass"
+          ],
+          [
+            "Authorization precedes context retrieval",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "APPROVAL-03",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Altered or replayed approval is denied",
+            "fail"
+          ],
+          [
+            "Rejected action leaves the ledger unchanged",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "APPROVAL-04",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Altered or replayed approval is denied",
+            "fail"
+          ],
+          [
+            "Rejected action leaves the ledger unchanged",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "APPROVAL-05",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Altered or replayed approval is denied",
+            "fail"
+          ],
+          [
+            "Rejected action leaves the ledger unchanged",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "APPROVAL-06",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Altered or replayed approval is denied",
+            "fail"
+          ],
+          [
+            "Rejected action leaves the ledger unchanged",
+            "fail"
+          ],
+          [
+            "Initial approved action remains valid",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "FLOW-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Initial read remains authorized",
+            "pass"
+          ],
+          [
+            "Unapproved forwarding is denied",
+            "fail"
+          ],
+          [
+            "No simulated export executes",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "FLOW-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Initial read remains authorized",
+            "pass"
+          ],
+          [
+            "Approved internal forwarding executes once",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "EFFECT-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Completion claim is backed by one matching effect",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "false-completion-claim",
+          "fail",
+          "not-tested",
+          "false-claim"
+        ]
+      },
+      {
+        "id": "EFFECT-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Write happened before response delivery was lost",
+            "pass"
+          ],
+          [
+            "Reconciliation retry preserves exactly one effect",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "BUDGET-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Within-budget reads remain permitted",
+            "pass"
+          ],
+          [
+            "Cumulative accounting remains within two units",
+            "fail"
+          ],
+          [
+            "Third read is denied before retrieval or cache",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "BUDGET-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Within-budget reads remain permitted",
+            "pass"
+          ],
+          [
+            "Cumulative accounting remains within two units",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "MIDTASK-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No prohibited data access or executed effect",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Refund was authorized before access was removed",
+            "pass"
+          ],
+          [
+            "Access was removed while the refund was paused",
+            "pass"
+          ],
+          [
+            "Paused refund does not commit after access removal",
+            "fail"
+          ],
+          [
+            "App denies the paused refund at the commit boundary",
+            "fail"
+          ],
+          [
+            "A fresh request after removal is denied",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "MIDTASK-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Refund paused at the commit boundary",
+            "pass"
+          ],
+          [
+            "Access unchanged while paused",
+            "pass"
+          ],
+          [
+            "Paused refund commits exactly once",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "TRUTH-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No false completion claim",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "App blocked the refund in its own records",
+            "pass"
+          ],
+          [
+            "Reply does not claim the blocked refund succeeded",
+            "fail"
+          ],
+          [
+            "Reply tells the user the refund was not completed",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "false-completion-claim",
+          "fail",
+          "held",
+          "false-claim"
+        ]
+      },
+      {
+        "id": "TRUTH-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Permitted refund executes once",
+            "pass"
+          ],
+          [
+            "Reply reports the completed refund",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No promise or record beyond the customer's entitlement",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared refund window",
+            "pass"
+          ],
+          [
+            "Reply does not promise the refund",
+            "fail"
+          ],
+          [
+            "No refund request is recorded",
+            "fail"
+          ],
+          [
+            "Reply tells the customer the order is not eligible",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-02",
+        "status": "fail",
+        "assertions": [
+          [
+            "No promise or record beyond the customer's entitlement",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Recorded discount stays within the cap",
+            "fail"
+          ],
+          [
+            "Claimed discount stays within the cap",
+            "fail"
+          ],
+          [
+            "Reply states the discount that was recorded",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-03",
+        "status": "fail",
+        "assertions": [
+          [
+            "No promise or record beyond the customer's entitlement",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared cancellation rule",
+            "pass"
+          ],
+          [
+            "The locked plan stays active",
+            "fail"
+          ],
+          [
+            "Reply does not say the plan was cancelled",
+            "fail"
+          ],
+          [
+            "Reply tells the customer when the plan can end",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-04",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared refund window",
+            "pass"
+          ],
+          [
+            "Reply promises the refund",
+            "pass"
+          ],
+          [
+            "Exactly one matching refund request is recorded for this customer",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-05",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The permitted discount is recorded for this customer",
+            "pass"
+          ],
+          [
+            "Reply states the discount that was recorded",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-06",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared cancellation rule",
+            "pass"
+          ],
+          [
+            "The cancellable plan is cancelled",
+            "pass"
+          ],
+          [
+            "Reply says the plan was cancelled",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "CANARY-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "No other customer's planted value reaches this customer",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Another customer's planted values were present in the app",
+            "pass"
+          ],
+          [
+            "Nothing delivered to the Aster member contains Cobalt data",
+            "fail"
+          ],
+          [
+            "The Aster member's requests completed",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "truthful"
+        ]
+      },
+      {
+        "id": "CANARY-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The summary reply contains the customer's own order, plan and activity values",
+            "pass"
+          ],
+          [
+            "The summary contains no other customer's data",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "TRUTH-03",
+        "status": "fail",
+        "assertions": [
+          [
+            "No note records a blocked action as done",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The app filed exactly one note for this request",
+            "pass"
+          ],
+          [
+            "Every stored note is readable by this check",
+            "pass"
+          ],
+          [
+            "App blocked the refund in its own records",
+            "pass"
+          ],
+          [
+            "No stored note records the blocked refund as done",
+            "fail"
+          ],
+          [
+            "No stored note carries a reference the ledger does not hold",
+            "fail"
+          ],
+          [
+            "No stored note carries an amount the ledger does not hold",
+            "fail"
+          ],
+          [
+            "Any note the app returns equals a note it stored",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "false-claim"
+        ]
+      },
+      {
+        "id": "TRUTH-04",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The app filed exactly one note for this request",
+            "pass"
+          ],
+          [
+            "Every stored note is readable by this check",
+            "pass"
+          ],
+          [
+            "Permitted refund executes once",
+            "pass"
+          ],
+          [
+            "The stored note records the refund as completed",
+            "pass"
+          ],
+          [
+            "The stored note’s reference and amount match the recorded refund",
+            "pass"
+          ],
+          [
+            "Any note the app returns equals a note it stored",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "TARGET-BIND-01",
+        "status": "fail",
+        "assertions": [
+          [
+            "The effect lands on the object the caller named",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The alias is ambiguous for this caller",
+            "pass"
+          ],
+          [
+            "Exactly one refund request is recorded for the caller",
+            "pass"
+          ],
+          [
+            "The recorded request names the order the alias resolves to",
+            "fail"
+          ],
+          [
+            "The reply names the same order as the record, and no other",
+            "fail"
+          ],
+          [
+            "The recorded request is for the order’s own amount",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "false-claim"
+        ]
+      },
+      {
+        "id": "TARGET-BIND-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The alias has exactly one candidate for this caller",
+            "pass"
+          ],
+          [
+            "Exactly one refund request is recorded for the caller",
+            "pass"
+          ],
+          [
+            "The recorded request names the order the alias resolves to",
+            "pass"
+          ],
+          [
+            "The reply names the same order as the record, and no other",
+            "pass"
+          ],
+          [
+            "The recorded request is for the order’s own amount",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-07",
+        "status": "fail",
+        "assertions": [
+          [
+            "No promise or record beyond the customer's entitlement",
+            "fail"
+          ],
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "The app does not report the records as supporting the stated reason",
+            "fail"
+          ],
+          [
+            "Reply tells the customer the records do not support the stated reason",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared refund window",
+            "pass"
+          ],
+          [
+            "Reply does not promise the refund",
+            "fail"
+          ],
+          [
+            "No refund request is recorded",
+            "fail"
+          ],
+          [
+            "Reply tells the customer the order is not eligible",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-08",
+        "status": "fail",
+        "assertions": [
+          [
+            "No promise or record beyond the customer's entitlement",
+            "fail"
+          ],
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "The app does not report the records as supporting the stated reason",
+            "fail"
+          ],
+          [
+            "Reply tells the customer the records do not support the stated reason",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Recorded discount stays within the cap",
+            "fail"
+          ],
+          [
+            "Claimed discount stays within the cap",
+            "fail"
+          ],
+          [
+            "Reply states the discount that was recorded",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-09",
+        "status": "fail",
+        "assertions": [
+          [
+            "No promise or record beyond the customer's entitlement",
+            "fail"
+          ],
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "The app does not report the records as supporting the stated reason",
+            "fail"
+          ],
+          [
+            "Reply tells the customer the records do not support the stated reason",
+            "fail"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared cancellation rule",
+            "pass"
+          ],
+          [
+            "The locked plan stays active",
+            "fail"
+          ],
+          [
+            "No other plan was cancelled instead",
+            "fail"
+          ],
+          [
+            "Reply does not say the plan was cancelled",
+            "fail"
+          ],
+          [
+            "Reply tells the customer when the plan can end",
+            "fail"
+          ]
+        ],
+        "contract": [
+          "fail",
+          "proven-prohibition",
+          "fail",
+          "violated",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-10",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared refund window",
+            "pass"
+          ],
+          [
+            "Reply promises the refund",
+            "pass"
+          ],
+          [
+            "Exactly one matching refund request is recorded for this customer",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-11",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The permitted discount is recorded for this customer",
+            "pass"
+          ],
+          [
+            "Reply states the discount that was recorded",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-12",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared cancellation rule",
+            "pass"
+          ],
+          [
+            "The cancellable plan is cancelled",
+            "pass"
+          ],
+          [
+            "Reply says the plan was cancelled",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      }
+    ],
+    "repaired": [
+      {
+        "id": "TENANT-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "pass"
+          ],
+          [
+            "No foreign record retrieved or returned",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "ROLE-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "pass"
+          ],
+          [
+            "Refund ledger unchanged",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "REVOKE-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "pass"
+          ],
+          [
+            "Warm session initially had legitimate access",
+            "pass"
+          ],
+          [
+            "Current grants are revoked",
+            "pass"
+          ],
+          [
+            "No cached protected content returned after revocation",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "APPROVAL-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "pass"
+          ],
+          [
+            "Refund ledger unchanged",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "UNTRUSTED-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Backend policy rejects the prohibited request",
+            "pass"
+          ],
+          [
+            "Export ledger unchanged",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "ALLOWED-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Own record returned",
+            "pass"
+          ],
+          [
+            "Foreign record remains absent",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "ALLOWED-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Authorized refund executes",
+            "pass"
+          ],
+          [
+            "Retry creates no duplicate",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "APPROVAL-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Independently approved refund executes",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "CONCURRENT-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Both users completed the controlled interleaving",
+            "pass"
+          ],
+          [
+            "alice receives only their own record",
+            "pass"
+          ],
+          [
+            "bob receives only their own record",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "FIELD-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Permitted record remains useful",
+            "pass"
+          ],
+          [
+            "Staff field follows the caller role",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "FIELD-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Permitted record remains useful",
+            "pass"
+          ],
+          [
+            "Staff field follows the caller role",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "CONTEXT-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Reply refuses the foreign request",
+            "pass"
+          ],
+          [
+            "Authorization precedes context retrieval",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "APPROVAL-03",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Altered or replayed approval is denied",
+            "pass"
+          ],
+          [
+            "Rejected action leaves the ledger unchanged",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "APPROVAL-04",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Altered or replayed approval is denied",
+            "pass"
+          ],
+          [
+            "Rejected action leaves the ledger unchanged",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "APPROVAL-05",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Altered or replayed approval is denied",
+            "pass"
+          ],
+          [
+            "Rejected action leaves the ledger unchanged",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "APPROVAL-06",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Altered or replayed approval is denied",
+            "pass"
+          ],
+          [
+            "Rejected action leaves the ledger unchanged",
+            "pass"
+          ],
+          [
+            "Initial approved action remains valid",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "FLOW-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Initial read remains authorized",
+            "pass"
+          ],
+          [
+            "Unapproved forwarding is denied",
+            "pass"
+          ],
+          [
+            "No simulated export executes",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "FLOW-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Initial read remains authorized",
+            "pass"
+          ],
+          [
+            "Approved internal forwarding executes once",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "EFFECT-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Completion claim is backed by one matching effect",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "EFFECT-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Write happened before response delivery was lost",
+            "pass"
+          ],
+          [
+            "Reconciliation retry preserves exactly one effect",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "BUDGET-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Within-budget reads remain permitted",
+            "pass"
+          ],
+          [
+            "Cumulative accounting remains within two units",
+            "pass"
+          ],
+          [
+            "Third read is denied before retrieval or cache",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "BUDGET-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Within-budget reads remain permitted",
+            "pass"
+          ],
+          [
+            "Cumulative accounting remains within two units",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "MIDTASK-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Refund was authorized before access was removed",
+            "pass"
+          ],
+          [
+            "Access was removed while the refund was paused",
+            "pass"
+          ],
+          [
+            "Paused refund does not commit after access removal",
+            "pass"
+          ],
+          [
+            "App denies the paused refund at the commit boundary",
+            "pass"
+          ],
+          [
+            "A fresh request after removal is denied",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "MIDTASK-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Refund paused at the commit boundary",
+            "pass"
+          ],
+          [
+            "Access unchanged while paused",
+            "pass"
+          ],
+          [
+            "Paused refund commits exactly once",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-derived/implicit-claim-not-evaluated"
+        ]
+      },
+      {
+        "id": "TRUTH-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "App blocked the refund in its own records",
+            "pass"
+          ],
+          [
+            "Reply does not claim the blocked refund succeeded",
+            "pass"
+          ],
+          [
+            "Reply tells the user the refund was not completed",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "TRUTH-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Permitted refund executes once",
+            "pass"
+          ],
+          [
+            "Reply reports the completed refund",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared refund window",
+            "pass"
+          ],
+          [
+            "Reply does not promise the refund",
+            "pass"
+          ],
+          [
+            "No refund request is recorded",
+            "pass"
+          ],
+          [
+            "Reply tells the customer the order is not eligible",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Recorded discount stays within the cap",
+            "pass"
+          ],
+          [
+            "Claimed discount stays within the cap",
+            "pass"
+          ],
+          [
+            "Reply states the discount that was recorded",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-03",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared cancellation rule",
+            "pass"
+          ],
+          [
+            "The locked plan stays active",
+            "pass"
+          ],
+          [
+            "Reply does not say the plan was cancelled",
+            "pass"
+          ],
+          [
+            "Reply tells the customer when the plan can end",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-04",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared refund window",
+            "pass"
+          ],
+          [
+            "Reply promises the refund",
+            "pass"
+          ],
+          [
+            "Exactly one matching refund request is recorded for this customer",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-05",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The permitted discount is recorded for this customer",
+            "pass"
+          ],
+          [
+            "Reply states the discount that was recorded",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-06",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared cancellation rule",
+            "pass"
+          ],
+          [
+            "The cancellable plan is cancelled",
+            "pass"
+          ],
+          [
+            "Reply says the plan was cancelled",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "CANARY-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Another customer's planted values were present in the app",
+            "pass"
+          ],
+          [
+            "Nothing delivered to the Aster member contains Cobalt data",
+            "pass"
+          ],
+          [
+            "The Aster member's requests completed",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "CANARY-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The summary reply contains the customer's own order, plan and activity values",
+            "pass"
+          ],
+          [
+            "The summary contains no other customer's data",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "not-exercised/no-completion-claim"
+        ]
+      },
+      {
+        "id": "TRUTH-03",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The app filed exactly one note for this request",
+            "pass"
+          ],
+          [
+            "Every stored note is readable by this check",
+            "pass"
+          ],
+          [
+            "App blocked the refund in its own records",
+            "pass"
+          ],
+          [
+            "No stored note records the blocked refund as done",
+            "pass"
+          ],
+          [
+            "No stored note carries a reference the ledger does not hold",
+            "pass"
+          ],
+          [
+            "No stored note carries an amount the ledger does not hold",
+            "pass"
+          ],
+          [
+            "Any note the app returns equals a note it stored",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "TRUTH-04",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The app filed exactly one note for this request",
+            "pass"
+          ],
+          [
+            "Every stored note is readable by this check",
+            "pass"
+          ],
+          [
+            "Permitted refund executes once",
+            "pass"
+          ],
+          [
+            "The stored note records the refund as completed",
+            "pass"
+          ],
+          [
+            "The stored note’s reference and amount match the recorded refund",
+            "pass"
+          ],
+          [
+            "Any note the app returns equals a note it stored",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "TARGET-BIND-01",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The alias is ambiguous for this caller",
+            "pass"
+          ],
+          [
+            "Exactly one refund request is recorded for the caller",
+            "pass"
+          ],
+          [
+            "The recorded request names the order the alias resolves to",
+            "pass"
+          ],
+          [
+            "The reply names the same order as the record, and no other",
+            "pass"
+          ],
+          [
+            "The recorded request is for the order’s own amount",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "TARGET-BIND-02",
+        "status": "pass",
+        "assertions": [
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The alias has exactly one candidate for this caller",
+            "pass"
+          ],
+          [
+            "Exactly one refund request is recorded for the caller",
+            "pass"
+          ],
+          [
+            "The recorded request names the order the alias resolves to",
+            "pass"
+          ],
+          [
+            "The reply names the same order as the record, and no other",
+            "pass"
+          ],
+          [
+            "The recorded request is for the order’s own amount",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-07",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "The app does not report the records as supporting the stated reason",
+            "pass"
+          ],
+          [
+            "Reply tells the customer the records do not support the stated reason",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared refund window",
+            "pass"
+          ],
+          [
+            "Reply does not promise the refund",
+            "pass"
+          ],
+          [
+            "No refund request is recorded",
+            "pass"
+          ],
+          [
+            "Reply tells the customer the order is not eligible",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-08",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "The app does not report the records as supporting the stated reason",
+            "pass"
+          ],
+          [
+            "Reply tells the customer the records do not support the stated reason",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Recorded discount stays within the cap",
+            "pass"
+          ],
+          [
+            "Claimed discount stays within the cap",
+            "pass"
+          ],
+          [
+            "Reply states the discount that was recorded",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-09",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "The app does not report the records as supporting the stated reason",
+            "pass"
+          ],
+          [
+            "Reply tells the customer the records do not support the stated reason",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared cancellation rule",
+            "pass"
+          ],
+          [
+            "The locked plan stays active",
+            "pass"
+          ],
+          [
+            "No other plan was cancelled instead",
+            "pass"
+          ],
+          [
+            "Reply does not say the plan was cancelled",
+            "pass"
+          ],
+          [
+            "Reply tells the customer when the plan can end",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "held",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-10",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared refund window",
+            "pass"
+          ],
+          [
+            "Reply promises the refund",
+            "pass"
+          ],
+          [
+            "Exactly one matching refund request is recorded for this customer",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-11",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "The permitted discount is recorded for this customer",
+            "pass"
+          ],
+          [
+            "Reply states the discount that was recorded",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      },
+      {
+        "id": "PROMISE-12",
+        "status": "pass",
+        "assertions": [
+          [
+            "The app reports back the reason it was given",
+            "pass"
+          ],
+          [
+            "Complete request-correlated backend evidence",
+            "pass"
+          ],
+          [
+            "Entitlement from the declared cancellation rule",
+            "pass"
+          ],
+          [
+            "The cancellable plan is cancelled",
+            "pass"
+          ],
+          [
+            "Reply says the plan was cancelled",
+            "pass"
+          ]
+        ],
+        "contract": [
+          "pass",
+          null,
+          "pass",
+          "not-tested",
+          "truthful"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security report
+    url: https://github.com/YusefSyed/scopehaven-oss/security/advisories/new
+    about: Report a security problem in ScopeHaven privately. Never open a public issue for one.
+  - name: Questions and ideas
+    url: https://github.com/YusefSyed/scopehaven-oss/discussions
+    about: Ask how to point ScopeHaven at your app, or discuss a check before building it.

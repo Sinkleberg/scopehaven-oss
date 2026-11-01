@@ -1,0 +1,21 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Synthetic helpdesk API", "version": "1.0.0" },
+  "security": [{ "session": [] }],
+  "components": {
+    "securitySchemes": {
+      "session": { "type": "apiKey", "in": "cookie", "name": "sid" },
+      "oauth": { "type": "oauth2", "flows": { "clientCredentials": { "tokenUrl": "/token", "scopes": { "tickets:read": "", "admin": "" } } } }
+    }
+  },
+  "paths": {
+    "/health": { "get": { "operationId": "health", "security": [] } },
+    "/me": { "get": { "operationId": "me" } },
+    "/tickets": {
+      "get": { "operationId": "listTickets", "security": [{ "session": [] }, { "oauth": ["tickets:read"] }] },
+      "post": { "operationId": "createTicket" }
+    },
+    "/admin/users": { "get": { "operationId": "listUsers", "security": [{ "oauth": ["admin", "tickets:read"] }] } },
+    "/search": { "get": { "operationId": "search", "security": [{}, { "session": [] }] } }
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "evalId": "SYNTHETIC_PRIVATE_SENTINEL",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-09-18T00:00:00.000Z",
+    "stats": {
+      "successes": 2,
+      "failures": 1,
+      "errors": 1,
+      "tokenUsage": {}
+    },
+    "prompts": [],
+    "results": [
+      {
+        "id": "SYNTHETIC_PRIVATE_SENTINEL-id-0",
+        "description": "SYNTHETIC_PRIVATE_SENTINEL",
+        "promptIdx": 0,
+        "testIdx": 0,
+        "testCase": {
+          "description": "SYNTHETIC_PRIVATE_SENTINEL",
+          "assert": [
+            {
+              "type": "equals",
+              "value": "SYNTHETIC_PRIVATE_SENTINEL"
+            }
+          ]
+        },
+        "promptId": "SYNTHETIC_PRIVATE_SENTINEL",
+        "provider": {
+          "id": "synthetic-provider",
+          "label": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "prompt": {
+          "raw": "SYNTHETIC_PRIVATE_SENTINEL",
+          "label": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "vars": {
+          "input": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "response": {
+          "output": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "failureReason": 0,
+        "success": true,
+        "score": 1,
+        "latencyMs": 1,
+        "namedScores": {},
+        "metadata": {
+          "customer": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "traceId": "SYNTHETIC_PRIVATE_SENTINEL",
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "SYNTHETIC_PRIVATE_SENTINEL",
+          "componentResults": []
+        }
+      },
+      {
+        "id": "SYNTHETIC_PRIVATE_SENTINEL-id-1",
+        "description": "SYNTHETIC_PRIVATE_SENTINEL",
+        "promptIdx": 0,
+        "testIdx": 1,
+        "testCase": {
+          "description": "SYNTHETIC_PRIVATE_SENTINEL",
+          "assert": [
+            {
+              "type": "equals",
+              "value": "SYNTHETIC_PRIVATE_SENTINEL"
+            }
+          ]
+        },
+        "promptId": "SYNTHETIC_PRIVATE_SENTINEL",
+        "provider": {
+          "id": "synthetic-provider",
+          "label": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "prompt": {
+          "raw": "SYNTHETIC_PRIVATE_SENTINEL",
+          "label": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "vars": {
+          "input": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "response": {
+          "output": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "failureReason": 1,
+        "success": false,
+        "score": 0,
+        "latencyMs": 1,
+        "namedScores": {},
+        "metadata": {
+          "customer": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "traceId": "SYNTHETIC_PRIVATE_SENTINEL",
+        "gradingResult": {
+          "pass": false,
+          "score": 0,
+          "reason": "SYNTHETIC_PRIVATE_SENTINEL",
+          "componentResults": []
+        },
+        "error": "SYNTHETIC_PRIVATE_SENTINEL"
+      },
+      {
+        "id": "SYNTHETIC_PRIVATE_SENTINEL-id-2",
+        "description": "SYNTHETIC_PRIVATE_SENTINEL",
+        "promptIdx": 0,
+        "testIdx": 2,
+        "testCase": {
+          "description": "SYNTHETIC_PRIVATE_SENTINEL",
+          "assert": [
+            {
+              "type": "equals",
+              "value": "SYNTHETIC_PRIVATE_SENTINEL"
+            }
+          ]
+        },
+        "promptId": "SYNTHETIC_PRIVATE_SENTINEL",
+        "provider": {
+          "id": "synthetic-provider",
+          "label": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "prompt": {
+          "raw": "SYNTHETIC_PRIVATE_SENTINEL",
+          "label": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "vars": {
+          "input": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "response": {
+          "output": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "failureReason": 2,
+        "success": false,
+        "score": 0,
+        "latencyMs": 1,
+        "namedScores": {},
+        "metadata": {
+          "customer": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "traceId": "SYNTHETIC_PRIVATE_SENTINEL",
+        "error": "SYNTHETIC_PRIVATE_SENTINEL"
+      },
+      {
+        "id": "SYNTHETIC_PRIVATE_SENTINEL-id-3",
+        "description": "SYNTHETIC_PRIVATE_SENTINEL",
+        "promptIdx": 0,
+        "testIdx": 3,
+        "testCase": {
+          "description": "SYNTHETIC_PRIVATE_SENTINEL",
+          "assert": [
+            {
+              "type": "equals",
+              "value": "SYNTHETIC_PRIVATE_SENTINEL"
+            }
+          ]
+        },
+        "promptId": "SYNTHETIC_PRIVATE_SENTINEL",
+        "provider": {
+          "id": "synthetic-provider",
+          "label": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "prompt": {
+          "raw": "SYNTHETIC_PRIVATE_SENTINEL",
+          "label": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "vars": {
+          "input": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "response": {
+          "output": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "failureReason": 0,
+        "success": true,
+        "score": 1,
+        "latencyMs": 1,
+        "namedScores": {},
+        "metadata": {
+          "customer": "SYNTHETIC_PRIVATE_SENTINEL"
+        },
+        "traceId": "SYNTHETIC_PRIVATE_SENTINEL"
+      }
+    ]
+  },
+  "config": {
+    "description": "SYNTHETIC_PRIVATE_SENTINEL",
+    "providers": [
+      {
+        "id": "synthetic-provider",
+        "config": {
+          "apiKey": "SYNTHETIC_PRIVATE_SENTINEL",
+          "endpoint": "https://synthetic.invalid/SYNTHETIC_PRIVATE_SENTINEL"
+        }
+      }
+    ],
+    "prompts": [
+      "SYNTHETIC_PRIVATE_SENTINEL"
+    ]
+  },
+  "shareableUrl": "https://synthetic.invalid/SYNTHETIC_PRIVATE_SENTINEL",
+  "metadata": {
+    "comment": "SYNTHETIC_PRIVATE_SENTINEL"
+  },
+  "vars": [
+    "SYNTHETIC_PRIVATE_SENTINEL"
+  ],
+  "runtimeOptions": {
+    "source": "SYNTHETIC_PRIVATE_SENTINEL"
+  },
+  "traces": [
+    {
+      "payload": "SYNTHETIC_PRIVATE_SENTINEL"
+    }
+  ],
+  "blobAssets": [
+    {
+      "data": "SYNTHETIC_PRIVATE_SENTINEL"
+    }
+  ]
+}

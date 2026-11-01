@@ -1,0 +1,6 @@
+{
+ "schema": "scopehaven-third-party-advisories/1",
+ "queriedAt": "2026-10-30T03:51:45Z",
+ "endpoint": "https://api.osv.dev/v1/querybatch",
+ "lists": []
+}

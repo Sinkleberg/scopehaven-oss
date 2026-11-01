@@ -1,0 +1,128 @@
+{
+  "schema": "scopehaven-pack-cases/1",
+  "target": {
+    "id": "pack-self-test",
+    "name": "Pack self-test target (synthetic, never contacted)",
+    "applicationId": "pack-self-test",
+    "origin": "http://127.0.0.1:8080",
+    "buildLabel": "self-test",
+    "contextId": "synthetic-two-company",
+    "actors": {
+      "agentA": {
+        "principalId": "agent-a",
+        "tenantId": "acme",
+        "role": "agent",
+        "credentialEnv": "SCOPEHAVEN_TARGET_PACK_AGENT_A",
+        "identityValue": "agent-a@acme.test"
+      },
+      "agentB": {
+        "principalId": "agent-b",
+        "tenantId": "globex",
+        "role": "agent",
+        "credentialEnv": "SCOPEHAVEN_TARGET_PACK_AGENT_B",
+        "identityValue": "agent-b@globex.test"
+      },
+      "agentR": {
+        "principalId": "agent-r",
+        "tenantId": "globex",
+        "role": "agent",
+        "credentialEnv": "SCOPEHAVEN_TARGET_PACK_AGENT_R",
+        "identityValue": "agent-r@globex.test"
+      }
+    },
+    "observers": [
+      {
+        "id": "app-payments",
+        "type": "egress-recorder",
+        "port": 47100,
+        "routing": "base-url",
+        "destinations": [
+          {
+            "host": "payments.example",
+            "paths": [
+              "/v1/refunds/B-1",
+              "/v1/refunds/B-2",
+              "/v1/refunds/B-3",
+              "/v1/refunds/B-9",
+              "/v1/discounts/B-2",
+              "/v1/discounts/B-3"
+            ]
+          },
+          {
+            "host": "crm.example",
+            "paths": [
+              "/v1/notes/B-1",
+              "/v1/notes/B-2"
+            ]
+          }
+        ],
+        "routes": [
+          {
+            "prefix": "/pay/",
+            "host": "payments.example"
+          },
+          {
+            "prefix": "/crm/",
+            "host": "crm.example"
+          },
+          {
+            "prefix": "/w/",
+            "host": "witness.scopehaven.invalid"
+          }
+        ],
+        "witness": {
+          "actorId": "agentB",
+          "method": "GET",
+          "path": "/api/egress-witness",
+          "host": "witness.scopehaven.invalid"
+        },
+        "settleMs": 500
+      }
+    ],
+    "requiredControlIds": [
+      "B-WHOAMI"
+    ],
+    "checks": [
+      {
+        "id": "B-WHOAMI",
+        "title": "agentB session is agentB",
+        "category": "Identity",
+        "severity": "control",
+        "actorId": "agentB",
+        "method": "GET",
+        "path": "/api/me",
+        "evidenceRequirement": "response",
+        "assertions": [
+          {
+            "kind": "status.equals",
+            "expected": 200
+          },
+          {
+            "kind": "json.equals",
+            "pointer": "/email",
+            "expected": "agent-b@globex.test"
+          }
+        ]
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "egress-recorded",
+      "as": "DC",
+      "params": {
+        "actor": "agentB",
+        "capPath": "/api/orders/B-3/discounts",
+        "overCapPath": "/api/orders/B-2/discounts",
+        "capPercent": 20,
+        "overCapPercent": 35,
+        "effectName": "payments.example",
+        "resourcePrefix": "POST /v1/discounts/"
+      },
+      "expect": {
+        "DC-AT-CAP": "proven",
+        "DC-OVER-CAP": "proven"
+      }
+    }
+  ]
+}

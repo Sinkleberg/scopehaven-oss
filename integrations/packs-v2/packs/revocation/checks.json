@@ -1,0 +1,159 @@
+{
+  "schema": "scopehaven-pack-checks/1",
+  "checks": [
+    {
+      "id": "{{as}}-ID",
+      "title": "{{actor}} session is {{actor}} before the revocation ({{as}}, revocation pack)",
+      "category": "Identity",
+      "severity": "control",
+      "actorId": "{{actor}}",
+      "method": "GET",
+      "path": "{{identityPath}}",
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": 200
+        },
+        {
+          "kind": "json.equals",
+          "pointer": "{{identityPointer}}",
+          "expected": "{{actor.identityValue}}"
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-BEFORE",
+      "title": "{{actor}} reads its record before the revocation ({{as}}, revocation pack)",
+      "category": "Allowed use",
+      "severity": "control",
+      "actorId": "{{actor}}",
+      "method": "GET",
+      "path": "{{readPath}}",
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": 200
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-WRITE-BEFORE",
+      "title": "{{actor}} makes the write before the revocation ({{as}}, revocation pack)",
+      "category": "Allowed use",
+      "severity": "control",
+      "actorId": "{{actor}}",
+      "method": "POST",
+      "path": "{{writeBeforePath}}",
+      "body": {
+        "reason": "synthetic pack check"
+      },
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": "{{writeStatus}}"
+        }
+      ],
+      "effects": [
+        {
+          "kind": "effect.count",
+          "select": {
+            "source": "{{effectSource}}",
+            "operation": "{{effectOperation}}",
+            "name": "{{effectName}}",
+            "resource": {
+              "prefix": "{{resourcePrefix}}"
+            }
+          },
+          "expected": 1
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-ID-CLOSE",
+      "title": "{{actor}} session is still {{actor}} before the revocation ({{as}}, revocation pack)",
+      "category": "Identity",
+      "severity": "control",
+      "actorId": "{{actor}}",
+      "method": "GET",
+      "path": "{{identityPath}}",
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": 200
+        },
+        {
+          "kind": "json.equals",
+          "pointer": "{{identityPointer}}",
+          "expected": "{{actor.identityValue}}"
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-REVOKE",
+      "title": "{{actor}} revokes its own session ({{as}}, revocation pack)",
+      "category": "Account change",
+      "severity": "control",
+      "actorId": "{{actor}}",
+      "method": "POST",
+      "path": "{{revokePath}}",
+      "body": {},
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": "{{revokeStatus}}"
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-AFTER",
+      "title": "{{actor}}'s revoked session cannot write ({{as}}, revocation pack)",
+      "category": "Sessions",
+      "severity": "high",
+      "actorId": "{{actor}}",
+      "method": "POST",
+      "path": "{{writePath}}",
+      "body": {
+        "reason": "synthetic pack check"
+      },
+      "evidenceRequirement": "backend",
+      "assertions": [
+        {
+          "kind": "status.in",
+          "expected": "{{refusalStatuses}}"
+        }
+      ],
+      "effects": [
+        {
+          "kind": "effect.none",
+          "select": {
+            "source": "{{effectSource}}",
+            "operation": "{{effectOperation}}",
+            "name": "{{effectName}}",
+            "resource": {
+              "prefix": "{{resourcePrefix}}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "requiredControlIds": [
+    "{{as}}-ID",
+    "{{as}}-BEFORE",
+    "{{as}}-WRITE-BEFORE",
+    "{{as}}-ID-CLOSE",
+    "{{as}}-REVOKE"
+  ],
+  "lifecycle": [
+    {
+      "changeCheckId": "{{as}}-REVOKE",
+      "actorId": "{{actor}}",
+      "after": "refused"
+    }
+  ]
+}

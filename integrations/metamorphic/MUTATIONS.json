@@ -1,0 +1,877 @@
+{
+ "schema": "scopehaven-metamorphic-mutations/1",
+ "control": "passed before and after",
+ "sources": {
+  "integrations/metamorphic/relations.mjs": "46f27577d5f3116644e065742b996bcd259c88399853f6cc790b01d0baf9413b",
+  "integrations/metamorphic/relations.test.mjs": "c7b027cdbc1166b89375196b0894130447c1893563db7ec9c24284f6dac4e068"
+ },
+ "at": "2026-10-24T07:22:37.286Z",
+ "node": "v24.21.0",
+ "test": "integrations/metamorphic/relations.test.mjs",
+ "total": 87,
+ "killed": 87,
+ "results": [
+  {
+   "id": "P1",
+   "property": "profile: canary-plant is designed only, refused by name",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "profile: a small declaration; canary-plant is designed only; identities pair by role with distinct values"
+   ]
+  },
+  {
+   "id": "P2",
+   "property": "profile: both identities declare the same roles",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "profile: a small declaration; canary-plant is designed only; identities pair by role with distinct values"
+   ]
+  },
+  {
+   "id": "P3",
+   "property": "profile: every identity value is distinct",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "profile: a small declaration; canary-plant is designed only; identities pair by role with distinct values"
+   ]
+  },
+  {
+   "id": "P4",
+   "property": "profile: the two actors differ",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "profile: a small declaration; canary-plant is designed only; identities pair by role with distinct values"
+   ]
+  },
+  {
+   "id": "N1",
+   "property": "the acting identity's values are renamed the same way in both runs",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fixed twins: every task of the fixed build shows no difference, and the rows read inconclusive, never pass",
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a tenant-scoped side effect fails the swap with no other-tenant value at all"
+   ]
+  },
+  {
+   "id": "N2",
+   "property": "the other identity's values are renamed apart from the actor's",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a symmetric swap bug satisfies the swap, and the complementary TENANT check catches it in both runs",
+    "renaming: identity values are renamed whole, in arrays and object keys; a value merely containing one is not"
+   ]
+  },
+  {
+   "id": "N3",
+   "property": "a renamed value never equals an application string",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a symmetric swap bug satisfies the swap, and the complementary TENANT check catches it in both runs",
+    "renaming: identity values are renamed whole, in arrays and object keys; a value merely containing one is not"
+   ]
+  },
+  {
+   "id": "N4",
+   "property": "array elements are renamed one by one",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "renaming: identity values are renamed whole, in arrays and object keys; a value merely containing one is not",
+    "more evidence rules: a run with no task, a malformed window, a table that is not rows, a too-deep value, a denied snapshot row"
+   ]
+  },
+  {
+   "id": "N6",
+   "property": "a value nested past the depth bound is unusable, never cut short",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "more evidence rules: a run with no task, a malformed window, a table that is not rows, a too-deep value, a denied snapshot row"
+   ]
+  },
+  {
+   "id": "N7",
+   "property": "object key order never matters",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "canonical forms: object key order never matters; other-identity values are found in arrays and in send fields"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "N8",
+   "property": "a number in a declared identity column is renamed",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "N10",
+   "property": "a numeric-looking value is renamed only in identity columns",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "N11",
+   "property": "the number 1 never reads as the string \"1\"",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W11",
+   "property": "a window key column defaults to id, as the states path reads it",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W12",
+   "property": "a numeric-looking snapshot key is renamed only when the key is an identity column",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "C4",
+   "property": "a capture status that differs where a body went unread is not compared",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a capture status is compared; a net-only send window is not complete; an SMTP recipient address is renamed and read"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "R20",
+   "property": "nothing observed on either side is not an equal nothing",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a missing snapshot, a missing run or an unusable snapshot reads inconclusive, never a finding"
+   ]
+  },
+  {
+   "id": "P9",
+   "property": "profile: one send declaration per role",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "profile: a small declaration; canary-plant is designed only; identities pair by role with distinct values"
+   ]
+  },
+  {
+   "id": "N9",
+   "property": "a number outside the declared identity columns is never renamed",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "N5",
+   "property": "object keys are renamed",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "renaming: identity values are renamed whole, in arrays and object keys; a value merely containing one is not"
+   ]
+  },
+  {
+   "id": "D1",
+   "property": "declared ignorable columns are dropped before comparison",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fixed twins: every task of the fixed build shows no difference, and the rows read inconclusive, never pass",
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a tenant-scoped side effect fails the swap with no other-tenant value at all"
+   ]
+  },
+  {
+   "id": "D2",
+   "property": "an ignorable key compares rows as a multiset of contents",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fixed twins: every task of the fixed build shows no difference, and the rows read inconclusive, never pass",
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a tenant-scoped side effect fails the swap with no other-tenant value at all"
+   ]
+  },
+  {
+   "id": "D3",
+   "property": "an update carries where the row started",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "edges: an update compares where the row started too; a keyless delete is found; moving a row off the other tenant is a TENANT change"
+   ]
+  },
+  {
+   "id": "D4",
+   "property": "an update compares where the row started (content)",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "edges: an update compares where the row started too; a keyless delete is found; moving a row off the other tenant is a TENANT change"
+   ]
+  },
+  {
+   "id": "D5",
+   "property": "a write that moves only ignorable columns is no element",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "ignorable columns: undeclared, generated keys and timestamps are flagged as differences (noise); declared, they are not"
+   ]
+  },
+  {
+   "id": "D6",
+   "property": "a keyed row only in the after snapshot is an insert",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a symmetric swap bug satisfies the swap, and the complementary TENANT check catches it in both runs",
+    "ignorable columns: undeclared, generated keys and timestamps are flagged as differences (noise); declared, they are not"
+   ]
+  },
+  {
+   "id": "D7",
+   "property": "a keyed row only in the before snapshot is a delete",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "defective twin: a tenant-scoped side effect fails the swap with no other-tenant value at all"
+   ]
+  },
+  {
+   "id": "D8",
+   "property": "a multiset surplus is an insert",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "ignorable columns: undeclared, generated keys and timestamps are flagged as differences (noise); declared, they are not",
+    "a state-diff window and whole-state snapshots of one table: the snapshots decide content, the window adds no second element",
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ]
+  },
+  {
+   "id": "D9",
+   "property": "a multiset shortfall is a delete",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "edges: an update compares where the row started too; a keyless delete is found; moving a row off the other tenant is a TENANT change"
+   ]
+  },
+  {
+   "id": "D10",
+   "property": "a table missing from one snapshot is unusable",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a missing snapshot, a missing run or an unusable snapshot reads inconclusive, never a finding"
+   ]
+  },
+  {
+   "id": "D11",
+   "property": "a declared key that is not unique is unusable",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a missing snapshot, a missing run or an unusable snapshot reads inconclusive, never a finding"
+   ]
+  },
+  {
+   "id": "D12",
+   "property": "a value the canonical form cannot read is unusable",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a missing snapshot, a missing run or an unusable snapshot reads inconclusive, never a finding"
+   ]
+  },
+  {
+   "id": "W1",
+   "property": "a table the run's snapshots hold is decided there, not twice",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a state-diff window and whole-state snapshots of one table: the snapshots decide content, the window adds no second element"
+   ]
+  },
+  {
+   "id": "W2",
+   "property": "a snapshot window with an ignorable key compares counts",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "snapshot observer windows (real SQLite): key-level comparison catches the leak; a failed mark is inconclusive",
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W7",
+   "property": "a keyless table's row digest is no key",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W8",
+   "property": "a snapshot row change that is not committed is unusable",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "more evidence rules: a run with no task, a malformed window, a table that is not rows, a too-deep value, a denied snapshot row"
+   ]
+  },
+  {
+   "id": "W9",
+   "property": "a send declaration applies to both identities' destinations of its role",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends (real egress recorder): fixed twins match by destination and declared fields; a hard-coded destination fails",
+    "canonical forms: object key order never matters; other-identity values are found in arrays and in send fields",
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W10",
+   "property": "a send compares its capture status",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a capture status is compared; a net-only send window is not complete; an SMTP recipient address is renamed and read"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W3",
+   "property": "a send with an unknown outcome is unusable",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W4",
+   "property": "a declared send pointer is ignored",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends (real egress recorder): fixed twins match by destination and declared fields; a hard-coded destination fails",
+    "canonical forms: object key order never matters; other-identity values are found in arrays and in send fields",
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W5",
+   "property": "a send compares its captured fields",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends (real egress recorder): fixed twins match by destination and declared fields; a hard-coded destination fails",
+    "canonical forms: object key order never matters; other-identity values are found in arrays and in send fields",
+    "sends: a capture status is compared; a net-only send window is not complete; an SMTP recipient address is renamed and read"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "W6",
+   "property": "a send compares its destination by role",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends (real egress recorder): fixed twins match by destination and declared fields; a hard-coded destination fails"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "R1",
+   "property": "a failed window reads inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive",
+    "snapshot observer windows (real SQLite): key-level comparison catches the leak; a failed mark is inconclusive"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "R2",
+   "property": "a partial window reads inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "R3",
+   "property": "a send window must be complete and authoritative",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive",
+    "sends: a capture status is compared; a net-only send window is not complete; an SMTP recipient address is renamed and read"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "R4",
+   "property": "one window per observer instance",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "R5",
+   "property": "an observer present on one side only reads inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "R6",
+   "property": "snapshots on one side only read inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a missing snapshot, a missing run or an unusable snapshot reads inconclusive, never a finding"
+   ]
+  },
+  {
+   "id": "R7",
+   "property": "a missing before or after snapshot reads inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a missing snapshot, a missing run or an unusable snapshot reads inconclusive, never a finding",
+    "never pass: over every build, task, seed and evidence edit, every row is fail or inconclusive"
+   ]
+  },
+  {
+   "id": "R8",
+   "property": "a live model reads inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a live model, two models, two tasks, another actor or another side read inconclusive"
+   ]
+  },
+  {
+   "id": "R9",
+   "property": "two models read inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a live model, two models, two tasks, another actor or another side read inconclusive"
+   ]
+  },
+  {
+   "id": "R10",
+   "property": "two tasks read inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a live model, two models, two tasks, another actor or another side read inconclusive"
+   ]
+  },
+  {
+   "id": "R11",
+   "property": "the run's actor must be the declared identity",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a live model, two models, two tasks, another actor or another side read inconclusive",
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ]
+  },
+  {
+   "id": "R12",
+   "property": "the run's side must be its slot",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a live model, two models, two tasks, another actor or another side read inconclusive"
+   ]
+  },
+  {
+   "id": "R13",
+   "property": "an app-log window never enters the relation",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "R14",
+   "property": "one observer with two scopes reads inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive",
+    "a table only one side snapshotted, or an observer scope that differs by side, reads inconclusive, never a finding"
+   ]
+  },
+  {
+   "id": "R15",
+   "property": "a table one side snapshotted and the other did not reads inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a table only one side snapshotted, or an observer scope that differs by side, reads inconclusive, never a finding"
+   ]
+  },
+  {
+   "id": "R16",
+   "property": "a run with no task reads inconclusive",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "more evidence rules: a run with no task, a malformed window, a table that is not rows, a too-deep value, a denied snapshot row"
+   ]
+  },
+  {
+   "id": "R17",
+   "property": "every window is validated",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "more evidence rules: a run with no task, a malformed window, a table that is not rows, a too-deep value, a denied snapshot row"
+   ]
+  },
+  {
+   "id": "R18",
+   "property": "a table that is not a list of rows is unusable",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "more evidence rules: a run with no task, a malformed window, a table that is not rows, a too-deep value, a denied snapshot row"
+   ]
+  },
+  {
+   "id": "R19",
+   "property": "a send window must be complete, not only authoritative",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a capture status is compared; a net-only send window is not complete; an SMTP recipient address is renamed and read"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "C1",
+   "property": "elements only in A are findings",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "ignorable columns: undeclared, generated keys and timestamps are flagged as differences (noise); declared, they are not",
+    "edges: an update compares where the row started too; a keyless delete is found; moving a row off the other tenant is a TENANT change"
+   ]
+  },
+  {
+   "id": "C2",
+   "property": "elements only in B are findings",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a tenant-scoped side effect fails the swap with no other-tenant value at all",
+    "ignorable columns: undeclared, generated keys and timestamps are flagged as differences (noise); declared, they are not"
+   ]
+  },
+  {
+   "id": "C3",
+   "property": "a paired finding names only the fields that differ",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "ignorable columns: undeclared, generated keys and timestamps are flagged as differences (noise); declared, they are not",
+    "edges: an update compares where the row started too; a keyless delete is found; moving a row off the other tenant is a TENANT change"
+   ]
+  },
+  {
+   "id": "T1",
+   "property": "the complement reads row fields",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a symmetric swap bug satisfies the swap, and the complementary TENANT check catches it in both runs",
+    "edges: an update compares where the row started too; a keyless delete is found; moving a row off the other tenant is a TENANT change"
+   ]
+  },
+  {
+   "id": "T2",
+   "property": "the complement reads keys",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fixed twins: every task of the fixed build shows no difference, and the rows read inconclusive, never pass",
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "defective twin: a tenant-scoped side effect fails the swap with no other-tenant value at all"
+   ]
+  },
+  {
+   "id": "T3",
+   "property": "the complement reads where an updated row started",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "edges: an update compares where the row started too; a keyless delete is found; moving a row off the other tenant is a TENANT change"
+   ]
+  },
+  {
+   "id": "T4",
+   "property": "the complement reads send destinations",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends (real egress recorder): fixed twins match by destination and declared fields; a hard-coded destination fails",
+    "canonical forms: object key order never matters; other-identity values are found in arrays and in send fields",
+    "sends: a capture status is compared; a net-only send window is not complete; an SMTP recipient address is renamed and read"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "T5",
+   "property": "the complement fails from a run it read even when the pair is not comparable",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "a missing snapshot, a missing run or an unusable snapshot reads inconclusive, never a finding",
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive"
+   ]
+  },
+  {
+   "id": "T6",
+   "property": "the complement reads object keys",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "edges: an update compares where the row started too; a keyless delete is found; moving a row off the other tenant is a TENANT change"
+   ]
+  },
+  {
+   "id": "T7",
+   "property": "the complement never reads a run under the wrong identity",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "T8",
+   "property": "the complement reads array elements",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "canonical forms: object key order never matters; other-identity values are found in arrays and in send fields"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "T9",
+   "property": "the complement reads captured send fields",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "canonical forms: object key order never matters; other-identity values are found in arrays and in send fields"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "T10",
+   "property": "the complement reads a send's resource (an SMTP address)",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a capture status is compared; a net-only send window is not complete; an SMTP recipient address is renamed and read"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "T11",
+   "property": "the complement reads numbers in identity columns",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "V1",
+   "property": "no difference is never a pass",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fixed twins: every task of the fixed build shows no difference, and the rows read inconclusive, never pass",
+    "never pass: over every build, task, seed and evidence edit, every row is fail or inconclusive"
+   ]
+  },
+  {
+   "id": "V2",
+   "property": "no other-identity change is never a pass",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fixed twins: every task of the fixed build shows no difference, and the rows read inconclusive, never pass",
+    "never pass: over every build, task, seed and evidence edit, every row is fail or inconclusive"
+   ]
+  },
+  {
+   "id": "V3",
+   "property": "custody is the weakest of the places involved",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends (real egress recorder): fixed twins match by destination and declared fields; a hard-coded destination fails"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "V4",
+   "property": "whole-state snapshots are the application's own store",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fixed twins: every task of the fixed build shows no difference, and the rows read inconclusive, never pass",
+    "defective twin: an asymmetric cross-tenant leak fails the swap, naming table, key and side; the complement names the leaking run",
+    "sends (real egress recorder): fixed twins match by destination and declared fields; a hard-coded destination fails"
+   ]
+  },
+  {
+   "id": "V5",
+   "property": "findings are capped",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "row shape: the fields existing check rows carry, plus the FAIL-only tag, findings capped"
+   ]
+  },
+  {
+   "id": "V6",
+   "property": "a complement fail row carries the pair's reasons",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a window without its witness, a presence-only, scoped or failed window, or a missing collector reads inconclusive"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "V7",
+   "property": "no difference says when send fields went unread",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends: a capture status is compared; a net-only send window is not complete; an SMTP recipient address is renamed and read"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "V8",
+   "property": "custody is keyed by source and instance, so no window can stand for the snapshots",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "sends (real egress recorder): fixed twins match by destination and declared fields; a hard-coded destination fails",
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  },
+  {
+   "id": "P5",
+   "property": "profile: an identity has only an actor and values",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "profile: a small declaration; canary-plant is designed only; identities pair by role with distinct values"
+   ]
+  },
+  {
+   "id": "P6",
+   "property": "profile: role names are plain identifiers",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "profile: a small declaration; canary-plant is designed only; identities pair by role with distinct values"
+   ]
+  },
+  {
+   "id": "P7",
+   "property": "profile: ignorable columns are column names",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "profile: a small declaration; canary-plant is designed only; identities pair by role with distinct values"
+   ]
+  },
+  {
+   "id": "P8",
+   "property": "profile: a column is ignorable or an identity column, not both",
+   "file": "integrations/metamorphic/relations.mjs",
+   "status": "killed",
+   "killedBy": [
+    "review fixes: a misfiled run, integer identity keys, keyless snapshot rows, a window named \"states\", one send declaration for both tenants"
+   ],
+   "rerun": true
+  }
+ ]
+}

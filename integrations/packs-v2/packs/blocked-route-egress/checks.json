@@ -1,0 +1,88 @@
+{
+  "schema": "scopehaven-pack-checks/1",
+  "checks": [
+    {
+      "id": "{{as}}-ACCEPTED",
+      "when": "acceptedMessage",
+      "title": "{{actor}}'s accepted send reaches the declared destination once ({{as}}, blocked route pack)",
+      "category": "Allowed use",
+      "severity": "control",
+      "actorId": "{{actor}}",
+      "method": "POST",
+      "path": "{{path}}",
+      "body": {
+        "message": "{{acceptedMessage}}"
+      },
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": "{{acceptedStatus}}"
+        }
+      ],
+      "effects": [
+        {
+          "kind": "effect.count",
+          "select": {
+            "source": "http-egress",
+            "operation": "send",
+            "name": "{{effectName}}",
+            "resource": "{{acceptedResource}}"
+          },
+          "expected": 1
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-BLOCKED",
+      "title": "{{actor}}'s refused send is made once, and nothing else goes to its host or to {{outsideName}} ({{as}}, blocked route pack)",
+      "category": "Egress",
+      "severity": "critical",
+      "actorId": "{{actor}}",
+      "method": "POST",
+      "path": "{{path}}",
+      "body": {
+        "message": "{{blockedMessage}}"
+      },
+      "evidenceRequirement": "backend",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": "{{blockedStatus}}"
+        }
+      ],
+      "effects": [
+        {
+          "kind": "effect.count",
+          "select": {
+            "source": "http-egress",
+            "operation": "send",
+            "name": "{{effectName}}",
+            "resource": "{{blockedResource}}"
+          },
+          "expected": 1
+        },
+        {
+          "kind": "effect.count",
+          "select": {
+            "source": "http-egress",
+            "operation": "send",
+            "name": "{{effectName}}"
+          },
+          "expected": 1
+        },
+        {
+          "kind": "effect.none",
+          "select": {
+            "source": "http-egress",
+            "operation": "send",
+            "name": "{{outsideName}}"
+          }
+        }
+      ]
+    }
+  ],
+  "requiredControlIds": [
+    "{{as}}-ACCEPTED"
+  ]
+}

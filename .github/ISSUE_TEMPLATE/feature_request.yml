@@ -1,0 +1,32 @@
+name: Feature request
+description: A check, observer, target or export ScopeHaven should have
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What goes wrong today
+      description: The agent behaviour or evidence gap this is about. A concrete example beats a category.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+      description: What ScopeHaven would check, read or produce. Say what the failing case looks like.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Which records decide it
+      description: ScopeHaven decides from an application's own records or from sinks the app cannot alter, never from the reply alone. Which record would this read?
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This works on a local copy of an app, with no hosted service
+        - label: This needs no new dependency
+        - label: I am willing to open a pull request for it

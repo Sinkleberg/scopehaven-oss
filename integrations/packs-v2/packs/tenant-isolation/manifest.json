@@ -1,0 +1,68 @@
+{
+  "schema": "scopehaven-pack/1",
+  "name": "tenant-isolation",
+  "version": "1.0.0",
+  "behaviour": "An actor reads its own tenant's record, the other tenant's owner reads that tenant's record, and the actor is refused it without its contents.",
+  "derivedFrom": [
+    "owned fixture suite: TENANT-01 (customer records stay within their tenant) and ALLOWED-01 (a member can still read their own record)",
+    "docs/profiles onboarding examples: B-OWN-ORDER and B-NO-A-ORDER"
+  ],
+  "parameters": {
+    "actor": {
+      "type": "actor",
+      "description": "The calling actor."
+    },
+    "ownPath": {
+      "type": "path",
+      "description": "A record the actor's own tenant holds (GET)."
+    },
+    "foreignPath": {
+      "type": "path",
+      "description": "The same kind of record in another tenant (GET)."
+    },
+    "foreignOwner": {
+      "type": "actor",
+      "description": "An actor of the other tenant who may read foreignPath: its read shows the path exists, so a refusal of a path that answers 404 to everyone never passes."
+    },
+    "identityPath": {
+      "type": "path",
+      "default": "/api/me",
+      "description": "A GET that names the signed-in user (the owner's identity bracket)."
+    },
+    "identityPointer": {
+      "type": "pointer",
+      "default": "/email",
+      "description": "Where that response names the user."
+    },
+    "refusalStatuses": {
+      "type": "statuses",
+      "default": [
+        403,
+        404
+      ],
+      "description": "The statuses that count as a refusal."
+    },
+    "leakPointer": {
+      "type": "pointer",
+      "optional": true,
+      "description": "Where the record's contents appear in a response (such as /order/customerEmail): present on the own record, absent from the refusal."
+    }
+  },
+  "constraints": [
+    [
+      "different",
+      "ownPath",
+      "foreignPath"
+    ],
+    [
+      "different-tenant",
+      "actor",
+      "foreignOwner"
+    ]
+  ],
+  "regulation": null,
+  "files": {
+    "checks.json": "dbe21b8d0b5e34deb999a78f22c952a720a140cd08b4fa7a5b00bf72e2f2979b",
+    "cases.json": "95204617315ff14a8151b9795edb790e063db29816135e6ae667704a8977e38e"
+  }
+}

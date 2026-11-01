@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Scopehaven. A local workbench for inspecting application security requirements and their evidence.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Scopehaven · Boundaries, made visible</title>
+  <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAACxLAAAsSwGlPZapAAABsElEQVRYw2NgQAI8PDwi7OycjezsHGfZOTg/A/F/KuFPQDPPsHFw1PPy8gozYANsnJwB7BwcH6hoKXbMzvGejY3TD4vlnH9pbjkC/4U7Ahzs9PA5Zki8Y+DjE2IAxnkDsgQvH///yqqa/zt27v5/6MhRknFqegbRjgCmiTqgAzjOIQuCLP/46QvZuKa2jpRQOMOAntp37tpDPwdwcH5kQBc8cfIMPR3wn6ADbO3s/6upaxKNxcUlqOsARWUVmuYGkh3Q3dP3f8qUaSThrp7e/17ePtRxwOMnz8lOH/EJSQPrgI2bNg+sA0BmU+yAwMDg/6Fh4UThtIxM6juAFAzSO/QdAApGYoMcFD1UdwApGJRAKXbA5s1bB9YBoMJiQB0AwqBiE1R8klrkgoppqjiAWpjqDgBVtaRUzaCqnKoOADU2KGms4HLAJ3o5ANTQRTWT4wMDtBdEFwdUVFZjNkpB3SViHQBqcpPTVAf5vLyiCtzkR2uW1zKA+mqg7tKAdUzAXTM2Tn/6d824fFD7h8C+GshV9PA5huVwAAwScJoAJg5Qp4GKFn8EmnkaHOewYIcCANkyoyu8vW2tAAAAAElFTkSuQmCC" type="image/png" sizes="32x32">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23070809'/%3E%3Cpath transform='translate(6 6) scale(.88)' fill='%23f1f2f4' d='M66 8H18Q8 8 8 18V60Q8 70 18 70H64V56H22V22H66Z M36 30H82Q92 30 92 40V82Q92 92 82 92H34V78H78V44H36Z'/%3E%3C/svg%3E" type="image/svg+xml" sizes="any">
+  <link rel="stylesheet" href="styles.css">
+  <script src="particle-scene.js" defer></script>
+  <script src="intro.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="intro-ui" id="intro-ui" hidden>
+    <span class="intro-label">SCOPEHAVEN / A BOUNDARY, MADE VISIBLE</span>
+    <button id="skip-intro" class="pill" type="button">Skip intro <kbd>Esc</kbd></button>
+    <span class="intro-caption">An exploration of boundaries.</span>
+  </div>
+  <header class="site-header" id="site-header">
+    <a class="brand" href="#main" aria-label="Scopehaven home"><svg class="brand-logo" viewBox="0 0 100 100" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M66 8H18Q8 8 8 18V60Q8 70 18 70H64V56H22V22H66Z M36 30H82Q92 30 92 40V82Q92 92 82 92H34V78H78V44H36Z"/></svg>Scopehaven</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <button type="button" id="explore-menu" aria-expanded="false" aria-controls="nav-panel">Explore <span aria-hidden="true">⌄</span></button>
+      <a href="#why-it-matters">Why it matters</a><a href="#journey">The workflow</a><a href="#scope">Current scope</a>
+    </nav>
+    <a class="nav-cta" href="/">Open workbench <span aria-hidden="true">↗</span></a>
+    <button class="mobile-menu" id="mobile-menu" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Open navigation">☰</button>
+    <div class="nav-panel" id="nav-panel" hidden>
+      <a href="#why-it-matters"><span class="nav-number">01</span><strong>Why it matters</strong><span>Real examples. Linked evidence.</span><b aria-hidden="true">↗</b></a>
+      <a href="#policies"><span class="nav-number">02</span><strong>Explore a boundary</strong><span>Change the policy. Follow the path.</span><b aria-hidden="true">↗</b></a>
+      <a href="#journey"><span class="nav-number">03</span><strong>Follow the evidence</strong><span>Policy, observation, repair, retest.</span><b aria-hidden="true">↗</b></a>
+      <a href="#scope"><span class="nav-number">04</span><strong>Know the scope</strong><span>What this local build can assess.</span><b aria-hidden="true">↗</b></a>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div id="scene-layer" class="scene-layer" aria-hidden="true"><canvas id="scene-canvas"></canvas></div>
+      <div class="hero-copy">
+        <p class="eyebrow reveal-in"><span class="status-dot" aria-hidden="true"></span> APPLICATION SECURITY / LOCAL WORKBENCH</p>
+        <h1 class="reveal-in" id="hero-title">Put your AI's boundaries<br><em>to the test.</em></h1>
+        <p class="hero-description reveal-in">Test what your AI can access and do. Inspect the evidence, review repairs and check every change.</p>
+        <div class="hero-actions reveal-in"><a class="button primary" href="/">Open local workbench <span aria-hidden="true">↗</span></a><a class="button secondary" href="#policies">See how it works <span aria-hidden="true">↓</span></a></div>
+        <p class="hero-scope reveal-in">Local preview · Synthetic examples</p>
+      </div>
+      <div class="scene-meta reveal-in"><span>DECORATIVE PARTICLE FIELD · NO ASSESSMENT RUNNING</span></div>
+      <div class="hero-bottom reveal-in">
+        <a class="scroll-cue" href="#policies"><span class="scroll-line" aria-hidden="true"></span> SCROLL TO EXPLORE</a>
+        <div class="motion-controls"><button type="button" id="replay-intro">Replay intro <span aria-hidden="true">↻</span></button><button type="button" id="motion-toggle" aria-pressed="false">Pause motion <span aria-hidden="true">Ⅱ</span></button></div>
+      </div>
+    </section>
+    <div class="workflow-rail" aria-label="Workflow overview"><span>01 <b>Define</b></span><i aria-hidden="true">→</i><span>02 <b>Inspect</b></span><i aria-hidden="true">→</i><span>03 <b>Repair</b></span><i aria-hidden="true">→</i><span>04 <b>Retest</b></span></div>
+    <section class="policies section-width" id="policies" aria-labelledby="policies-title">
+      <div class="section-heading"><div><p class="eyebrow">THE POLICY EXPLORER</p><h2 id="policies-title">Change the lens.<br><em>See the boundary.</em></h2></div><p>Every requirement has two sides.<br>Choose one, then explore what should be allowed.</p></div>
+      <div class="policy-tabs" role="tablist" aria-label="Policy examples">
+        <button class="policy-tab" id="tab-isolation" type="button" role="tab" aria-selected="true" aria-controls="policy-panel" data-policy="isolation"><span class="tile-icon isolation-icon" aria-hidden="true"><i></i><i></i></span><span class="tile-number">01</span><strong>Data isolation</strong><span>Keep each tenant's data within its boundary.</span><b aria-hidden="true">↗</b></button>
+        <button class="policy-tab" id="tab-permissions" type="button" role="tab" aria-selected="false" aria-controls="policy-panel" tabindex="-1" data-policy="permissions"><span class="tile-icon permissions-icon" aria-hidden="true"><i></i><i></i><i></i></span><span class="tile-number">02</span><strong>Tool permissions</strong><span>Keep actions inside the actor's authority.</span><b aria-hidden="true">↗</b></button>
+        <button class="policy-tab" id="tab-revocation" type="button" role="tab" aria-selected="false" aria-controls="policy-panel" tabindex="-1" data-policy="revocation"><span class="tile-icon revocation-icon" aria-hidden="true">↶</span><span class="tile-number">03</span><strong>Cache revocation</strong><span>Keep cached data behind current permissions.</span><b aria-hidden="true">↗</b></button>
+      </div>
+      <div class="policy-panel" id="policy-panel" role="tabpanel" aria-labelledby="tab-isolation" tabindex="0" data-path="allowed">
+        <div class="panel-top"><span>POLICY ILLUSTRATION</span><span>EXPECTED BEHAVIOUR · NOT A RUN RESULT</span></div>
+        <div class="policy-interaction">
+          <div class="policy-explanation"><p class="eyebrow" id="policy-category">DATA ISOLATION</p><h3 id="policy-heading">The same request.<br>A different boundary.</h3><p id="policy-description">The actor may read records belonging to their own tenant. Another tenant's records stay outside that scope.</p><div class="path-controls" role="group" aria-label="Choose an illustrative policy path"><button type="button" id="allowed-path" data-path-choice="allowed" aria-pressed="true">Allowed path</button><button type="button" id="forbidden-path" data-path-choice="forbidden" aria-pressed="false">Forbidden path</button></div></div>
+          <div class="path-diagram" aria-label="Expected policy path"><div class="actor-node"><span class="node-symbol" aria-hidden="true">A</span><strong id="actor-label">Tenant A</strong><small id="actor-detail">Authenticated actor</small></div><div class="path-line" aria-hidden="true"><i></i><span class="path-gate"></span></div><div class="resource-node"><span class="resource-symbol" aria-hidden="true">▤</span><strong id="resource-label">Tenant A record</strong><small id="resource-detail">Within the permitted scope</small></div><div class="expected-label"><span id="expected-symbol" aria-hidden="true">↗</span><span id="expected-text">Expected: access permitted</span></div></div>
+        </div>
+        <p class="panel-note">This explores an intended policy. Open the workbench to run checks against the synthetic fixture.</p>
+      </div>
+      <p class="sr-only" role="status" id="interaction-status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    <section class="journey" id="journey" aria-labelledby="journey-title">
+      <div class="journey-heading section-width"><p class="eyebrow">FROM POLICY TO PROOF</p><h2 id="journey-title">One requirement.<br><em>A complete evidence trail.</em></h2></div>
+      <div class="journey-track" id="journey-track">
+        <div class="journey-sticky" id="journey-sticky" data-chapter="0">
+          <div class="journey-copy">
+            <article class="chapter active" data-chapter-copy="0"><p class="eyebrow">01 / DEFINE THE REQUIREMENT</p><h3>Give the boundary<br>a precise meaning.</h3><p>Identify the actor, resource and permitted action. Put allowed behaviour beside forbidden behaviour.</p><span class="chapter-foot">A check starts with a clear policy.</span></article>
+            <article class="chapter" data-chapter-copy="1"><p class="eyebrow">02 / INSPECT THE EVIDENCE</p><h3>Follow the action.<br>Read the effect.</h3><p>Compare the intended policy with backend evidence. A reassuring reply cannot hide a prohibited action.</p><span class="chapter-foot">Human notes add context. Verdicts stay computed.</span></article>
+            <article class="chapter" data-chapter-copy="2"><p class="eyebrow">03 / REPAIR AND RETEST</p><h3>Close the gap.<br>Keep what works.</h3><p>Compare compatible builds, then check the failed requirement and every required permitted-use control.</p><span class="chapter-foot">Keep every conclusion tied to its scope.</span></article>
+          </div>
+          <div class="evidence-theatre" aria-label="Illustrative layers of an evidence trail">
+            <div class="theatre-grid" aria-hidden="true"></div>
+            <div class="evidence-layer policy-layer"><div class="layer-title"><span>01 / POLICY</span><span class="layer-icon" aria-hidden="true">◇</span></div><strong>Actor → action → resource</strong><div class="evidence-row"><span>Allowed</span><b>Within scope</b></div><div class="evidence-row"><span>Forbidden</span><b>Outside scope</b></div><small>Requirement defined before assessment</small></div>
+            <div class="evidence-layer observation-layer"><div class="layer-title"><span>02 / BACKEND EVIDENCE</span><span class="layer-icon" aria-hidden="true">⌁</span></div><strong>An observable effect</strong><div class="evidence-row"><span>Expected policy</span><b>Requirement</b></div><div class="evidence-row"><span>Observed record</span><b>Evidence</b></div><small>Illustration only · no evidence collected here</small></div>
+            <div class="evidence-layer comparison-layer"><div class="layer-title"><span>03 / COMPATIBLE RETEST</span><span class="layer-icon" aria-hidden="true">↔</span></div><strong>Baseline ↔ candidate</strong><div class="evidence-row"><span>Matching policy</span><b>Required</b></div><div class="evidence-row"><span>Permitted-use controls</span><b>Required</b></div><small>Illustration only · no repair verdict</small></div>
+            <span class="theatre-caption">WORKFLOW ILLUSTRATION / SCROLL TO SEPARATE THE LAYERS</span>
+          </div>
+          <div class="chapter-controls" role="group" aria-label="Choose a workflow chapter"><button type="button" data-chapter-button="0" aria-pressed="true"><span>01</span> Define<i></i></button><button type="button" data-chapter-button="1" aria-pressed="false"><span>02</span> Inspect<i></i></button><button type="button" data-chapter-button="2" aria-pressed="false"><span>03</span> Retest<i></i></button></div>
+        </div>
+      </div>
+    </section>
+    <section class="incidents section-width" id="why-it-matters" aria-labelledby="incidents-title">
+      <div class="section-heading"><div><p class="eyebrow">WHY IT MATTERS</p><h2 id="incidents-title">Real failures.<br><em>Clearer boundaries.</em></h2></div><p>Reported incidents and research demonstrations show why connected AI needs tested permissions. These are external examples, not ScopeHaven customer results.</p></div>
+      <aside class="industry-context" aria-labelledby="context-title">
+        <div class="context-figure"><p class="eyebrow">IBM 2025 / INDUSTRY CONTEXT</p><h3 id="context-title">US$670,000</h3><p>Higher average breach costs</p></div>
+        <div class="context-copy"><p>In IBM's 2025 study of 600 breached organizations, high shadow AI use was associated with higher average costs than low or no use. Shadow AI means AI used without organizational approval.</p><p class="context-limit">An observed comparison, not total global AI losses or measured ScopeHaven savings.</p><a class="source-link" href="https://newsroom.ibm.com/2025-07-30-ibm-report-13-of-organizations-reported-breaches-of-ai-models-or-applications%2C-97-of-which-reported-lacking-proper-ai-access-controls" target="_blank" rel="noopener noreferrer">IBM study announcement <span aria-hidden="true">↗</span></a></div>
+      </aside>
+      <div class="incident-grid">
+        <article class="incident-card" aria-labelledby="incident-replit-title">
+          <div class="incident-meta"><time datetime="2025-07">JULY 2025</time><span class="incident-status">Reported incident</span></div>
+          <h3 id="incident-replit-title">Replit / SaaStr</h3>
+          <p>The affected founder reported that an AI coding agent deleted a production database despite code-freeze instructions. The data was later recovered.</p>
+          <p class="incident-impact">Financial loss not disclosed.</p>
+          <div class="incident-check"><p class="check-label">CHECK THIS MOTIVATES</p><p>Verify agent production-access restrictions and approval before destructive actions.</p></div>
+          <a class="source-link" href="https://www.saastr.com/replits-new-release-address-most-of-the-challenges-we-hit-vibe-coding-but-is-prosumer-vibe-coding-really-ready-for-commercial-apps-yet/" target="_blank" rel="noopener noreferrer">SaaStr founder account <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="incident-card" aria-labelledby="incident-echoleak-title">
+          <div class="incident-meta"><time datetime="2025-06">JUNE 2025</time><span class="incident-status">Research demonstration · fixed</span></div>
+          <h3 id="incident-echoleak-title">Microsoft 365 Copilot / EchoLeak</h3>
+          <p>Researchers demonstrated private-data exfiltration through a crafted email. They report no affected customers; the vulnerability was fixed.</p>
+          <p class="incident-impact">No disclosed customer loss.</p>
+          <div class="incident-check"><p class="check-label">CHECK THIS MOTIVATES</p><p>Test permissions and data destinations when retrieved content contains untrusted instructions.</p></div>
+          <a class="source-link" href="https://www.catonetworks.com/blog/breaking-down-echoleak/" target="_blank" rel="noopener noreferrer">Cato Networks research disclosure <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="incident-card" aria-labelledby="incident-forcedleak-title">
+          <div class="incident-meta"><time datetime="2025-09">SEPTEMBER 2025</time><span class="incident-status">Research demonstration · remediated</span></div>
+          <h3 id="incident-forcedleak-title">Salesforce Agentforce / ForcedLeak</h3>
+          <p>Researchers showed how malicious content in a lead record could steer an agent into CRM data exfiltration. Salesforce remediated the reported chain.</p>
+          <p class="incident-impact">No documented malicious customer exploitation or disclosed customer loss in the cited report.</p>
+          <div class="incident-check"><p class="check-label">CHECK THIS MOTIVATES</p><p>Review approved destinations and verify that retrieved content cannot authorize sensitive exports.</p></div>
+          <a class="source-link" href="https://noma.security/blog/forcedleak-agent-risks-exposed-in-salesforce-agentforce" target="_blank" rel="noopener noreferrer">Noma Security research disclosure <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="incident-card" aria-labelledby="incident-postmark-title">
+          <div class="incident-meta"><time datetime="2025-09">SEPTEMBER 2025</time><span class="incident-status">Malicious third-party integration</span></div>
+          <h3 id="incident-postmark-title">Fake postmark-mcp package</h3>
+          <p>An impersonating npm package secretly BCC'd outgoing emails to an external server. Official Postmark services were unaffected.</p>
+          <p class="incident-impact">Loss amount not disclosed.</p>
+          <div class="incident-check"><p class="check-label">CHECK THIS MOTIVATES</p><p>Review integration origin, recipient controls and observed outbound effects.</p></div>
+          <a class="source-link" href="https://postmarkapp.com/blog/information-regarding-malicious-postmark-mcp-package" target="_blank" rel="noopener noreferrer">Official Postmark advisory <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+      <p class="incident-scope"><strong>From examples to checks.</strong> These cases motivate checks; preventing any specific historical incident has not been demonstrated. ScopeHaven's current release includes owned staging and local-model runs using synthetic data. Customer and production testing, and measured savings, remain unverified.</p>
+    </section>
+    <section class="scope-section section-width" id="scope" aria-labelledby="scope-title"><div><p class="eyebrow">A CLEAR STARTING POINT</p><h2 id="scope-title">Start with what<br><em>you can prove.</em></h2><p class="scope-description">The release uses synthetic state across demo, response and framework checks, plus separate owned staging and local-model runs. No customer or production assessment is claimed.</p><a class="button primary" href="/">Enter the local workbench <span aria-hidden="true">↗</span></a></div><div class="scope-details"><details open><summary>What can I do today?<span aria-hidden="true">+</span></summary><p>Run core demo, response and framework checks, inspect findings and backend evidence, add investigation notes, compare compatible runs, and export evidence. The owned staging and local-model run is a separate CLI workflow.</p></details><details><summary>What does a repair mean?<span aria-hidden="true">+</span></summary><p>A failed check becomes a verified repair only when a compatible candidate passes it and all required permitted-use controls pass. Selecting the repaired fixture does not patch another application.</p></details><details><summary>What is outside this build?<span aria-hidden="true">+</span></summary><p>Customer and production assessments, general-purpose external scanning, security certification and compliance conclusions remain outside the current release.</p></details></div></section>
+  </main>
+  <footer class="footer section-width"><a class="brand" href="#main"><svg class="brand-logo" viewBox="0 0 100 100" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M66 8H18Q8 8 8 18V60Q8 70 18 70H64V56H22V22H66Z M36 30H82Q92 30 92 40V82Q92 92 82 92H34V78H78V44H36Z"/></svg>Scopehaven</a><span>LOCAL BY DESIGN. EVIDENCE FIRST.</span><a href="#main">Back to top ↑</a></footer>
+</body>
+</html>

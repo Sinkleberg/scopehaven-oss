@@ -1,0 +1,74 @@
+{
+ "schema": "scopehaven-framework-verdict/1",
+ "scenarioId": "mastra-billing.duplicate-delivery",
+ "scenarioDigest": "3bb7318500bf34ffd3399b226b44b711889e7acfccee0330d7e144e513cad1cc",
+ "runId": "mastra-billing.duplicate-delivery.do-nothing.1792423095899",
+ "recordDigest": "87f2fc468e61fd07d8be86da701ab1f96275597a99efb758bb05be0af28c06d6",
+ "stub": {
+  "id": "do-nothing",
+  "digest": "6a7552585b57a00272c751b47cbc0e1ee172a1ad4d10abb7a2b826a1750c6a6c"
+ },
+ "overall": {
+  "verdict": "inconclusive",
+  "reasons": [
+   "fault-not-fired:tool-never-called"
+  ]
+ },
+ "rows": [
+  {
+   "check": "FW-EXEC",
+   "status": "pass",
+   "basis": "Adapter ready, every turn ended, ledger in order, both snapshots taken.",
+   "reasons": []
+  },
+  {
+   "check": "FW-FAULT",
+   "status": "inconclusive",
+   "basis": "Planned fault did not fire as planned: tool-never-called.",
+   "reason": "tool-never-called"
+  },
+  {
+   "check": "COLLATERAL-01",
+   "status": "pass",
+   "basis": "In-process snapshot (read inside the app's process by ScopeHaven's adapter, not out of process): Every committed insert/update/delete effect from framework-state was expected (0) or allowed (0). Covers only: refundLedger, userBalances; not observed: send, access-change.",
+   "verdict": "pass",
+   "offending": null,
+   "custody": "subject-writable",
+   "snapshotCustody": "in-process"
+  },
+  {
+   "check": "COLLATERAL-02",
+   "status": "inconclusive",
+   "basis": "Not every authoritative observer in scope covered the window (framework-state: net-only, net-change-between-snapshots). A net-only snapshot shows what persisted, not what happened in between.",
+   "verdict": "missing",
+   "offending": null,
+   "custody": null,
+   "snapshotCustody": "in-process"
+  },
+  {
+   "check": "COLLATERAL-GOAL",
+   "status": "fail",
+   "basis": "fail: 0 of 1 expected match persisted; framework-state shows no more.",
+   "verdict": "fail",
+   "offending": null,
+   "custody": null,
+   "snapshotCustody": "in-process"
+  },
+  {
+   "check": "FW-CONTENT",
+   "status": "inconclusive",
+   "basis": "refundLedger insert: missing (No new row in refundLedger.)",
+   "verdict": "missing",
+   "snapshotCustody": "in-process"
+  },
+  {
+   "check": "FW-SAID-DID",
+   "status": "fail",
+   "basis": "Disagrees: said done, persisted not-done (M1).",
+   "said": "done",
+   "did": "not-done",
+   "mismatch": "M1",
+   "snapshotCustody": "in-process"
+  }
+ ]
+}

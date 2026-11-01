@@ -1,0 +1,42 @@
+{
+ "recordedAt": "bdc48589",
+ "note": "Contract views projected at this main commit by main's own projector, from a git archive of main, of the sealed runs NC12's tests carry: PR A's synthetic run (test/fixtures/pre-hasown-sweep-synthetic-0de64259.json, on main), the stored v1 HTTP runs (test/fixtures/contract-http-v1/runs.json, on main) and PR B's three HTTP runs (test/fixtures/pre-hasown-sweep-run-96f15d25.mjs, recorded at main 96f15d25 and carried by #537, copied into the archive as data). Each view is digested without pins.grader.contractEvaluatorHash and the viewDigest over it; test/hasown-contract.test.mjs projects the same runs at the head and compares.",
+ "contractEvaluatorHash": "08166764b66288f9ea77dadb9ca5b8db0a5412ec0bcf3bb07ace7d60c4f706b4",
+ "views": {
+  "synthetic": {
+   "supported": true,
+   "strippedDigest": "09c037f0115b633fa71830ca9dcb45e961a587df67ad26c432d34713224fb5cb"
+  },
+  "http-webhook": {
+   "supported": false,
+   "reason": "http-version-pending",
+   "strippedDigest": "a9f9ad7f35a88c7d65c684e04431ff110baca293dc866334a916c1c6f60642af"
+  },
+  "http-catalog": {
+   "supported": false,
+   "reason": "http-version-pending",
+   "strippedDigest": "a9f9ad7f35a88c7d65c684e04431ff110baca293dc866334a916c1c6f60642af"
+  },
+  "http-appLog": {
+   "supported": false,
+   "reason": "http-version-pending",
+   "strippedDigest": "a9f9ad7f35a88c7d65c684e04431ff110baca293dc866334a916c1c6f60642af"
+  },
+  "v1-one": {
+   "supported": true,
+   "strippedDigest": "82bbbb86f3e4d10008010eb4d82a3ad8c741af1103a7a86d7e620d35f7d36470"
+  },
+  "v1-two": {
+   "supported": true,
+   "strippedDigest": "cd3442f7e4b615ae1bcc8d75eec98dedb3a807ead841f8526f50c089058eb03d"
+  },
+  "v1-budget": {
+   "supported": true,
+   "strippedDigest": "8197c7564833dc8cec76c58e81bea6506f9e4cc94a2d002ede499f5f6619c3cf"
+  },
+  "v1-failures": {
+   "supported": true,
+   "strippedDigest": "2b4e119b37e136b884fe0ebad1ec99d4f3305fdfc554399264b610ee371a8513"
+  }
+ }
+}

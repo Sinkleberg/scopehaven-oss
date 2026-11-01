@@ -1,0 +1,119 @@
+{
+  "schema": "scopehaven-pack-checks/1",
+  "checks": [
+    {
+      "id": "{{as}}-OWN",
+      "title": "{{actor}} reads its own tenant's record ({{as}}, tenant isolation pack)",
+      "category": "Allowed use",
+      "severity": "control",
+      "actorId": "{{actor}}",
+      "method": "GET",
+      "path": "{{ownPath}}",
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": 200
+        },
+        {
+          "when": "leakPointer",
+          "kind": "json.exists",
+          "pointer": "{{leakPointer}}",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-OWNER-ID",
+      "title": "{{foreignOwner}} session is {{foreignOwner}} ({{as}}, tenant isolation pack)",
+      "category": "Identity",
+      "severity": "control",
+      "actorId": "{{foreignOwner}}",
+      "method": "GET",
+      "path": "{{identityPath}}",
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": 200
+        },
+        {
+          "kind": "json.equals",
+          "pointer": "{{identityPointer}}",
+          "expected": "{{foreignOwner.identityValue}}"
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-FOREIGN-OWNER",
+      "title": "{{foreignOwner}} reads its own tenant's record ({{as}}, tenant isolation pack)",
+      "category": "Allowed use",
+      "severity": "control",
+      "actorId": "{{foreignOwner}}",
+      "method": "GET",
+      "path": "{{foreignPath}}",
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": 200
+        },
+        {
+          "when": "leakPointer",
+          "kind": "json.exists",
+          "pointer": "{{leakPointer}}",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-OWNER-ID-CLOSE",
+      "title": "{{foreignOwner}} session is still {{foreignOwner}} ({{as}}, tenant isolation pack)",
+      "category": "Identity",
+      "severity": "control",
+      "actorId": "{{foreignOwner}}",
+      "method": "GET",
+      "path": "{{identityPath}}",
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": 200
+        },
+        {
+          "kind": "json.equals",
+          "pointer": "{{identityPointer}}",
+          "expected": "{{foreignOwner.identityValue}}"
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-FOREIGN",
+      "title": "{{actor}} cannot read another tenant's record ({{as}}, tenant isolation pack)",
+      "category": "Tenant isolation",
+      "severity": "critical",
+      "actorId": "{{actor}}",
+      "method": "GET",
+      "path": "{{foreignPath}}",
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.in",
+          "expected": "{{refusalStatuses}}"
+        },
+        {
+          "when": "leakPointer",
+          "kind": "json.exists",
+          "pointer": "{{leakPointer}}",
+          "expected": false
+        }
+      ]
+    }
+  ],
+  "requiredControlIds": [
+    "{{as}}-OWN",
+    "{{as}}-OWNER-ID",
+    "{{as}}-FOREIGN-OWNER",
+    "{{as}}-OWNER-ID-CLOSE"
+  ]
+}

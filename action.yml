@@ -1,0 +1,189 @@
+# ScopeHaven GitHub Action, at the repository root so a workflow in another repository can use it as
+# `uses: YusefSyed/scopehaven-oss@<ref>` and GitHub Marketplace can list it. It declares the same inputs and outputs as
+# integrations/github-action/action.yml and forwards every one of them, unchanged, to that action, which does the work.
+# The `$/` prefix is GitHub's self-repository reference: it resolves to this repository at the running commit (the one
+# the action was fetched from), not to whatever is checked out in the caller's workspace, which a `./` path would use.
+# `$/` is not available on GitHub Enterprise Server; there, use `uses: YusefSyed/scopehaven-oss/integrations/github-action@<ref>`.
+# test/root-action.test.mjs checks that this file and the inner action agree.
+name: ScopeHaven assessment
+description: 'Assess what an AI agent did in an app you start on the runner''s loopback, gate it against a saved baseline run and export SARIF.'
+author: YusefSyed
+branding:
+  icon: shield
+  color: blue
+inputs:
+  profile:
+    description: 'Path to the HTTP target profile JSON, relative to working-directory. Credentials are referenced only by SCOPEHAVEN_TARGET_ environment names set by the caller.'
+    required: true
+  authorization:
+    description: 'Path to the authorization record (scopehaven-authorization/1, docs/RULES-OF-ENGAGEMENT.md), relative to working-directory. Without a record that covers the target now, the action exits 2 before contacting it.'
+    required: false
+    default: ''
+  target:
+    description: 'Target id in the profile. Optional when the profile defines exactly one target.'
+    required: false
+    default: ''
+  baseline-run:
+    description: 'Path to a saved run JSON (run.json from an earlier evidence artifact, or a store runs file). When set, the regression gate compares this run with it.'
+    required: false
+    default: ''
+  fail-on:
+    description: 'fail (default): the job fails whenever assess or the regression gate would exit non-zero. inconclusive: an alias of fail. never: report only. Setup errors always fail.'
+    required: false
+    default: fail
+  report-only:
+    description: 'true: a report-only rollout through report-only-until; until that date the job does not fail on what the checks find, and every report says REPORT-ONLY. false (default): off.'
+    required: false
+    default: 'false'
+  report-only-until:
+    description: 'The last day of the report-only window, YYYY-MM-DD in UTC, at most 90 days after the run date. Required with report-only true, refused without it.'
+    required: false
+    default: ''
+  require-model-identity:
+    description: 'true: require a baseline-run and a comparable model identity on both runs, observed by a model tap ScopeHaven held in its own process; fails closed even with fail-on never. false (default): off.'
+    required: false
+    default: 'false'
+  self-test:
+    description: 'true: run the known-negative self-test (docs/SELF-TEST.md) before the assessment or gate, contacting nothing. false (default): off.'
+    required: false
+    default: 'false'
+  trials:
+    description: 'With baseline-run only: the gate runs the target this many times (2 to 100) and reads pass^k per check over the trials. Empty: one run.'
+    required: false
+    default: ''
+  pass-k:
+    description: 'With trials only: the k of pass^k, 1 to the number of trials. Empty: the gate''s default, 1.'
+    required: false
+    default: ''
+  pass-k-floor:
+    description: 'With trials only: the pass^k floor, 1 or a reduced fraction such as 9/10. Empty: the gate''s default, 1.'
+    required: false
+    default: ''
+  single-identity:
+    description: 'true: assess a tenant-scoped profile with fewer than two credentialed identities in distinct tenants anyway (assess --single-identity). false (default): such a profile is refused before anything is sent.'
+    required: false
+    default: 'false'
+  policy-baseline-matrix:
+    description: 'The previous policy matrix (scopehaven-policy-matrix/2, written by scopehaven policy import). Set it together with policy-matrix.'
+    required: false
+    default: ''
+  policy-matrix:
+    description: 'The current policy matrix of the same application and layer.'
+    required: false
+    default: ''
+  fail-on-policy-diff:
+    description: 'true: fail the job on a gated policy cell or a new gap, or when the diff is unavailable or not comparable. false (default): report only.'
+    required: false
+    default: 'false'
+  pack-updates:
+    description: 'For a profile with check packs: report (default) lists each pin against the shipped version; pull assesses a locked copy that takes each newer same-major version of the packs the profile already uses; off.'
+    required: false
+    default: report
+  upload-sarif:
+    description: 'true: upload the SARIF file to GitHub code scanning (the job needs security-events: write and actions: read; private repositories need GitHub Code Security). false (default): the SARIF file stays in the evidence artifact.'
+    required: false
+    default: 'false'
+  sarif-category:
+    description: 'Code scanning category.'
+    required: false
+    default: scopehaven
+  working-directory:
+    description: 'Base for relative profile, authorization, baseline-run and policy matrix paths.'
+    required: false
+    default: '.'
+  wait-url:
+    description: 'Loopback URL (http://127.0.0.1:PORT/...) to wait for before assessing. Its origin must be one of the authorization record''s origins.'
+    required: false
+    default: ''
+  wait-timeout-seconds:
+    description: 'How long to wait for wait-url, in seconds, 1 to 900.'
+    required: false
+    default: '60'
+  artifact-name:
+    description: 'Name of the evidence artifact; it must be unique per workflow run.'
+    required: false
+    default: scopehaven-evidence
+  sign:
+    description: 'true: sign the exports with the key in signing-key-dir; refused with report-only true. false (default): unsigned exports.'
+    required: false
+    default: 'false'
+  signing-key-dir:
+    description: 'With sign true: absolute path to a 0700 folder holding scopehaven-signing-key.pem and scopehaven-signing-key.pub.pem. The action never creates a key.'
+    required: false
+    default: ''
+  ledger-dir:
+    description: 'Absolute path to an operator-kept, initialized evidence ledger. Needs sign true, ledger-key-dir and ledger-run-files.'
+    required: false
+    default: ''
+  ledger-key-dir:
+    description: 'With ledger-dir: absolute path to a 0700 folder with the ledger key pair (same file names as the signing key).'
+    required: false
+    default: ''
+  ledger-run-files:
+    description: 'With ledger-dir: absolute path to an operator-kept 0700 folder where each appended run.json is kept as RUN_ID.json.'
+    required: false
+    default: ''
+  baseline-from-ledger:
+    description: 'true: gate against the latest run of this target and application in the verified ledger instead of baseline-run. false (default): off.'
+    required: false
+    default: 'false'
+  pack-lock:
+    description: 'The packs-v2 scopehaven.lock beside the profile, relative to working-directory. Verified before any request.'
+    required: false
+    default: ''
+outputs:
+  run-id:
+    description: Saved run id, or empty when no run was produced.
+    value: ${{ steps.scopehaven.outputs.run-id }}
+  status-counts:
+    description: JSON object of check counts by status.
+    value: ${{ steps.scopehaven.outputs.status-counts }}
+  gate-verdict:
+    description: Gate outcome (clean, assessment-failed, config-or-runtime-error), not-requested, or unavailable.
+    value: ${{ steps.scopehaven.outputs.gate-verdict }}
+  sarif-path:
+    description: Absolute path of the exported SARIF file on the runner, or empty.
+    value: ${{ steps.scopehaven.outputs.sarif-path }}
+  policy-diff:
+    description: Policy matrix diff state (clean, gated, not-comparable, unavailable) or not-requested.
+    value: ${{ steps.scopehaven.outputs.policy-diff }}
+  report-only:
+    description: Report-only state (off, applied, ended, not-applied, invalid). applied means a green job is not a pass on its own; see the job summary.
+    value: ${{ steps.scopehaven.outputs.report-only }}
+runs:
+  using: composite
+  steps:
+    - name: ScopeHaven assessment (integrations/github-action)
+      id: scopehaven
+      uses: $/integrations/github-action
+      with:
+        profile: ${{ inputs.profile }}
+        authorization: ${{ inputs.authorization }}
+        target: ${{ inputs.target }}
+        baseline-run: ${{ inputs.baseline-run }}
+        fail-on: ${{ inputs.fail-on }}
+        report-only: ${{ inputs.report-only }}
+        report-only-until: ${{ inputs.report-only-until }}
+        require-model-identity: ${{ inputs.require-model-identity }}
+        self-test: ${{ inputs.self-test }}
+        trials: ${{ inputs.trials }}
+        pass-k: ${{ inputs.pass-k }}
+        pass-k-floor: ${{ inputs.pass-k-floor }}
+        single-identity: ${{ inputs.single-identity }}
+        policy-baseline-matrix: ${{ inputs.policy-baseline-matrix }}
+        policy-matrix: ${{ inputs.policy-matrix }}
+        fail-on-policy-diff: ${{ inputs.fail-on-policy-diff }}
+        pack-updates: ${{ inputs.pack-updates }}
+        upload-sarif: ${{ inputs.upload-sarif }}
+        sarif-category: ${{ inputs.sarif-category }}
+        working-directory: ${{ inputs.working-directory }}
+        wait-url: ${{ inputs.wait-url }}
+        wait-timeout-seconds: ${{ inputs.wait-timeout-seconds }}
+        artifact-name: ${{ inputs.artifact-name }}
+        sign: ${{ inputs.sign }}
+        signing-key-dir: ${{ inputs.signing-key-dir }}
+        ledger-dir: ${{ inputs.ledger-dir }}
+        ledger-key-dir: ${{ inputs.ledger-key-dir }}
+        ledger-run-files: ${{ inputs.ledger-run-files }}
+        baseline-from-ledger: ${{ inputs.baseline-from-ledger }}
+        pack-lock: ${{ inputs.pack-lock }}

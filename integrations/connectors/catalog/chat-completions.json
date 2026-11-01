@@ -1,0 +1,32 @@
+{
+  "schema": "scopehaven-connector/1",
+  "stack": "chat-completions",
+  "title": "Agent frameworks that call a chat-completions model base URL",
+  "kind": "model",
+  "summary": "Any agent framework whose model client reads a chat-completions base URL from the environment (for example the Agents SDK of the provider whose variable names follow, LangGraph chat models, the Vercel AI SDK's compatible provider, Mastra). The base URL points at the loopback egress recorder, which answers the model calls from a declared stand-in and records each one, and the app's own routes are judged from its records. Class templates then run on the framework app through the HTTP connector with no adapter per template.",
+  "observers": [
+    {
+      "type": "egress-recorder", "role": "absence", "source": "http-egress",
+      "why": "The model base URL points at the recorder: every model call the framework makes is on the request path, with the model it asked for.",
+      "defaults": {},
+      "setup": [
+        "Set the framework's base-URL variable (one of model.baseUrlEnv) to http://127.0.0.1:<recorder port>/v1 and give it a placeholder key; no hosted model is called.",
+        "Declare the recorder's model replies (a stand-in) for the routes the templates exercise, as the class-template lab does."
+      ]
+    }
+  ],
+  "model": {
+    "protocol": "chat-completions",
+    "baseUrlEnv": ["OPENAI_BASE_URL", "OPENAI_API_BASE", "OPENAI_BASE"],
+    "holds": "The hold gate and model tap of integrations/model-path wrap the same base URL for the MIDTASK sequence; the class templates use the egress recorder alone.",
+    "templates": ["CT-14", "CT-15"]
+  },
+  "policyImporter": null,
+  "packs": [],
+  "reset": null,
+  "limits": [
+    "Chat-completions requests only; a framework that speaks another protocol needs a stand-in of its own.",
+    "A framework that pins its base URL in code, or calls the model from a browser, is not interceptable this way.",
+    "The binder that runs the templates on a framework app is not built yet; this file declares the connector only."
+  ]
+}

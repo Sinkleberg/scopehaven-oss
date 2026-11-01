@@ -1,0 +1,249 @@
+#!/bin/sh
+# Scopehaven launcher (POSIX sh). It selects a supported Node runtime and runs a
+# local entry point. It never installs, downloads or contacts the network.
+set -eu
+# npm's bin is a symlink to this file, so follow links to find the project.
+scopehaven_self=$0
+while [ -L "$scopehaven_self" ]; do
+  scopehaven_link=$(readlink "$scopehaven_self")
+  case $scopehaven_link in /*) scopehaven_self=$scopehaven_link ;; *) scopehaven_self=$(dirname -- "$scopehaven_self")/$scopehaven_link ;; esac
+done
+scopehaven_root=$(CDPATH= cd -- "$(dirname -- "$scopehaven_self")" && pwd)
+# An npm install stays in the caller's folder, so a relative --out or --config means what the user typed, and names each
+# entry point by its real path, which is what the entry's main-module check compares. Hints then name the npx command.
+scopehaven_at=''; scopehaven_cmd='./scopehaven'
+case $scopehaven_root in */node_modules/*)
+  scopehaven_root=$(CDPATH= cd -- "$scopehaven_root" && pwd -P); scopehaven_at="$scopehaven_root/"; scopehaven_cmd='npx scopehaven' ;;
+esac
+# Keep equal to package.json "engines" and src/runtime.mjs SUPPORTED_NODE_LINES: each LTS line at or above its
+# October 2026 security release (22.23.4 and 24.22.1). Node 23 and the end-of-life 20 line are not supported.
+scopehaven_engines='>=22.23.4 <23 || >=24.22.1 <25'
+scopehaven_min_nodes='22.23.4 24.22.1'
+scopehaven_get_node='Node.js 22 LTS (22.23.4 or newer) or 24 LTS (24.22.1 or newer)'
+scopehaven_pinned_node="$scopehaven_root/.runtime/node-v24.22.2-darwin-arm64/bin/node"
+scopehaven_usage='Usage: ./scopehaven doctor|start|test|assess|check-config|lab|connector-demo|gate|gate-demo|import-evaluation|export|evidence-pack|sequence|attest|policy|monitor|payments|watch-first|pack|init'
+scopehaven_usage="Usage: $scopehaven_cmd ${scopehaven_usage#Usage: ./scopehaven }"
+
+scopehaven_version_of() { # Prints the Node version of $1, or fails if it cannot run.
+  [ -n "$1" ] && [ -f "$1" ] && [ -x "$1" ] || return 1
+  "$1" -e 'process.stdout.write(process.versions.node)' 2>/dev/null
+}
+scopehaven_supported() { # $1 = x.y.z; true when it satisfies the engines range: a supported line, at or above that line's floor.
+  case $1 in ''|.*|*.|*..*|*[!0-9.]*|*.*.*.*) return 1 ;; *.*.*) ;; *) return 1 ;; esac
+  sv_major=${1%%.*}; sv_rest=${1#*.}; sv_minor=${sv_rest%%.*}; sv_patch=${sv_rest#*.}
+  for sv_floor in $scopehaven_min_nodes; do
+    [ "$sv_major" -eq "${sv_floor%%.*}" ] || continue
+    sv_need_rest=${sv_floor#*.}
+    [ "$sv_minor" -gt "${sv_need_rest%%.*}" ] && return 0
+    [ "$sv_minor" -eq "${sv_need_rest%%.*}" ] && [ "$sv_patch" -ge "${sv_need_rest#*.}" ] && return 0
+    return 1
+  done
+  return 1
+}
+
+# Selection order: explicit SCOPEHAVEN_NODE, then the project-local pinned
+# runtime (only if it runs on this machine), then the first `node` on PATH.
+scopehaven_node=''; scopehaven_node_source='none'; scopehaven_node_version=''; scopehaven_pinned_note=''
+if [ -n "${SCOPEHAVEN_NODE:-}" ]; then
+  case $SCOPEHAVEN_NODE in /*) scopehaven_node=$SCOPEHAVEN_NODE ;; *) scopehaven_node="$(pwd)/$SCOPEHAVEN_NODE" ;; esac
+  scopehaven_node_source='SCOPEHAVEN_NODE'
+  scopehaven_node_version=$(scopehaven_version_of "$scopehaven_node") || scopehaven_node_version=''
+else
+  if [ -e "$scopehaven_pinned_node" ]; then
+    if scopehaven_node_version=$(scopehaven_version_of "$scopehaven_pinned_node"); then
+      scopehaven_node=$scopehaven_pinned_node; scopehaven_node_source='project-local .runtime'
+    else
+      scopehaven_node_version=''
+      scopehaven_pinned_note='project-local .runtime/node-v24.22.2-darwin-arm64 is present but does not run on this machine'
+    fi
+  fi
+  if [ -z "$scopehaven_node" ] && scopehaven_node=$(command -v node 2>/dev/null); then
+    scopehaven_node_source='PATH'
+    scopehaven_node_version=$(scopehaven_version_of "$scopehaven_node") || scopehaven_node_version=''
+  fi
+fi
+scopehaven_node_ok=0
+if scopehaven_supported "$scopehaven_node_version"; then scopehaven_node_ok=1; fi
+
+scopehaven_unsupported() {
+  if [ -z "$scopehaven_node" ]; then
+    printf '%s\n' "Scopehaven needs Node.js $scopehaven_engines, but no Node runtime was found (checked SCOPEHAVEN_NODE, the project-local .runtime and PATH)." >&2
+  elif [ -z "$scopehaven_node_version" ]; then
+    printf '%s\n' "Scopehaven needs Node.js $scopehaven_engines. The selected runtime from $scopehaven_node_source did not run: $scopehaven_node" >&2
+  else
+    printf '%s\n' "Scopehaven needs Node.js $scopehaven_engines. The selected runtime is v$scopehaven_node_version from $scopehaven_node_source: $scopehaven_node" >&2
+  fi
+  if [ -n "$scopehaven_pinned_note" ]; then printf '%s\n' "Note: $scopehaven_pinned_note." >&2; fi
+  printf '%s\n' \
+    "Get $scopehaven_get_node from https://nodejs.org/en/download (official installer or tarball; verify it against that release's SHASUMS256.txt)." \
+    "Then rerun with it first on PATH, or select it explicitly: SCOPEHAVEN_NODE=/absolute/path/to/node $scopehaven_cmd doctor" \
+    "Nothing was started. Run $scopehaven_cmd doctor for the full local dependency check." >&2
+  exit 2
+}
+
+scopehaven_doctor() {
+  dr_data="$scopehaven_root/data"; dr_port=${SCOPEHAVEN_PORT:-4317}
+  dr_usage="Usage: $scopehaven_cmd doctor [--data-dir DIR] [--port N]"
+  while [ "$#" -gt 0 ]; do
+    case $1 in
+      --data-dir) [ "$#" -ge 2 ] || { printf '%s\n' "$dr_usage" >&2; exit 2; }
+        case $2 in /*) dr_data=$2 ;; *) dr_data="$scopehaven_caller_dir/$2" ;; esac; shift 2 ;;
+      --port) [ "$#" -ge 2 ] || { printf '%s\n' "$dr_usage" >&2; exit 2; }
+        dr_port=$2; shift 2 ;;
+      *) printf '%s\n' "$dr_usage" >&2; exit 2 ;;
+    esac
+  done
+  dr_fail=0
+  printf '%s\n' "Scopehaven doctor: local checks only. Nothing is installed, downloaded, started or sent." \
+    "Project: $scopehaven_root ($(uname -s) $(uname -m))"
+  if [ "$scopehaven_node_ok" = 1 ]; then
+    printf '%s\n' "[ok]   Node v$scopehaven_node_version from $scopehaven_node_source ($scopehaven_node) satisfies $scopehaven_engines"
+  else
+    dr_fail=1
+    if [ -z "$scopehaven_node" ]; then printf '%s\n' "[fail] Node: none found (checked SCOPEHAVEN_NODE, project-local .runtime, PATH); need $scopehaven_engines"
+    elif [ -z "$scopehaven_node_version" ]; then printf '%s\n' "[fail] Node from $scopehaven_node_source did not run: $scopehaven_node; need $scopehaven_engines"
+    else printf '%s\n' "[fail] Node v$scopehaven_node_version from $scopehaven_node_source ($scopehaven_node) is outside $scopehaven_engines"; fi
+    printf '%s\n' "       Get $scopehaven_get_node from https://nodejs.org/en/download, then put it first on PATH or set SCOPEHAVEN_NODE=/absolute/path/to/node."
+  fi
+  if [ -n "$scopehaven_pinned_note" ]; then printf '%s\n' "[info] $scopehaven_pinned_note"; fi
+  if [ "$scopehaven_node_source" != 'PATH' ] && dr_path_node=$(command -v node 2>/dev/null) && [ "$dr_path_node" != "$scopehaven_node" ]; then
+    dr_path_version=$(scopehaven_version_of "$dr_path_node") || dr_path_version='did not run'
+    printf '%s\n' "[info] PATH node ($dr_path_node, ${dr_path_version}) is not used by $scopehaven_cmd; npm scripts would use it"
+  fi
+  if [ "$scopehaven_node_ok" = 1 ]; then
+    dr_status=0
+    "$scopehaven_node" --input-type=module - "$scopehaven_root" "$dr_data" "$dr_port" "$scopehaven_cmd" <<'SCOPEHAVEN_DOCTOR_JS' || dr_status=$?
+import { lstatSync, accessSync, constants, existsSync, readFileSync } from 'node:fs';
+import { createServer } from 'node:net';
+import { dirname, join, relative, resolve } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+const [root, dataArg, portArg, command] = process.argv.slice(2);
+let failed = false;
+const say = (tag, text) => console.log(`${tag.padEnd(6)} ${text}`);
+const fail = text => { failed = true; say('[fail]', text); };
+const shown = path => { const rel = relative(root, path); return rel && !rel.startsWith('..') ? rel : path; };
+
+// 0. Release copy: every file RELEASE-MANIFEST.json lists (packaging/build-release.mjs) is present with its hash.
+if (existsSync(join(root, 'RELEASE-MANIFEST.json'))) {
+  try {
+    const release = JSON.parse(readFileSync(join(root, 'RELEASE-MANIFEST.json'), 'utf8'));
+    if (release.schema !== 'scopehaven-release-manifest/1' || !Array.isArray(release.files)) throw new Error('unknown manifest schema');
+    const { createHash } = await import('node:crypto');
+    const bad = [];
+    for (const file of release.files) {
+      let content = null;
+      try { if (!lstatSync(join(root, file.path)).isSymbolicLink()) content = readFileSync(join(root, file.path)); } catch {}
+      if (!content) bad.push(`${file.path} (missing)`);
+      else if (createHash('sha256').update(content).digest('hex') !== file.sha256) bad.push(`${file.path} (changed)`);
+    }
+    if (bad.length) fail(`Release ${release.version} (${String(release.commit).slice(0, 12)}): ${bad.length} of ${release.files.length} files differ from RELEASE-MANIFEST.json, first ${bad.slice(0, 3).join(', ')}. Extract the verified tarball again into an empty folder.`);
+    else say('[ok]', `Release ${release.version} (commit ${String(release.commit).slice(0, 12)}): all ${release.files.length} files match RELEASE-MANIFEST.json`);
+  } catch (error) { fail(`RELEASE-MANIFEST.json cannot be read (${error.message})`); }
+}
+
+// 1. Module graph: the server, CLI and most tests import src/registry.mjs.
+try { await import(pathToFileURL(join(root, 'src/registry.mjs')).href); say('[ok]', 'Workbench modules load (src/registry.mjs and its target adapters)'); }
+catch (error) {
+  const missing = error?.code === 'ERR_MODULE_NOT_FOUND' && /Cannot find module '([^']+)'/.exec(error.message)?.[1];
+  if (missing) fail(`Workbench modules cannot load: ${relative(root, missing)} is missing. start, assess, check-config and most tests will stop here. ` +
+    (relative(root, missing).startsWith('..') ? 'That file lives outside the scopehaven folder; use a full clone of the repository, not a scopehaven-only copy.' : 'Restore the missing project file.'));
+  else fail(`Workbench modules cannot load: ${error?.code || error?.name || 'error'}`);
+}
+
+// 2. Evidence directory: the store requires real, owner-controlled 0700 directories.
+const data = resolve(dataArg);
+const owned = (path, label) => {
+  let stat;
+  try { stat = lstatSync(path); } catch (error) { if (error.code === 'ENOENT') return 'absent'; fail(`${label} ${shown(path)} cannot be inspected (${error.code})`); return 'bad'; }
+  if (stat.isSymbolicLink() || !stat.isDirectory()) { fail(`${label} ${shown(path)} must be a real directory, not a symlink or file`); return 'bad'; }
+  if (typeof process.getuid === 'function' && stat.uid !== process.getuid()) { fail(`${label} ${shown(path)} is owned by uid ${stat.uid}, not the current user`); return 'bad'; }
+  if ((stat.mode & 0o7777) !== 0o700) { fail(`${label} ${shown(path)} has mode ${(stat.mode & 0o7777).toString(8)}; the store requires 700 (fix: chmod 700 '${path}')`); return 'bad'; }
+  try { accessSync(path, constants.W_OK | constants.X_OK); } catch { fail(`${label} ${shown(path)} is not writable by the current user`); return 'bad'; }
+  return 'ok';
+};
+const top = owned(data, 'Data directory');
+if (top === 'ok') {
+  const children = ['runs', 'notes'].map(name => owned(join(data, name), `Data subdirectory`));
+  if (!children.includes('bad')) say('[ok]', `Data directory ${shown(data)} is private (0700), owner-controlled and writable`);
+} else if (top === 'absent') {
+  let parent = dirname(data);
+  while (!existsSync(parent) && dirname(parent) !== parent) parent = dirname(parent);
+  try {
+    if (!lstatSync(parent).isDirectory()) throw new Error();
+    accessSync(parent, constants.W_OK | constants.X_OK);
+    say('[ok]', `Data directory ${shown(data)} does not exist yet; it will be created with mode 0700 on first start or assess`);
+  } catch { fail(`Data directory ${shown(data)} does not exist and ${shown(parent)} is not writable`); }
+}
+
+// 3. Loopback port for ./scopehaven start (tests use ephemeral ports).
+const port = Number(portArg);
+if (!Number.isInteger(port) || port < 1 || port > 65535) fail(`Port ${portArg} is not a valid TCP port (set SCOPEHAVEN_PORT or --port to 1-65535)`);
+else await new Promise(done => {
+  const server = createServer();
+  server.once('error', error => {
+    if (error.code === 'EADDRINUSE') say('[warn]', `127.0.0.1:${port} is in use, so ${command} start would fail. Stop the other process or use SCOPEHAVEN_PORT=<free port>.`);
+    else fail(`127.0.0.1:${port} cannot be bound (${error.code})`);
+    done();
+  });
+  server.listen({ port, host: '127.0.0.1', exclusive: true }, () => { say('[ok]', `127.0.0.1:${port} is free for ${command} start`); server.close(done); });
+});
+process.exitCode = failed ? 1 : 0;
+SCOPEHAVEN_DOCTOR_JS
+    if [ "$dr_status" -ne 0 ]; then dr_fail=1; fi
+  else
+    printf '%s\n' '[skip] Module, data directory and port checks need a supported Node runtime first'
+  fi
+  if [ "$dr_fail" -eq 0 ] && [ -f "$scopehaven_root/RELEASE-MANIFEST.json" ]; then
+    printf '%s\n' "Result: ready. Next: $scopehaven_cmd assess --target demo-vulnerable${scopehaven_at:+ --out ./scopehaven-evidence}, then ${scopehaven_at}docs/QUICKSTART.md for your own app."
+    exit 0
+  fi
+  if [ "$dr_fail" -eq 0 ]; then
+    printf '%s\n' "Result: ready. Next: $scopehaven_cmd test, then $scopehaven_cmd start (or $scopehaven_cmd assess --target demo-vulnerable)."
+    exit 0
+  fi
+  printf '%s\n' 'Result: not ready. Fix the [fail] lines above.'
+  exit 1
+}
+
+scopehaven_caller_dir=$(pwd)
+scopehaven_action=${1:-start}
+if [ "$#" -gt 0 ]; then shift; fi
+if [ -z "$scopehaven_at" ]; then cd "$scopehaven_root"; fi
+case "$scopehaven_action" in
+  doctor) scopehaven_doctor "$@" ;;
+  help|-h|--help) printf '%s\n' "$scopehaven_usage"; exit 0 ;;
+  start|test|assess|check-config|lab|connector-demo|gate|gate-demo|import-evaluation|export|evidence-pack|sequence|attest|policy|monitor|payments|watch-first|pack|init)
+    if [ "$scopehaven_node_ok" != 1 ]; then scopehaven_unsupported; fi ;;
+  *) printf '%s\n' "$scopehaven_usage" >&2; exit 2 ;;
+esac
+if [ "$scopehaven_action" = test ] && [ -f "$scopehaven_root/RELEASE-MANIFEST.json" ]; then
+  printf '%s\n' 'This is a release copy: the test suite is not shipped in it (the suite reads fixtures from the full repository).' \
+    "Check this install with $scopehaven_cmd doctor and $scopehaven_cmd assess --target demo-vulnerable (see README.md)." >&2
+  exit 2
+fi
+case "$scopehaven_action" in
+  start) exec "$scopehaven_node" "${scopehaven_at}src/server.mjs" "$@" ;;
+  # Node reads test-runner options only before the file list (one after it, such as --test-shard, is silently ignored),
+  # so extra arguments go first. test/support/bounded-run.mjs runs node --test under a wall-clock bound: a run still going
+  # after SCOPEHAVEN_TEST_BOUND_SECONDS (default 2700) fails with status 124, naming the files still running, and its process
+  # group and every process seen descended from it are killed; the runner's header states what it cannot see (a full suite once
+  # held the heavy-job lock for 12.5 h on a leaked timer).
+  test) exec "$scopehaven_node" test/support/bounded-run.mjs "$@" test/*.test.mjs integrations/*/*.test.mjs design/dashboard/adapter.test.mjs ;;
+  assess) exec "$scopehaven_node" "${scopehaven_at}src/cli.mjs" "$@" ;;
+  check-config) exec "$scopehaven_node" "${scopehaven_at}src/cli.mjs" --check-config "$@" ;;
+  lab) exec "$scopehaven_node" "${scopehaven_at}examples/http-lab.mjs" "$@" ;;
+  connector-demo) exec "$scopehaven_node" "${scopehaven_at}examples/run-connector-demo.mjs" "$@" ;;
+  gate) exec "$scopehaven_node" "${scopehaven_at}integrations/regression-gate/cli.mjs" "$@" ;;
+  gate-demo) exec "$scopehaven_node" "${scopehaven_at}integrations/regression-gate/demo.mjs" "$@" ;;
+  import-evaluation) exec "$scopehaven_node" "${scopehaven_at}integrations/evaluation-import/cli.mjs" "$@" ;;
+  export) exec "$scopehaven_node" "${scopehaven_at}src/export-cli.mjs" "$@" ;;
+  evidence-pack) exec "$scopehaven_node" "${scopehaven_at}src/evidence-pack.mjs" "$@" ;;
+  sequence) exec "$scopehaven_node" "${scopehaven_at}integrations/sequences/cli.mjs" "$@" ;;
+  attest) exec "$scopehaven_node" "${scopehaven_at}integrations/attest/cli.mjs" "$@" ;;
+  policy) exec "$scopehaven_node" "${scopehaven_at}integrations/policy-import/cli.mjs" "$@" ;;
+  monitor) exec "$scopehaven_node" "${scopehaven_at}integrations/monitor/cli.mjs" "$@" ;;
+  payments) exec "$scopehaven_node" "${scopehaven_at}integrations/payments-pack/cli.mjs" "$@" ;;
+  watch-first) exec "$scopehaven_node" "${scopehaven_at}integrations/watch-first/cli.mjs" "$@" ;;
+  pack) exec "$scopehaven_node" "${scopehaven_at}integrations/packs-v2/cli.mjs" "$@" ;;
+  init) export SCOPEHAVEN_INIT_CWD="$scopehaven_caller_dir"; exec "$scopehaven_node" "${scopehaven_at}integrations/init/cli.mjs" "$@" ;;
+esac

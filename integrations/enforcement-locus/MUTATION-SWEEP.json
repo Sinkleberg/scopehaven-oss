@@ -1,0 +1,182 @@
+{
+ "mutations": 44,
+ "caught": 44,
+ "results": [
+  {
+   "property": "only deny cells can be bound",
+   "status": "caught"
+  },
+  {
+   "property": "never-attempted is not enforcement",
+   "status": "caught"
+  },
+  {
+   "property": "inconclusive is not enforcement",
+   "status": "caught"
+  },
+  {
+   "property": "committed reads as failing",
+   "status": "caught"
+  },
+  {
+   "property": "model-dependent stays model-dependent",
+   "status": "caught"
+  },
+  {
+   "property": "an unbound cell is not exercised",
+   "status": "caught"
+  },
+  {
+   "property": "no observation is not exercised",
+   "status": "caught"
+  },
+  {
+   "property": "an edited matrix is refused",
+   "status": "caught"
+  },
+  {
+   "property": "a binding for another matrix is refused",
+   "status": "caught"
+  },
+  {
+   "property": "a binding names its confirmer",
+   "status": "caught"
+  },
+  {
+   "property": "a cell is bound once",
+   "status": "caught"
+  },
+  {
+   "property": "rows cite the declaration",
+   "status": "caught"
+  },
+  {
+   "property": "rows cite the runs",
+   "status": "caught"
+  },
+  {
+   "property": "non-deny cells are counted as not probed",
+   "status": "caught"
+  },
+  {
+   "property": "a failed positive control blocks enforced-by-app",
+   "status": "caught"
+  },
+  {
+   "property": "a declared positive control that never ran fails closed",
+   "status": "caught"
+  },
+  {
+   "property": "a committed positive control keeps enforced-by-app",
+   "status": "caught"
+  },
+  {
+   "property": "no declared positive control leaves the W6 reading",
+   "status": "caught"
+  },
+  {
+   "property": "usable control runs go to W6 as permitted twins",
+   "status": "caught"
+  },
+  {
+   "property": "only usable control runs become twins",
+   "status": "caught"
+  },
+  {
+   "property": "a twin carries the bound action",
+   "status": "caught"
+  },
+  {
+   "property": "rows carry the enforcement basis",
+   "status": "caught"
+  },
+  {
+   "property": "a tool: cell is bound to its own tool",
+   "status": "caught"
+  },
+  {
+   "property": "an incomplete control run is unusable",
+   "status": "caught"
+  },
+  {
+   "property": "a validation refusal states its recorded reason",
+   "status": "caught"
+  },
+  {
+   "property": "the report names the W6 rule",
+   "status": "caught"
+  },
+  {
+   "property": "review: control status from all runs",
+   "status": "caught"
+  },
+  {
+   "property": "review: control build when builds differ",
+   "status": "caught"
+  },
+  {
+   "property": "an assistant cell is never bound to a declared tool",
+   "status": "caught"
+  },
+  {
+   "property": "declared tool names compare normalized",
+   "status": "caught"
+  },
+  {
+   "property": "another cell binds a declared tool as spelled",
+   "status": "caught"
+  },
+  {
+   "property": "another cell binds a tool its role is allowed",
+   "status": "caught"
+  },
+  {
+   "property": "the actor is the cell's role",
+   "status": "caught"
+  },
+  {
+   "property": "review r4: actor check on tool: cells too",
+   "status": "caught"
+  },
+  {
+   "property": "review r4: actor check where the matrix declares no tools",
+   "status": "caught"
+  },
+  {
+   "property": "review r4: actor check is exact, not case-insensitive",
+   "status": "caught"
+  },
+  {
+   "property": "only a declared allow lets another cell bind a tool",
+   "status": "caught"
+  },
+  {
+   "property": "a control commits only if every usable run did",
+   "status": "caught"
+  },
+  {
+   "property": "a basis shows only on enforced-by-app",
+   "status": "caught"
+  },
+  {
+   "property": "an unshown refusal states its recorded reason",
+   "status": "caught"
+  },
+  {
+   "property": "a positive control actor is declared allowed",
+   "status": "caught"
+  },
+  {
+   "property": "a positive control runs on the same build",
+   "status": "caught"
+  },
+  {
+   "property": "a positive control attempt was delivered",
+   "status": "caught"
+  },
+  {
+   "property": "a positive control carries the bound action",
+   "status": "caught"
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "scopehaven-authorization/1",
+  "id": "owned-demo-refund-agent-demo",
+  "target": {
+    "id": "refund-agent-demo",
+    "applicationId": "refund-agent-demo"
+  },
+  "origins": [
+    "http://127.0.0.1:61055"
+  ],
+  "identities": [
+    "cus_alice",
+    "cus_bob"
+  ],
+  "validFrom": "2026-10-24T08:08:54Z",
+  "validUntil": "2026-10-25T09:08:54Z",
+  "signer": {
+    "name": "ScopeHaven owned demo",
+    "role": "Operator",
+    "organization": "Owned synthetic demo"
+  },
+  "signedAt": "2026-10-24T08:08:54Z",
+  "rulesOfEngagement": {
+    "title": "Owned demo: refund agent on loopback, synthetic customers and test charges only"
+  },
+  "sha256": "b691109f7fb1ceae38ef57017f70239bcd666be54b203784156a499666e6dbc7"
+}

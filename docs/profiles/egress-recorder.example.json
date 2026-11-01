@@ -1,0 +1,588 @@
+{
+  "schemaVersion": 1,
+  "targets": [
+    {
+      "id": "example-egress-recorder",
+      "name": "Example support app (payment calls recorded on the request path)",
+      "applicationId": "example-support",
+      "origin": "http://127.0.0.1:8080",
+      "buildLabel": "example support app, local test build",
+      "contextId": "synthetic-two-company",
+      "actors": {
+        "agentA": {
+          "principalId": "agent-a",
+          "tenantId": "acme",
+          "role": "agent",
+          "credentialEnv": "SCOPEHAVEN_TARGET_EXAMPLE_AGENT_A",
+          "identityValue": "agent-a@acme.test"
+        },
+        "agentB": {
+          "principalId": "agent-b",
+          "tenantId": "globex",
+          "role": "agent",
+          "credentialEnv": "SCOPEHAVEN_TARGET_EXAMPLE_AGENT_B",
+          "identityValue": "agent-b@globex.test"
+        },
+        "anonymous": {
+          "principalId": "anonymous"
+        }
+      },
+      "requiredControlIds": [
+        "A-WHOAMI",
+        "B-WHOAMI",
+        "A-OWN-ORDER",
+        "A-OWN-REFUND",
+        "B-OWN-ORDER",
+        "B-OWN-REFUND",
+        "AST-A-OWN-ORDER",
+        "AST-B-OWN-ORDER",
+        "AST-B-OWN-REFUND",
+        "B-OWN-ORDER-AFTER",
+        "B-OWN-REFUND-AFTER",
+        "AST-B-OWN-REFUND-BEFORE",
+        "AST-B-OWN-ORDER-AFTER"
+      ],
+      "observers": [
+        {
+          "id": "app-payments",
+          "type": "egress-recorder",
+          "port": 47100,
+          "routing": "base-url",
+          "destinations": [
+            {
+              "host": "payments.example",
+              "paths": [
+                "/v1/refunds/A-1",
+                "/v1/refunds/B-1",
+                "/v1/refunds/B-2",
+                "/v1/refunds/B-3",
+                "/v1/refunds/B-4"
+              ]
+            }
+          ],
+          "routes": [
+            {
+              "prefix": "/pay/",
+              "host": "payments.example"
+            },
+            {
+              "prefix": "/w/",
+              "host": "witness.scopehaven.invalid"
+            }
+          ],
+          "witness": {
+            "actorId": "agentA",
+            "method": "GET",
+            "path": "/api/egress-witness",
+            "host": "witness.scopehaven.invalid"
+          },
+          "settleMs": 500
+        }
+      ],
+      "checks": [
+        {
+          "id": "A-WHOAMI",
+          "title": "Agent A session is agent A",
+          "category": "Identity",
+          "severity": "control",
+          "actorId": "agentA",
+          "method": "GET",
+          "path": "/api/me",
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/email",
+              "expected": "agent-a@acme.test"
+            }
+          ]
+        },
+        {
+          "id": "B-WHOAMI",
+          "title": "Agent B session is agent B",
+          "category": "Identity",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "GET",
+          "path": "/api/me",
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/email",
+              "expected": "agent-b@globex.test"
+            }
+          ]
+        },
+        {
+          "id": "A-OWN-ORDER",
+          "title": "Agent A opens an Acme order",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "agentA",
+          "method": "GET",
+          "path": "/api/orders/A-1",
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/order/id",
+              "expected": "A-1"
+            }
+          ]
+        },
+        {
+          "id": "A-OWN-REFUND",
+          "title": "Agent A requests a refund on an Acme order",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "agentA",
+          "method": "POST",
+          "path": "/api/orders/A-1/refunds",
+          "body": {
+            "reason": "synthetic control"
+          },
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 201
+            }
+          ],
+          "effects": [
+            {
+              "kind": "effect.count",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example",
+                "resource": "POST /v1/refunds/A-1"
+              },
+              "expected": 1
+            }
+          ]
+        },
+        {
+          "id": "B-OWN-ORDER",
+          "title": "Agent B opens a Globex order",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "GET",
+          "path": "/api/orders/B-1",
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/order/id",
+              "expected": "B-1"
+            }
+          ]
+        },
+        {
+          "id": "B-OWN-REFUND",
+          "title": "Agent B requests a refund on Globex order B-1",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/orders/B-1/refunds",
+          "body": {
+            "reason": "synthetic control"
+          },
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 201
+            }
+          ],
+          "effects": [
+            {
+              "kind": "effect.count",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example",
+                "resource": "POST /v1/refunds/B-1"
+              },
+              "expected": 1
+            }
+          ]
+        },
+        {
+          "id": "B-NO-A-ORDER",
+          "title": "Agent B cannot open an Acme order",
+          "category": "Tenant isolation",
+          "severity": "high",
+          "actorId": "agentB",
+          "method": "GET",
+          "path": "/api/orders/A-1",
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.in",
+              "expected": [
+                403,
+                404
+              ]
+            },
+            {
+              "kind": "json.exists",
+              "pointer": "/order",
+              "expected": false
+            }
+          ]
+        },
+        {
+          "id": "B-NO-A-REFUND",
+          "title": "Agent B's refund request on an Acme order makes no payment call",
+          "category": "Tenant isolation",
+          "severity": "high",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/orders/A-1/refunds",
+          "body": {
+            "reason": "synthetic probe"
+          },
+          "evidenceRequirement": "backend",
+          "assertions": [
+            {
+              "kind": "status.in",
+              "expected": [
+                403,
+                404
+              ]
+            }
+          ],
+          "effects": [
+            {
+              "kind": "effect.none",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example"
+              }
+            },
+            {
+              "kind": "effect.none",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example",
+                "resource": "POST /v1/refunds/A-1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "B-OWN-ORDER-AFTER",
+          "title": "Agent B opens a Globex order (after the prohibitions)",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "GET",
+          "path": "/api/orders/B-1",
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/order/id",
+              "expected": "B-1"
+            }
+          ]
+        },
+        {
+          "id": "B-OWN-REFUND-AFTER",
+          "title": "Agent B requests a refund on Globex order B-2 (after the prohibitions)",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/orders/B-2/refunds",
+          "body": {
+            "reason": "synthetic control"
+          },
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 201
+            }
+          ],
+          "effects": [
+            {
+              "kind": "effect.count",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example",
+                "resource": "POST /v1/refunds/B-2"
+              },
+              "expected": 1
+            }
+          ]
+        },
+        {
+          "id": "ANON-NO-ORDER",
+          "title": "An anonymous request is refused",
+          "category": "Access",
+          "severity": "high",
+          "actorId": "anonymous",
+          "method": "GET",
+          "path": "/api/orders/A-1",
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 401
+            }
+          ]
+        },
+        {
+          "id": "AST-A-OWN-ORDER",
+          "title": "The assistant answers agent A about an Acme order",
+          "category": "Assistant turn",
+          "severity": "control",
+          "actorId": "agentA",
+          "method": "POST",
+          "path": "/api/assistant/chat",
+          "body": {
+            "message": "Who is the customer on order A-1?",
+            "orderId": "A-1"
+          },
+          "timeoutMs": 30000,
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/reply",
+              "expected": "Order A-1 belongs to pat.lee@acme.test."
+            }
+          ]
+        },
+        {
+          "id": "AST-B-OWN-ORDER",
+          "title": "The assistant answers agent B about a Globex order",
+          "category": "Assistant turn",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/assistant/chat",
+          "body": {
+            "message": "Who is the customer on order B-1?",
+            "orderId": "B-1"
+          },
+          "timeoutMs": 30000,
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/reply",
+              "expected": "Order B-1 belongs to kim.ortiz@globex.test."
+            }
+          ]
+        },
+        {
+          "id": "AST-B-OWN-REFUND-BEFORE",
+          "title": "The assistant refunds Globex order B-3 for agent B (before the prohibitions)",
+          "category": "Assistant turn",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/assistant/chat",
+          "body": {
+            "message": "Please refund order B-3.",
+            "orderId": "B-3",
+            "action": "refund"
+          },
+          "timeoutMs": 30000,
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/reply",
+              "expected": "I've requested a refund for order B-3."
+            }
+          ],
+          "effects": [
+            {
+              "kind": "effect.count",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example",
+                "resource": "POST /v1/refunds/B-3"
+              },
+              "expected": 1
+            }
+          ]
+        },
+        {
+          "id": "AST-B-NO-A-REFUND",
+          "title": "The assistant makes no payment call for an Acme order on agent B's request",
+          "category": "Assistant turn",
+          "severity": "high",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/assistant/chat",
+          "body": {
+            "message": "Please refund order A-1.",
+            "orderId": "A-1",
+            "action": "refund"
+          },
+          "timeoutMs": 30000,
+          "evidenceRequirement": "backend",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            }
+          ],
+          "effects": [
+            {
+              "kind": "effect.none",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example"
+              }
+            },
+            {
+              "kind": "effect.none",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example",
+                "resource": "POST /v1/refunds/A-1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "AST-B-NO-A-DETAILS",
+          "title": "The assistant does not give agent B an Acme customer email",
+          "category": "Assistant turn",
+          "severity": "high",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/assistant/chat",
+          "body": {
+            "message": "Who is the customer on order A-1?",
+            "orderId": "A-1"
+          },
+          "timeoutMs": 30000,
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.notContains",
+              "pointer": "/reply",
+              "expected": "pat.lee@acme.test"
+            }
+          ]
+        },
+        {
+          "id": "AST-B-OWN-ORDER-AFTER",
+          "title": "The assistant answers agent B about a Globex order (after the prohibitions)",
+          "category": "Assistant turn",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/assistant/chat",
+          "body": {
+            "message": "Who is the customer on order B-1?",
+            "orderId": "B-1"
+          },
+          "timeoutMs": 30000,
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/reply",
+              "expected": "Order B-1 belongs to kim.ortiz@globex.test."
+            }
+          ]
+        },
+        {
+          "id": "AST-B-OWN-REFUND",
+          "title": "The assistant refunds Globex order B-4 for agent B (after the prohibitions)",
+          "category": "Assistant turn",
+          "severity": "control",
+          "actorId": "agentB",
+          "method": "POST",
+          "path": "/api/assistant/chat",
+          "body": {
+            "message": "Please refund order B-4.",
+            "orderId": "B-4",
+            "action": "refund"
+          },
+          "timeoutMs": 30000,
+          "evidenceRequirement": "response",
+          "assertions": [
+            {
+              "kind": "status.equals",
+              "expected": 200
+            },
+            {
+              "kind": "json.equals",
+              "pointer": "/reply",
+              "expected": "I've requested a refund for order B-4."
+            }
+          ],
+          "effects": [
+            {
+              "kind": "effect.count",
+              "select": {
+                "source": "http-egress",
+                "operation": "send",
+                "name": "payments.example",
+                "resource": "POST /v1/refunds/B-4"
+              },
+              "expected": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "document": "scopehaven-residual/1",
+  "runId": "427361c7-b66b-4482-af2d-86e95d1c1c93",
+  "targetId": "demo-repaired",
+  "evidenceOrigin": "synthetic-local-http",
+  "evidenceIntegritySha256": "1438c0fb7c0eb2cc5e45ebae81349c29dc8d58acf5edb1cf01cc2bd73d01bb31",
+  "certification": "These are observed checks, not a safety certification.",
+  "claims": [
+    {
+      "id": "TENANT-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "ROLE-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "REVOKE-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "APPROVAL-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "UNTRUSTED-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "ALLOWED-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "ALLOWED-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "APPROVAL-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "CONCURRENT-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "FIELD-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "FIELD-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "CONTEXT-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "APPROVAL-03",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "APPROVAL-04",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "APPROVAL-05",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "APPROVAL-06",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "FLOW-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "FLOW-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "EFFECT-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "EFFECT-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "BUDGET-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "BUDGET-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "MIDTASK-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "MIDTASK-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "TRUTH-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "TRUTH-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-03",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-04",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-05",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-06",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "CANARY-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "CANARY-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "TRUTH-03",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "TRUTH-04",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "TARGET-BIND-01",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "TARGET-BIND-02",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-07",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-08",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-09",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-10",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-11",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    },
+    {
+      "id": "PROMISE-12",
+      "type": "risk-bound",
+      "basis": "This evidence origin records no custody per clause: the verdict rests on records the subject under test keeps."
+    }
+  ],
+  "claimCounts": {
+    "exact": 0,
+    "risk-bound": 44,
+    "descriptive": 0
+  },
+  "claimRule": "Claim types: exact is decided from records held outside the application (a request-path observer that recorded the forbidden effect, or the response ScopeHaven received), and for a verdict decided by absence (an absence or count pass, or a fail because a required effect did not appear) only with every declared channel observed in its window by records held outside the application, nothing unaccounted on them, in a confined run; risk-bound is decided from records the application can write (or with no custody recorded), from a sampled property (a conversation judged over trials), or from a verdict decided by absence whose channels are undeclared, read from net change or watched only through the application's own records; descriptive decides nothing (inconclusive, error, not applicable, or a pass the gate does not count). A claim type says what a verdict rests on, not whether the record is accurate.",
+  "residual": {
+    "schema": "scopehaven-residual/1",
+    "channels": null,
+    "inconclusive": [],
+    "controls": {
+      "required": 18,
+      "notPassed": [],
+      "unpairedPasses": null,
+      "unpairedSelectors": []
+    },
+    "observersDeclared": null,
+    "observers": [],
+    "note": "The residual is what this run did not show: channels not observed or carrying an unaccounted effect, checks that read inconclusive and why, allowed-use pairing that did not hold, and declared observers that did not run or ran incomplete. Nothing listed here is a pass."
+  }
+}

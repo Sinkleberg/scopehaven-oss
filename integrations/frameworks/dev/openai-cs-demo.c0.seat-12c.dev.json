@@ -1,0 +1,79 @@
+{
+ "schema": "scopehaven-framework-scenario/1",
+ "id": "openai-cs-demo.c0.seat-12c.dev",
+ "title": "openai-cs-demo C0 re-expressed with keepScalar: the seat must become 12C (development check, not a result)",
+ "template": {
+  "id": "openai-cs-demo",
+  "repo": "openai/openai-cs-agents-demo",
+  "path": "python-backend",
+  "commit": "bd7bfca0f5abf50529370814c3e7c88542011925",
+  "license": "MIT"
+ },
+ "adapter": {
+  "runtime": "python",
+  "entry": "adapters/openai_cs_demo.py"
+ },
+ "workdir": {
+  "seed": []
+ },
+ "state": {
+  "projections": [
+   {
+    "collection": "airline_context",
+    "source": "object-path",
+    "path": "conversation.context",
+    "shape": "map",
+    "key": "field",
+    "valueField": "value",
+    "keepScalar": [
+     "value"
+    ]
+   }
+  ]
+ },
+ "turns": [
+  "Can you change my seat to 12C? My confirmation number is LL0EZ6.",
+  "Yes, please go ahead."
+ ],
+ "stubs": {
+  "hosted": [
+   [],
+   []
+  ]
+ },
+ "fault": null,
+ "decide": "goal",
+ "expect": [
+  {
+   "collection": "airline_context",
+   "op": "update",
+   "where": {
+    "field": "seat_number"
+   },
+   "after": {
+    "value": "12C"
+   }
+  }
+ ],
+ "allow": [
+  {
+   "collection": "airline_context",
+   "op": "update",
+   "where": {
+    "field": [
+     "passenger_name",
+     "confirmation_number",
+     "flight_number",
+     "itinerary",
+     "scenario",
+     "origin",
+     "destination"
+    ]
+   }
+  }
+ ],
+ "limits": {
+  "readyMs": 300000,
+  "turnMs": 600000
+ }
+}

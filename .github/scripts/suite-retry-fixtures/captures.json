@@ -1,0 +1,73 @@
+{
+  "node_version": "v24.21.0",
+  "normalization": "Absolute capture root replaced with @ROOT@; all other output preserved.",
+  "captures": [
+    {
+      "source": "pass.mjs",
+      "log": "pass.tap",
+      "status": 0,
+      "argv": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        ".github/scripts/suite-retry-fixtures/pass.mjs"
+      ]
+    },
+    {
+      "source": "failure with spaces.mjs",
+      "log": "failure with spaces.tap",
+      "status": 1,
+      "argv": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        ".github/scripts/suite-retry-fixtures/failure with spaces.mjs"
+      ]
+    },
+    {
+      "source": "mixed.mjs",
+      "log": "mixed.tap",
+      "status": 1,
+      "argv": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        ".github/scripts/suite-retry-fixtures/mixed.mjs"
+      ]
+    },
+    {
+      "source": "console.mjs",
+      "log": "console.tap",
+      "status": 0,
+      "argv": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        ".github/scripts/suite-retry-fixtures/console.mjs"
+      ]
+    },
+    {
+      "source": "pass.mjs",
+      "log": "zero.tap",
+      "status": 0,
+      "argv": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "--test-shard=2/2",
+        ".github/scripts/suite-retry-fixtures/pass.mjs"
+      ]
+    },
+    {
+      "source": "aborted.mjs",
+      "log": "aborted.tap",
+      "status": 1,
+      "argv": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        ".github/scripts/suite-retry-fixtures/aborted.mjs"
+      ]
+    }
+  ]
+}

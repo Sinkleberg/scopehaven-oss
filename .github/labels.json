@@ -1,0 +1,12 @@
+[
+  { "name": "good first issue", "color": "7057ff", "description": "Scoped, with a named file and a named test; needs no knowledge of the whole system" },
+  { "name": "help wanted", "color": "008672", "description": "The maintainer would welcome a hand; comment to take it" },
+  { "name": "bug", "color": "d73a4a", "description": "Something ScopeHaven does is wrong, or a result does not match what the app did" },
+  { "name": "enhancement", "color": "a2eeef", "description": "A check, observer, target or export ScopeHaven should have" },
+  { "name": "documentation", "color": "0075ca", "description": "Guides, walkthroughs and reference pages under docs/ and the READMEs" },
+  { "name": "observer", "color": "1d76db", "description": "Observers on the app's own records: sqlite, pg, mysql, http-audit, egress, smtp, feeds" },
+  { "name": "check", "color": "5319e7", "description": "Check families, verdict rules, profiles and exports of their results" },
+  { "name": "cli", "color": "0e8a16", "description": "The launcher, the command-line entry points, their flags, output and exit codes" },
+  { "name": "dashboard", "color": "fbca04", "description": "The local dashboard under public/dashboard and its offline preview" },
+  { "name": "docs-wording", "color": "c5def5", "description": "Wording, dead references and limits statements in documentation; no behaviour change" }
+]

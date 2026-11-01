@@ -1,0 +1,29 @@
+{
+  "schema": "scopehaven-authorization/1",
+  "id": "supabase-next-local-2026-11-01",
+  "target": {
+    "id": "supabase-next",
+    "applicationId": "supabase-next"
+  },
+  "origins": [
+    "http://127.0.0.1:54321",
+    "tcp://127.0.0.1:54322"
+  ],
+  "identities": [
+    "REPLACE_USER_A_ID",
+    "REPLACE_USER_B_ID",
+    "REPLACE_USER_C_ID"
+  ],
+  "validFrom": "2026-11-01T00:00:00Z",
+  "validUntil": "2026-11-02T00:00:00Z",
+  "signer": {
+    "name": "REPLACE: the person who authorizes this test",
+    "role": "REPLACE: their role on the app team",
+    "organization": "REPLACE: whose application this is"
+  },
+  "signedAt": "2026-11-01T00:00:00Z",
+  "rulesOfEngagement": {
+    "title": "REPLACE: the title of your rules-of-engagement note (docs/RULES-OF-ENGAGEMENT.md)"
+  },
+  "sha256": "cc2c8ede94d80a98687dc0ed5a9788a8ac322edffee6d161e8b08fbab4cc9fb5"
+}

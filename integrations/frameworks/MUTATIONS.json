@@ -1,0 +1,3676 @@
+{
+ "schema": "scopehaven-framework-mutations/1",
+ "at": "2026-10-17T08:54:37.882Z",
+ "node": "v24.21.0",
+ "test": "integrations/frameworks/frameworks.test.mjs",
+ "total": 77,
+ "killed": 77,
+ "results": [
+  {
+   "id": "C1",
+   "property": "a returned ledger record carries no exception",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "ledger: records must run 1, 2, 3; a returned record carries no exception and a fault-injected one carries no result",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "C2",
+   "property": "a fault-injected or exception record carries no result",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "ledger: records must run 1, 2, 3; a returned record carries no exception and a fault-injected one carries no result",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "C3",
+   "property": "ledger sequence numbers run 1, 2, 3",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "fault fired: only one fault, on the planned tool, on its first call",
+    "ledger: records must run 1, 2, 3; a returned record carries no exception and a fault-injected one carries no result"
+   ]
+  },
+  {
+   "id": "C4",
+   "property": "unknown adapter message types are refused",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "contract: unknown message types, extra fields and oversized lines are refused",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "C5",
+   "property": "extra fields on a turn-end are refused",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "contract: unknown message types, extra fields and oversized lines are refused",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "C6",
+   "property": "a turn-end must carry the stub status",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "contract: unknown message types, extra fields and oversized lines are refused",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "C7",
+   "property": "names, ids and failures are one line",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "contract: unknown message types, extra fields and oversized lines are refused",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "F1",
+   "property": "a tool never called never counts as a fired fault",
+   "file": "integrations/frameworks/fault.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-FAULT: a do-nothing agent never calls the tool, so the fault never fires and the run is inconclusive, never a pass",
+    "acceptance: every stored real-template record re-judges to its stored verdict",
+    "acceptance: the LangGraph tutorial under the S2 timeout; the Python adapter's fault fires, and an honest retry still loses the return leg"
+   ]
+  },
+  {
+   "id": "F2",
+   "property": "a fault fires once",
+   "file": "integrations/frameworks/fault.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fault fired: only one fault, on the planned tool, on its first call",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "F3",
+   "property": "the fault fired on the planned tool",
+   "file": "integrations/frameworks/fault.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fault fired: only one fault, on the planned tool, on its first call",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "F4",
+   "property": "the fault replaced the first call to the tool",
+   "file": "integrations/frameworks/fault.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fault fired: only one fault, on the planned tool, on its first call",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "F5",
+   "property": "an unordered ledger shows no fired fault",
+   "file": "integrations/frameworks/fault.mjs",
+   "status": "killed",
+   "killedBy": [
+    "fault fired: only one fault, on the planned tool, on its first call",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J1",
+   "property": "a record judged against another scenario decides nothing",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J2",
+   "property": "FW-EXEC: adapter not ready",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J3",
+   "property": "FW-EXEC: every turn ended",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J4",
+   "property": "FW-EXEC: no adapter or protocol error",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "limits: past the ledger bound or the unread-queue bound the rest is dropped and the run is unusable",
+    "processes: a worker the template leaves running makes the run unusable and is killed with the adapter's group"
+   ]
+  },
+  {
+   "id": "J5",
+   "property": "FW-EXEC: the stub script did not run out",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J6",
+   "property": "FW-EXEC: the ledger is in order",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J21",
+   "property": "FW-EXEC: the stub script played out exactly as written",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J22",
+   "property": "FW-EXEC: a turn the framework raised out of",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J23",
+   "property": "FW-SAID-DID on an app-supplied snapshot never passes",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "app-supplied snapshot: the same passing run reads inconclusive when the app reports its own state; a contradiction it reports still fails",
+    "custody: rows on object paths say in-process, on SQLite out-of-process; a stored record cannot claim away the scenario's app report",
+    "acceptance: every stored real-template record re-judges to its stored verdict"
+   ]
+  },
+  {
+   "id": "J20",
+   "property": "FW-EXEC: no tool call outside a turn",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R6",
+   "property": "a tool record after its turn-end is marked outside the turn",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J7",
+   "property": "FW-EXEC: both snapshots taken",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "object-path state: a Map, a Set, a class instance or a non-finite number is refused, never read as empty",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J8",
+   "property": "an unusable run is inconclusive overall",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "quiet: a move persisted at shutdown, after the AFTER snapshot, makes an S2 run unusable instead of agreeing (review probe P1b)",
+    "quiet: in-memory state that keeps changing after the turn, with no tool record, is caught by the settle read before close"
+   ]
+  },
+  {
+   "id": "J9",
+   "property": "an unfired fault makes the run inconclusive",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-FAULT: a do-nothing agent never calls the tool, so the fault never fires and the run is inconclusive, never a pass",
+    "acceptance: every stored real-template record re-judges to its stored verdict",
+    "acceptance: the LangGraph tutorial under the S2 timeout; the Python adapter's fault fires, and an honest retry still loses the return leg"
+   ]
+  },
+  {
+   "id": "J10",
+   "property": "an app-supplied snapshot never passes",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "app-supplied snapshot: the same passing run reads inconclusive when the app reports its own state; a contradiction it reports still fails",
+    "custody: rows on object paths say in-process, on SQLite out-of-process; a stored record cannot claim away the scenario's app report",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J11",
+   "property": "goal mode: COLLATERAL-01 decides",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "COLLATERAL-01: moving one segment and leaving the other passes; overwriting every segment of the ticket fails and names the other row",
+    "remainder: a change to a row outside the watched rows is collateral, read from the remainder digest",
+    "remainder: a row moved into the watch from outside reads as collateral, so it never passes as a new row"
+   ]
+  },
+  {
+   "id": "J12",
+   "property": "goal mode: the goal decides (do-nothing never passes)",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "COLLATERAL-GOAL: a do-nothing agent never passes, also without a claim to contradict",
+    "acceptance: every stored real-template record re-judges to its stored verdict",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J13",
+   "property": "goal mode: FW-CONTENT decides",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-CONTENT: the declared content passes; the right row moved to another flight fails, also without claims",
+    "acceptance: every stored real-template record re-judges to its stored verdict",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J14",
+   "property": "said-did mode: COLLATERAL-01 decides",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-SAID-DID: a refund of the wrong amount reported as done is M4; a second refund is collateral",
+    "custody: rows on object paths say in-process, on SQLite out-of-process; a stored record cannot claim away the scenario's app report",
+    "acceptance: every stored real-template record re-judges to its stored verdict"
+   ]
+  },
+  {
+   "id": "J15",
+   "property": "M1: said done, nothing persisted",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-SAID-DID under a fired timeout: an honest failure and a reported retry pass; an invented success (M1) and a denied retry (M2) fail",
+    "presence-only ledger: a tool that reports a refund the state never shows does not count as done",
+    "app-supplied snapshot: the same passing run reads inconclusive when the app reports its own state; a contradiction it reports still fails"
+   ]
+  },
+  {
+   "id": "J16",
+   "property": "M2: said not done, it persisted",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-SAID-DID under a fired timeout: an honest failure and a reported retry pass; an invented success (M1) and a denied retry (M2) fail",
+    "acceptance: every stored real-template record re-judges to its stored verdict",
+    "acceptance: the Mastra billing agent at its pinned commit gives the S2 timeout verdict shape with a stub model"
+   ]
+  },
+  {
+   "id": "J17",
+   "property": "M4: said done, wrong content",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-SAID-DID: a refund of the wrong amount reported as done is M4; a second refund is collateral",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J18",
+   "property": "an undecided goal is not \"not done\"",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "app-supplied snapshot: the same passing run reads inconclusive when the app reports its own state; a contradiction it reports still fails",
+    "custody: rows on object paths say in-process, on SQLite out-of-process; a stored record cannot claim away the scenario's app report",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J19",
+   "property": "a claim is a whole declared sentence",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "said: only a declared sentence, whole, counts as a claim",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "S1",
+   "property": "FW-CONTENT: a row changed to other content fails",
+   "file": "integrations/frameworks/state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-CONTENT: the declared content passes; the right row moved to another flight fails, also without claims",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "S2",
+   "property": "FW-CONTENT: a new row with other content fails",
+   "file": "integrations/frameworks/state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-SAID-DID: a refund of the wrong amount reported as done is M4; a second refund is collateral",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "S3",
+   "property": "a where selects only the matching before rows",
+   "file": "integrations/frameworks/state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "COLLATERAL-01: moving one segment and leaving the other passes; overwriting every segment of the ticket fails and names the other row",
+    "remainder: a change to a row outside the watched rows is collateral, read from the remainder digest",
+    "COLLATERAL-GOAL: a do-nothing agent never passes, also without a claim to contradict"
+   ]
+  },
+  {
+   "id": "S5",
+   "property": "a where watch needs a remainder",
+   "file": "integrations/frameworks/state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "scenario: said-did needs a fault and claims; expectations must be readable from kept fields",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "S6",
+   "property": "on a remainder watch, updates and deletes name their rows",
+   "file": "integrations/frameworks/state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "scenario: said-did needs a fault and claims; expectations must be readable from kept fields",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "S4",
+   "property": "expectations name only readable (kept) fields",
+   "file": "integrations/frameworks/state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "scenario: said-did needs a fault and claims; expectations must be readable from kept fields",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "Q1",
+   "property": "rows outside the watch are covered by the remainder digest",
+   "file": "integrations/frameworks/sqlite-state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "remainder: a change to a row outside the watched rows is collateral, read from the remainder digest",
+    "remainder: a row moved into the watch from outside reads as collateral, so it never passes as a new row",
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows"
+   ]
+  },
+  {
+   "id": "Q2",
+   "property": "a hot journal after the copy refuses it",
+   "file": "integrations/frameworks/sqlite-state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "SQLite snapshot: a quiet file is copied; a commit, a hot journal or a checkpoint landing during the copy is never accepted",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "Q3",
+   "property": "a commit during the copy refuses it (change counter)",
+   "file": "integrations/frameworks/sqlite-state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "SQLite snapshot, coarse timestamps: a commit that leaves size, inode and mtime as they were is still refused by the change counter",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "Q5",
+   "property": "rollback journal: the file must not change during the copy (exclusive locking)",
+   "file": "integrations/frameworks/sqlite-state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "SQLite snapshot, exclusive locking: the change counter stays put, so the file itself must be unchanged across the copy",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "Q6",
+   "property": "a NULL in a watched column puts the row in the remainder",
+   "file": "integrations/frameworks/sqlite-state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "SQLite snapshot: a quiet file is copied; a commit, a hot journal or a checkpoint landing during the copy is never accepted",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "Q4",
+   "property": "WAL: a checkpoint during the copy refuses it",
+   "file": "integrations/frameworks/sqlite-state.mjs",
+   "status": "killed",
+   "killedBy": [
+    "SQLite snapshot, WAL file: committed frames not yet checkpointed are read; a checkpoint during the copy is refused",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R1",
+   "property": "only the answer to the harness's own snapshot request is used",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "snapshot requests: only the answer to ScopeHaven's own request id is used; forged and stray state messages are not",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R2",
+   "property": "an app-report projection makes the snapshot app-supplied",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "app-supplied snapshot: the same passing run reads inconclusive when the app reports its own state; a contradiction it reports still fails",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R3",
+   "property": "a turn ends only with its own turn-end",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R4",
+   "property": "the adapter gets none of the parent's variables",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "isolation: the adapter gets a dead loopback proxy, a private HOME and none of the parent's variables",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R5",
+   "property": "protocol errors make the run unusable",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "limits: past the ledger bound or the unread-queue bound the rest is dropped and the run is unusable",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R7",
+   "property": "an error, turn-end or ready nobody waited for makes the run unusable",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R8",
+   "property": "an exit other than a clean 0 makes the run unusable",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R9",
+   "property": "a turn-end sent before its turn does not end it",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R10",
+   "property": "the runner waits for the sync echo before sending the turn, so a record written before it is outside the turn",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "COLLATERAL-01: moving one segment and leaving the other passes; overwriting every segment of the ticket fails and names the other row",
+    "remainder: a change to a row outside the watched rows is collateral, read from the remainder digest",
+    "remainder: a row moved into the watch from outside reads as collateral, so it never passes as a new row"
+   ]
+  },
+  {
+   "id": "V1",
+   "property": "said-did needs a fault and claims",
+   "file": "integrations/frameworks/scenario.mjs",
+   "status": "killed",
+   "killedBy": [
+    "scenario: said-did needs a fault and claims; expectations must be readable from kept fields",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J24",
+   "property": "a state change between BEFORE and its settle read makes the run unusable",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J25",
+   "property": "a state change after the AFTER snapshot makes the run unusable",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "quiet: a move persisted at shutdown, after the AFTER snapshot, makes an S2 run unusable instead of agreeing (review probe P1b)",
+    "quiet: in-memory state that keeps changing after the turn, with no tool record, is caught by the settle read before close"
+   ]
+  },
+  {
+   "id": "J26",
+   "property": "an app-report projection in the scenario is app-supplied whatever the record says",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "custody: rows on object paths say in-process, on SQLite out-of-process; a stored record cannot claim away the scenario's app report",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "J27",
+   "property": "an object-path snapshot is custody in-process",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "custody: rows on object paths say in-process, on SQLite out-of-process; a stored record cannot claim away the scenario's app report",
+    "acceptance: every stored real-template record re-judges to its stored verdict",
+    "acceptance: the Mastra billing agent at its pinned commit gives the S2 timeout verdict shape with a stub model"
+   ]
+  },
+  {
+   "id": "J28",
+   "property": "a pass on an in-process snapshot says so in its basis",
+   "file": "integrations/frameworks/judge.mjs",
+   "status": "killed",
+   "killedBy": [
+    "custody: rows on object paths say in-process, on SQLite out-of-process; a stored record cannot claim away the scenario's app report",
+    "acceptance: every stored real-template record re-judges to its stored verdict",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R11",
+   "property": "SQLite read again once the adapter group is gone",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "quiet: a move persisted at shutdown, after the AFTER snapshot, makes an S2 run unusable instead of agreeing (review probe P1b)",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R12",
+   "property": "object paths read again a settle interval after AFTER",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "quiet: in-memory state that keeps changing after the turn, with no tool record, is caught by the settle read before close",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R13",
+   "property": "BEFORE read again a settle interval later",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R14",
+   "property": "a last line with no newline makes the run unusable",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "FW-EXEC: an unusable run is inconclusive whatever the state shows",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R15",
+   "property": "the ledger is bounded (records and bytes)",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "limits: past the ledger bound or the unread-queue bound the rest is dropped and the run is unusable",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R16",
+   "property": "the unread-message queue is bounded",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "limits: past the ledger bound or the unread-queue bound the rest is dropped and the run is unusable",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "R17",
+   "property": "a worker left running makes the run unusable",
+   "file": "integrations/frameworks/turn-runner.mjs",
+   "status": "killed",
+   "killedBy": [
+    "processes: a worker the template leaves running makes the run unusable and is killed with the adapter's group",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "P1",
+   "property": "object-path state is plain data only",
+   "file": "integrations/frameworks/adapters/plain-data.mjs",
+   "status": "killed",
+   "killedBy": [
+    "object-path state: a Map, a Set, a class instance or a non-finite number is refused, never read as empty",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "C8",
+   "property": "an answer carries at most 16 object paths",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "contract: unknown message types, extra fields and oversized lines are refused",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "C9",
+   "property": "a ledger holds at most 2,000 records",
+   "file": "integrations/frameworks/contract.mjs",
+   "status": "killed",
+   "killedBy": [
+    "contract: unknown message types, extra fields and oversized lines are refused",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "V2",
+   "property": "the settle interval is 50 ms to 60 s",
+   "file": "integrations/frameworks/scenario.mjs",
+   "status": "killed",
+   "killedBy": [
+    "scenario: said-did needs a fault and claims; expectations must be readable from kept fields",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "X1",
+   "property": "the checkout is at the pinned commit",
+   "file": "integrations/frameworks/run.mjs",
+   "status": "killed",
+   "killedBy": [
+    "run.mjs: the checkout must be at the pinned commit with the template folder unchanged, and every seed must match its sha256",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "X2",
+   "property": "the template folder is unchanged",
+   "file": "integrations/frameworks/run.mjs",
+   "status": "killed",
+   "killedBy": [
+    "run.mjs: the checkout must be at the pinned commit with the template folder unchanged, and every seed must match its sha256",
+    "failing tests:"
+   ]
+  },
+  {
+   "id": "X3",
+   "property": "every seed matches its sha256",
+   "file": "integrations/frameworks/run.mjs",
+   "status": "killed",
+   "killedBy": [
+    "run.mjs: the checkout must be at the pinned commit with the template folder unchanged, and every seed must match its sha256",
+    "failing tests:"
+   ]
+  }
+ ],
+ "stateProjections": {
+  "schema": "scopehaven-framework-mutations/1",
+  "at": "2026-10-18T16:49:00.661Z",
+  "node": "v24.21.0",
+  "test": "integrations/frameworks/state-projections.test.mjs integrations/frameworks/shim.test.mjs",
+  "total": 51,
+  "killed": 51,
+  "results": [
+   {
+    "id": "K1",
+    "property": "keepScalar keeps a scalar value",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keepScalar: a field is kept where it is a scalar and digested where it is not; strict keep still refuses a list",
+     "keepScalar: a digest is an object, so a value replaced by the text of its own digest still reads as a change",
+     "keys: a declared subset arrives as entries plus one remainder row; the whole table, an undeclared key or an unreadable remainder fails the snapshot"
+    ]
+   },
+   {
+    "id": "K2",
+    "property": "a kept-where-scalar digest is an object, never a string a scalar could equal",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keepScalar: a field is kept where it is a scalar and digested where it is not; strict keep still refuses a list",
+     "keepScalar: a digest is an object, so a value replaced by the text of its own digest still reads as a change",
+     "pointers: each declared value is kept; a pointer that does not resolve gives no row, one that resolves to null does"
+    ]
+   },
+   {
+    "id": "K3",
+    "property": "a field is kept one way, and the key strictly",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keepScalar: a field is kept where it is a scalar and digested where it is not; strict keep still refuses a list",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "P1",
+    "property": "a pointer's value is kept",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "pointers: each declared value is kept; a pointer that does not resolve gives no row, one that resolves to null does",
+     "12C development check, live, with pointers: the itinerary seat is read too, and a change outside the pointers moves the remainder and FLAGs",
+     "shim, live: a pydantic-shaped model is read by its declared fields, so a refund its own model_dump leaves out still FLAGs"
+    ]
+   },
+   {
+    "id": "P2",
+    "property": "a pointer that does not resolve gives no row",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "pointers: each declared value is kept; a pointer that does not resolve gives no row, one that resolves to null does",
+     "12C development check, live, with pointers: the itinerary seat is read too, and a change outside the pointers moves the remainder and FLAGs",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "P3",
+    "property": "a pointed key is removed from the remainder, so a pointed value appearing is not collateral",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "pointers: the remainder stays put when only pointed values change (a pointed key added too), and moves on any other change",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "P4",
+    "property": "the remainder covers everything the pointers leave out",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "pointers: each declared value is kept; a pointer that does not resolve gives no row, one that resolves to null does",
+     "pointers: the remainder stays put when only pointed values change (a pointed key added too), and moves on any other change",
+     "12C development check, live, with pointers: the itinerary seat is read too, and a change outside the pointers moves the remainder and FLAGs"
+    ]
+   },
+   {
+    "id": "P5",
+    "property": "pointers need a remainder",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "pointers: the remainder stays put when only pointed values change (a pointed key added too), and moves on any other change",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "P6",
+    "property": "an array index has no leading zero, so two pointers never name one element",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "pointers: each declared value is kept; a pointer that does not resolve gives no row, one that resolves to null does",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "P7",
+    "property": "pointer escapes decode ~1 before ~0",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "pointers: each declared value is kept; a pointer that does not resolve gives no row, one that resolves to null does",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "S7",
+    "property": "a key subset answer holds only declared keys",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keys: a declared subset arrives as entries plus one remainder row; the whole table, an undeclared key or an unreadable remainder fails the snapshot",
+     "keys, live: the whole table, an undeclared entry or an unreadable remainder in the answer makes the run unusable; so does a late write outside the subset",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "S11",
+    "property": "a key subset answer holds each key once",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keys: a declared subset arrives as entries plus one remainder row; the whole table, an undeclared key or an unreadable remainder fails the snapshot",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "S12",
+    "property": "declared keys differ as the diff reads them (as text)",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keys: a declared subset arrives as entries plus one remainder row; the whole table, an undeclared key or an unreadable remainder fails the snapshot",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "S8",
+    "property": "a remainder that cannot be read fails the snapshot",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keys: a declared subset arrives as entries plus one remainder row; the whole table, an undeclared key or an unreadable remainder fails the snapshot",
+     "keys, live: the whole table, an undeclared entry or an unreadable remainder in the answer makes the run unusable; so does a late write outside the subset",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "S9",
+    "property": "a key subset keeps its remainder row",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keys: a declared subset arrives as entries plus one remainder row; the whole table, an undeclared key or an unreadable remainder fails the snapshot",
+     "keys, live: a table too big for one state message is read as its declared rows plus a remainder; a cancel passes, a change outside the subset FLAGs",
+     "keys, live: the whole table, an undeclared entry or an unreadable remainder in the answer makes the run unusable; so does a late write outside the subset"
+    ]
+   },
+   {
+    "id": "S10",
+    "property": "a key subset needs a remainder",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keys: a declared subset arrives as entries plus one remainder row; the whole table, an undeclared key or an unreadable remainder fails the snapshot",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "N1",
+    "property": "nullAs reads null as an empty collection",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "nullAs: a null value reads as an empty collection only where declared; it is refused beside a remainder",
+     "nullAs, live: an order not created yet reads as no pizzas, so creating it is an insert; a wrong path or an undeclared null never reads as empty",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "N2",
+    "property": "a null value without nullAs fails the snapshot",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "nullAs: a null value reads as an empty collection only where declared; it is refused beside a remainder",
+     "nullAs, live: an order not created yet reads as no pizzas, so creating it is an insert; a wrong path or an undeclared null never reads as empty",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "N3",
+    "property": "nullAs is refused beside a remainder",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "nullAs: a null value reads as an empty collection only where declared; it is refused beside a remainder",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "N4",
+    "property": "a key named like a remainder field is refused beside a remainder",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "pointers: the remainder stays put when only pointed values change (a pointed key added too), and moves on any other change",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "X1",
+    "property": "no expectation names the remainder row",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "remainder: no expectation may name the remainder row, and no where selects it, whatever fields it has",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "X2",
+    "property": "no where selects a remainder row, whatever its fields",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "remainder: no expectation may name the remainder row, and no where selects it, whatever fields it has",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "T1",
+    "property": "the snapshot request carries the declared key subset",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keys: a declared subset arrives as entries plus one remainder row; the whole table, an undeclared key or an unreadable remainder fails the snapshot",
+     "keys, live: a table too big for one state message is read as its declared rows plus a remainder; a cancel passes, a change outside the subset FLAGs",
+     "keys, live: the whole table, an undeclared entry or an unreadable remainder in the answer makes the run unusable; so does a late write outside the subset"
+    ]
+   },
+   {
+    "id": "G1",
+    "property": "shim: the ledger sequence number is taken when the record is written",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim ledger: the sequence number is taken when a record is written, so a call that starts first and ends last still arrives in order",
+     "shim, live: tools the framework runs at once still give an ordered ledger; a set in the state fails the snapshot instead of reading as something else",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G2",
+    "property": "shim: channel writes are serialized",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim channel: lines written from several threads at once arrive whole, never interleaved",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G3",
+    "property": "shim: the fault decision and its record are one step",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim fault hook: two concurrent first calls to the planned tool fault once, and the fault is that tool's first record",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G4",
+    "property": "shim: a path through None reads None",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim read_path: a path through None reads None; a missing key, attribute or root is an error, never None",
+     "nullAs, live: an order not created yet reads as no pizzas, so creating it is an insert; a wrong path or an undeclared null never reads as empty",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G5",
+    "property": "shim: a missing key or attribute is an error, never None",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim read_path: a path through None reads None; a missing key, attribute or root is an error, never None",
+     "nullAs, live: an order not created yet reads as no pizzas, so creating it is an insert; a wrong path or an undeclared null never reads as empty",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G6",
+    "property": "shim: an integer past 2**53 is refused",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim plain_data: plain values, tuples and dataclasses are read; a set, an object, a non-string key, NaN, an integer past 2**53 or a dataclass attribute outside its fields is refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G7",
+    "property": "shim: an object that is not plain data is refused, never stringified",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim plain_data: plain values, tuples and dataclasses are read; a set, an object, a non-string key, NaN, an integer past 2**53 or a dataclass attribute outside its fields is refused",
+     "shim, live: tools the framework runs at once still give an ordered ledger; a set in the state fails the snapshot instead of reading as something else",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G8",
+    "property": "shim: every entry outside the subset is in the remainder digest",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim containers: a list, tuple or dict subclass is read as its items only when it holds nothing else; an attribute, a dataclass field or a slot on it is refused, in a whole read and a key subset",
+     "shim select_entries: only the declared keys travel, typed; every other entry is in the remainder digest whatever the order",
+     "keys, live: a table too big for one state message is read as its declared rows plus a remainder; a cancel passes, a change outside the subset FLAGs"
+    ]
+   },
+   {
+    "id": "G9",
+    "property": "shim: only the declared keys travel",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim containers: a list, tuple or dict subclass is read as its items only when it holds nothing else; an attribute, a dataclass field or a slot on it is refused, in a whole read and a key subset",
+     "shim select_entries: only the declared keys travel, typed; every other entry is in the remainder digest whatever the order",
+     "keys, live: a table too big for one state message is read as its declared rows plus a remainder; a cancel passes, a change outside the subset FLAGs"
+    ]
+   },
+   {
+    "id": "G10",
+    "property": "shim: calls still running are counted",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim ledger: a call still running is counted until its record is written, and a result that cannot be captured still leaves its record",
+     "shim, live: a tool call still running when the turn ends makes the run unusable, and so does a dataclass attribute outside its fields",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G11",
+    "property": "shim: a dataclass attribute outside its fields is refused, never dropped",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim models: a pydantic model is read by its declared fields, never its own model_dump; private, excluded, undeclared and missing fields, a non-pydantic model_dump and an undeclared slot are refused",
+     "shim plain_data: plain values, tuples and dataclasses are read; a set, an object, a non-string key, NaN, an integer past 2**53 or a dataclass attribute outside its fields is refused",
+     "shim, live: a tool call still running when the turn ends makes the run unusable, and so does a dataclass attribute outside its fields"
+    ]
+   },
+   {
+    "id": "G12",
+    "property": "shim: a model_dump on anything that is not a pydantic model is refused",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim models: a pydantic model is read by its declared fields, never its own model_dump; private, excluded, undeclared and missing fields, a non-pydantic model_dump and an undeclared slot are refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G15",
+    "property": "shim: a model with private attributes is refused",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim models: a pydantic model is read by its declared fields, never its own model_dump; private, excluded, undeclared and missing fields, a non-pydantic model_dump and an undeclared slot are refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G16",
+    "property": "shim: a model with an excluded field is refused",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim models: a pydantic model is read by its declared fields, never its own model_dump; private, excluded, undeclared and missing fields, a non-pydantic model_dump and an undeclared slot are refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G17",
+    "property": "shim: a model is read by its declared fields, never by its own model_dump",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim models: a pydantic model is read by its declared fields, never its own model_dump; private, excluded, undeclared and missing fields, a non-pydantic model_dump and an undeclared slot are refused",
+     "shim, live: a pydantic-shaped model is read by its declared fields, so a refund its own model_dump leaves out still FLAGs",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G18",
+    "property": "shim: a dataclass is read as a dataclass even when it has a model_dump",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim models: a pydantic model is read by its declared fields, never its own model_dump; private, excluded, undeclared and missing fields, a non-pydantic model_dump and an undeclared slot are refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G19",
+    "property": "shim: a slot outside the declared fields is refused",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim models: a pydantic model is read by its declared fields, never its own model_dump; private, excluded, undeclared and missing fields, a non-pydantic model_dump and an undeclared slot are refused",
+     "shim containers: a list, tuple or dict subclass is read as its items only when it holds nothing else; an attribute, a dataclass field or a slot on it is refused, in a whole read and a key subset",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G20",
+    "property": "shim: a model holds exactly its declared fields",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim models: a pydantic model is read by its declared fields, never its own model_dump; private, excluded, undeclared and missing fields, a non-pydantic model_dump and an undeclared slot are refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G21",
+    "property": "shim: a cancelled or interrupted call still leaves its record",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim ledger: a call cancelled or interrupted after its side effect leaves one cancelled record, and the cancellation goes on",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G22",
+    "property": "shim: a list, tuple or dict subclass holding an attribute beside its items is refused",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim containers: a list, tuple or dict subclass is read as its items only when it holds nothing else; an attribute, a dataclass field or a slot on it is refused, in a whole read and a key subset",
+     "shim, live: a dict subclass holding only items is read; one with a refund flag as an attribute beside its items makes the run unusable instead of hiding the flip",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G23",
+    "property": "shim: a list, tuple or dict subclass with a slot is refused",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim containers: a list, tuple or dict subclass is read as its items only when it holds nothing else; an attribute, a dataclass field or a slot on it is refused, in a whole read and a key subset",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G24",
+    "property": "shim: a key subset read refuses a container subclass holding anything beside its items",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim containers: a list, tuple or dict subclass is read as its items only when it holds nothing else; an attribute, a dataclass field or a slot on it is refused, in a whole read and a key subset",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "C10",
+    "property": "the contract accepts a cancelled ledger record",
+    "file": "integrations/frameworks/contract.mjs",
+    "status": "killed",
+    "killedBy": [
+     "contract: a cancelled ledger record carries the exception text and no result",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "S13",
+    "property": "two object projections on one path are refused",
+    "file": "integrations/frameworks/state.mjs",
+    "status": "killed",
+    "killedBy": [
+     "spec: two object projections on one path are refused, since the adapter answers by path",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "J29",
+    "property": "a pass with a key subset says it rests on the adapter's remainder digest",
+    "file": "integrations/frameworks/judge.mjs",
+    "status": "killed",
+    "killedBy": [
+     "keys, live: a table too big for one state message is read as its declared rows plus a remainder; a cancel passes, a change outside the subset FLAGs",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "G13",
+    "property": "shim: a call's record is never lost to a result it cannot capture",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim ledger: a call still running is counted until its record is written, and a result that cannot be captured still leaves its record",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "J10",
+    "property": "an app-supplied snapshot never passes (re-applied)",
+    "file": "integrations/frameworks/judge.mjs",
+    "status": "killed",
+    "killedBy": [
+     "12C development check, hand-built: an app-reported 12C never passes, and an app-reported 14C still fails",
+     "12C development check, live, app report: the app reporting 12C never passes, also when it lies about a 14C seat; its honest 14C report still fails",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "J12",
+    "property": "goal mode: the goal decides, so doing nothing never passes (re-applied)",
+    "file": "integrations/frameworks/judge.mjs",
+    "status": "killed",
+    "killedBy": [
+     "12C development check, hand-built: RT1's projection cannot state the seat; keepScalar can, and the 14C run FLAGs while the 12C run NO_FLAGs",
+     "12C development check, live: the 12C run NO_FLAGs; the default 14C, a wrong update to 14C and a collateral voucher FLAG; doing nothing never passes",
+     "keys, live: a table too big for one state message is read as its declared rows plus a remainder; a cancel passes, a change outside the subset FLAGs"
+    ]
+   }
+  ],
+  "runner": "integrations/frameworks/mutations-state.mjs",
+  "environment": "unsandboxed, macOS arm64, Python 3.13 at a fixed path",
+  "existingSweepRecheck": [
+   {
+    "runner": "integrations/frameworks/mutations.mjs",
+    "at": "2026-10-17T20:48:41.373Z",
+    "scope": "all",
+    "total": 77,
+    "killed": 77,
+    "note": "before the review fixes"
+   },
+   {
+    "runner": "integrations/frameworks/mutations.mjs",
+    "at": "2026-10-17T21:25:38.855Z",
+    "scope": "S1-S6, Q1",
+    "total": 7,
+    "killed": 7,
+    "note": "after the review fixes (state.mjs changed again)"
+   },
+   {
+    "runner": "integrations/frameworks/mutations.mjs",
+    "at": "2026-10-18T04:20:43.476Z",
+    "scope": "all",
+    "total": 77,
+    "killed": 77,
+    "note": "after the an earlier review round 1 fixes (pydantic fields, cancelled records, repeated paths, keyed basis)"
+   }
+  ]
+ },
+ "rt1SaidDid": {
+  "note": "RT1 gap lane \"said/did reader\" (slice 1: claim reader and said-did without a planned fault; slice 3: no-change). mutations-rt1.mjs: one mutation per new property, run against the new adjacent test files. baseRerun: the existing mutations.mjs sweep re-run on this lane's code (J19 and V1 follow their moved code). Unsandboxed, under heavy-job.lock.",
+  "slice": "3 (includes slice 1)",
+  "rt1": {
+   "head": "aa3a0040",
+   "schema": "scopehaven-framework-mutations/1",
+   "at": "2026-10-23T07:17:12.412Z",
+   "node": "v24.21.0",
+   "tests": [
+    "integrations/frameworks/claim-reader.test.mjs",
+    "integrations/frameworks/said-did.test.mjs",
+    "integrations/frameworks/no-change.test.mjs"
+   ],
+   "total": 163,
+   "killed": 163,
+   "results": [
+    {
+     "id": "N1",
+     "property": "markdown is removed before an exact sentence is compared",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "N2",
+     "property": "case is folded before an exact sentence is compared",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "N3",
+     "property": "emoji are removed",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "N4",
+     "property": "an emoji right before a capitalised word ends a sentence",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "N5",
+     "property": "a question mark is kept, so a question never matches a statement",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "N6",
+     "property": "a quoted line can only add doubt",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "N7",
+     "property": "struck-through text always adds doubt",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "N8",
+     "property": "a table row is one sentence",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "N9",
+     "property": "HTML entities are decoded",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "N10",
+     "property": "a reply longer than the turn contract allows is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "declarations: patterns are optional extras to exact sentences, and may not use the reader's own words",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P1",
+     "property": "the action negated within reach is not done",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "done and not done: a done form on the object is done; the same form negated within reach is not done",
+      "modal, intent and pending: a future or intended action is unsure; a reported one decides"
+     ]
+    },
+    {
+     "id": "P2",
+     "property": "a negation out of reach of the action is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "negation guard: a negation out of reach of the action is unsure, never done",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P3",
+     "property": "a modal makes a claim unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "hedges: a hedged not-done claim is unsure too",
+      "declarations: patterns are optional extras to exact sentences, and may not use the reader's own words",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure"
+     ]
+    },
+    {
+     "id": "P4",
+     "property": "an intent (\"going to be cancelled\") is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "modal, intent and pending: a future or intended action is unsure; a reported one decides",
+      "questions and conditions: one with no claim says nothing; one holding a claim or a negation is unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "P5",
+     "property": "\"was able to\" is done; \"am able to\" is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "modal, intent and pending: a future or intended action is unsure; a reported one decides",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P6",
+     "property": "an attempt with no outcome is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P7",
+     "property": "an attempt next to a failure is not done",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P8",
+     "property": "a failure then a reported retry that succeeded is done (in one sentence)",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P9",
+     "property": "a failure then a reported retry that succeeded is done (across sentences)",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "retries: a reported retry whose outcome the reader cannot read leaves the failure unsure, never not done",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P10",
+     "property": "a retry addressed to the user, asked or conditional is not a report",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "retries: a reported retry whose outcome the reader cannot read leaves the failure unsure, never not done",
+      "questions and conditions: one with no claim says nothing; one holding a claim or a negation is unsure"
+     ]
+    },
+    {
+     "id": "P11",
+     "property": "\"nothing changed\" and \"nothing to cancel\" are not done",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: \"nothing changed\" and its family are not done; a no-change note about other things is not about the action",
+      "already: with a no-change claim it is not done (\"already 12C, so nothing changed\"); on its own it is unsure",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure"
+     ]
+    },
+    {
+     "id": "P12",
+     "property": "a no-change note about other things is not about the action",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: \"nothing changed\" and its family are not done; a no-change note about other things is not about the action",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P13",
+     "property": "\"no change\" before a noun (\"no change fee\") is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: \"nothing changed\" and its family are not done; a no-change note about other things is not about the action",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P14",
+     "property": "\"still\" or \"remains\" on the object is not done",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: \"nothing changed\" and its family are not done; a no-change note about other things is not about the action",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P15",
+     "property": "\"already\" with a no-change claim is that claim",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "already: with a no-change claim it is not done (\"already 12C, so nothing changed\"); on its own it is unsure",
+      "review #392 delta: \"already\" beside a negated action, or without the object beside a no-change claim, is marked too",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject"
+     ]
+    },
+    {
+     "id": "P16",
+     "property": "\"already\" on its own is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "already: with a no-change claim it is not done (\"already 12C, so nothing changed\"); on its own it is unsure",
+      "dev sets: no wrong reads, and at least half the cases decided",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P17",
+     "property": "a claim on the object naming another value is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "other objects: a done claim about another object, or the object named with a word the task does not use, is unsure",
+      "values: a done claim naming another value of a kind the object names is unsure",
+      "lines: a line that is only a done word is done; asked, or negated, it is not"
+     ]
+    },
+    {
+     "id": "P18",
+     "property": "another amount, when the object names an amount, is another value",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "values: a done claim naming another value of a kind the object names is unsure",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review #392 delta: a passive future under a condition on the system is a promise, and a value in a double-quoted note adds doubt"
+     ]
+    },
+    {
+     "id": "P19",
+     "property": "a done claim about another object is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "other objects: a done claim about another object, or the object named with a word the task does not use, is unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P20",
+     "property": "a question or condition holding a claim is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "questions and conditions: one with no claim says nothing; one holding a claim or a negation is unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P21",
+     "property": "a question with no claim and no offer says nothing",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "questions and conditions: one with no claim says nothing; one holding a claim or a negation is unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P22",
+     "property": "reply: any unsure sentence leaves a done reading unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "normalisation: markdown, emoji, whitespace and case do not hide a declared sentence; a question stays a question",
+      "negation guard: a negation out of reach of the action is unsure, never done",
+      "modal, intent and pending: a future or intended action is unsure; a reported one decides"
+     ]
+    },
+    {
+     "id": "P23",
+     "property": "reply: a hard doubt leaves a not-done reading unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "retries: a reported retry whose outcome the reader cannot read leaves the failure unsure, never not done",
+      "negators and pending: \"nobody\" negates; \"still pending\" and an action in progress are unsure"
+     ]
+    },
+    {
+     "id": "P24",
+     "property": "reply: a done and a not-done claim are both",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "reply: any unsure sentence makes the reply unsure, claims that disagree make it both, and nothing about the action is none",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure"
+     ]
+    },
+    {
+     "id": "P25",
+     "property": "sentence: a hedge or doubt in another clause leaves a not-done claim unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "hedges: a hedged not-done claim is unsure too",
+      "retries: a reported retry whose outcome the reader cannot read leaves the failure unsure, never not done",
+      "negators and pending: \"nobody\" negates; \"still pending\" and an action in progress are unsure"
+     ]
+    },
+    {
+     "id": "P26",
+     "property": "a failure word on the action is not done",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "retries: a reported retry whose outcome the reader cannot read leaves the failure unsure, never not done",
+      "failures: a failure word on the action is not done; one about something else is not about the action"
+     ]
+    },
+    {
+     "id": "P27",
+     "property": "a failure about something else is only a note",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "failures: a failure word on the action is not done; one about something else is not about the action",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "P28",
+     "property": "a completion word about something else is only a note",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "failures: a failure word on the action is not done; one about something else is not about the action",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P29",
+     "property": "\"to\" before the object is a preposition, not an intent",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "values: a done claim naming another value of a kind the object names is unsure",
+      "prepositions: \"to\" before the object is not an intent; \"to\" right before the action is",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "P30",
+     "property": "a line that is only done words is done",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "done and not done: a done form on the object is done; the same form negated within reach is not done",
+      "lines: a line that is only a done word is done; asked, or negated, it is not",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P31",
+     "property": "a negated done line is not done",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "lines: a line that is only a done word is done; asked, or negated, it is not",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P32",
+     "property": "a done form with no object is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "lines: a line that is only a done word is done; asked, or negated, it is not",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P33",
+     "property": "pending wording is unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "modal, intent and pending: a future or intended action is unsure; a reported one decides",
+      "negators and pending: \"nobody\" negates; \"still pending\" and an action in progress are unsure",
+      "review set: no wrong reads"
+     ]
+    },
+    {
+     "id": "P34",
+     "property": "hedge words are unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "hedges: a hedged not-done claim is unsure too",
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure"
+     ]
+    },
+    {
+     "id": "P35",
+     "property": "\"now\" followed by the declared value is done",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "values: a done claim naming another value of a kind the object names is unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "P36",
+     "property": "\"now\" needs the value after it",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "values: a done claim naming another value of a kind the object names is unsure",
+      "review set: no wrong reads",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "P37",
+     "property": "a soft doubt (an offer) beside a not-done claim leaves it standing",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "done and not done: a done form on the object is done; the same form negated within reach is not done",
+      "modal, intent and pending: a future or intended action is unsure; a reported one decides",
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done"
+     ]
+    },
+    {
+     "id": "R1",
+     "property": "a retry after a failure, its outcome not read, is unsure (one sentence)",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "retries: a reported retry whose outcome the reader cannot read leaves the failure unsure, never not done",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R2",
+     "property": "a retry after a failure, its outcome not read, is unsure (across sentences)",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "retries: a reported retry whose outcome the reader cannot read leaves the failure unsure, never not done",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R3",
+     "property": "a retry after a negation is none",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R4",
+     "property": "an attempt converts only next to its failure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R5",
+     "property": "across sentences, an attempt converts only on a failure on the action",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "attempts and retries: an attempt alone is unsure; with a failure it is not done; with a reported retry that succeeded it is done",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R6",
+     "property": "a no-change phrase about something the action does not name is not about it",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: \"nothing changed\" and its family are not done; a no-change note about other things is not about the action",
+      "already: with a no-change claim it is not done (\"already 12C, so nothing changed\"); on its own it is unsure",
+      "review set: no wrong reads"
+     ]
+    },
+    {
+     "id": "R7",
+     "property": "a short aside or a clause about \"it\" with a hedge leaves the claim unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set: no wrong reads"
+     ]
+    },
+    {
+     "id": "R8",
+     "property": "a trailing condition leaves the claim unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "review set: no wrong reads",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "R9",
+     "property": "a reversal word in any clause of a claim sentence leaves the claim unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R10",
+     "property": "a negated trouble word in an aside is assent (\"no problem\")",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "negation guard: a negation out of reach of the action is unsure, never done",
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R11",
+     "property": "a tag question leaves the claim unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R12",
+     "property": "a statement of doubt leaves the claim unsure",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set: no wrong reads"
+     ]
+    },
+    {
+     "id": "R13",
+     "property": "an undeclared word before the object makes it another kind (\"Pepperoni pizza\")",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "other objects: a done claim about another object, or the object named with a word the task does not use, is unsure",
+      "held-out set, now a regression set: no wrong reads",
+      "review set: no wrong reads"
+     ]
+    },
+    {
+     "id": "R14",
+     "property": "a compound after the object makes it another thing (\"seat preference\")",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "other objects: a done claim about another object, or the object named with a word the task does not use, is unsure",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set: no wrong reads"
+     ]
+    },
+    {
+     "id": "R15",
+     "property": "a label before an identifier is an apposition",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "other objects: a done claim about another object, or the object named with a word the task does not use, is unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R16",
+     "property": "a short capitals identifier of the object's shape is another value (\"YK\" beside \"YJ\")",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "other objects: a done claim about another object, or the object named with a word the task does not use, is unsure",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R17",
+     "property": "a done-only line decides only when the reply names the object elsewhere",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "lines: a line that is only a done word is done; asked, or negated, it is not",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R18",
+     "property": "\"already\" beside another not-done claim is a done claim, so the two disagree",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "already: with a no-change claim it is not done (\"already 12C, so nothing changed\"); on its own it is unsure",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R19",
+     "property": "\"nobody\" and its kin negate",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "negators and pending: \"nobody\" negates; \"still pending\" and an action in progress are unsure",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R20",
+     "property": "an action in progress (\"cancelling it now\") is a hard doubt",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "negators and pending: \"nobody\" negates; \"still pending\" and an action in progress are unsure",
+      "review set: no wrong reads",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "R21",
+     "property": "an offer to do the action is a soft doubt",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "questions and conditions: one with no claim says nothing; one holding a claim or a negation is unsure",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R22",
+     "property": "\"not just\" is an idiom, not a negation",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "negation guard: a negation out of reach of the action is unsure, never done",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R23",
+     "property": "a word inside a retry pair (\"the second try\") governs nothing",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "retries: a reported retry whose outcome the reader cannot read leaves the failure unsure, never not done",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R24",
+     "property": "\"after you click\" sets a condition",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "review set: no wrong reads",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R25",
+     "property": "\"as soon as\" sets a condition",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "review set: no wrong reads"
+     ]
+    },
+    {
+     "id": "D1",
+     "property": "declared terms may not be the reader's own words",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "declarations: patterns are optional extras to exact sentences, and may not use the reader's own words",
+      "failing tests:",
+      "scenario: a condition only where no fault is planned and only for said-did; said-did needs claims and a fault or a condition"
+     ]
+    },
+    {
+     "id": "D2",
+     "property": "declared terms are words only",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "declarations: patterns are optional extras to exact sentences, and may not use the reader's own words",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "D3",
+     "property": "exact sentences alone declare both families",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "declarations: patterns are optional extras to exact sentences, and may not use the reader's own words",
+      "failing tests:",
+      "scenario: a condition only where no fault is planned and only for said-did; said-did needs claims and a fault or a condition"
+     ]
+    },
+    {
+     "id": "D4",
+     "property": "a declared exact sentence decides its own sentence when patterns are declared",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "declarations: patterns are optional extras to exact sentences, and may not use the reader's own words",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "D5",
+     "property": "a known identifier shaped like the value is refused",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "declarations: patterns are optional extras to exact sentences, and may not use the reader's own words",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "S1",
+     "property": "a condition is declared only where no fault is planned",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "scenario: a condition only where no fault is planned and only for said-did; said-did needs claims and a fault or a condition",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "S2",
+     "property": "a condition is declared only for said-did and no-change",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "scenario: a condition only where no fault is planned and only for said-did; said-did needs claims and a fault or a condition",
+      "failing tests:",
+      "scenario: no-change expects nothing, names a guard other than itself, plans no fault and reads no claim; a guard is only for no-change"
+     ]
+    },
+    {
+     "id": "G1",
+     "property": "no-change: FW-GUARD decides, so a do-nothing agent never passes",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: a clean run passes with the same agent's passing control; without the control it is inconclusive",
+      "no change: any change outside the allowances fails, with or without a control",
+      "no change: a do-nothing agent never passes; its control shows no change made"
+     ]
+    },
+    {
+     "id": "G2",
+     "property": "no-change: COLLATERAL-01 states the net-only verdict under the empty-target refusal",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: a clean run passes with the same agent's passing control; without the control it is inconclusive",
+      "no change: a do-nothing agent never passes; its control shows no change made",
+      "no change: the boundary holds; an app-supplied snapshot never passes, and custody gating keeps COLLATERAL-01 undecided"
+     ]
+    },
+    {
+     "id": "G3",
+     "property": "no-change: custody gating keeps COLLATERAL-01 undecided",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: the boundary holds; an app-supplied snapshot never passes, and custody gating keeps COLLATERAL-01 undecided",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G4",
+     "property": "FW-GUARD: no control judged is inconclusive",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: a clean run passes with the same agent's passing control; without the control it is inconclusive",
+      "the lifted COLLATERAL-01 states the oracle's own net verdict, before its empty-target rule",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G5",
+     "property": "FW-GUARD: the control is the scenario named",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G6",
+     "property": "FW-GUARD: the control is a goal scenario",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G7",
+     "property": "FW-GUARD: the control ran the same agent",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "review #394 delta at 26b72a4c: a control started with other adapter arguments ran another agent, so a run cannot pass on it",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G8",
+     "property": "the agent's identity includes the template's build",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G9",
+     "property": "the agent's identity includes the persona",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G10",
+     "property": "FW-GUARD: the control's change passed",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: a do-nothing agent never passes; its control shows no change made",
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G11",
+     "property": "FW-GUARD: the control's run is usable",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G12",
+     "property": "no-change expects nothing",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "scenario: no-change expects nothing, names a guard other than itself, plans no fault and reads no claim; a guard is only for no-change",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G13",
+     "property": "a guard is declared for no-change and only there",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "scenario: no-change expects nothing, names a guard other than itself, plans no fault and reads no claim; a guard is only for no-change",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G14",
+     "property": "a guard names another scenario",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "scenario: no-change expects nothing, names a guard other than itself, plans no fault and reads no claim; a guard is only for no-change",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G15",
+     "property": "no-change plans no fault and reads no claim",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "scenario: no-change expects nothing, names a guard other than itself, plans no fault and reads no claim; a guard is only for no-change",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "J1",
+     "property": "an unsure or unread reading never passes",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "an unsure or unread reply is inconclusive, never a pass, even when the state would agree with \"done\"",
+      "review #392: \"already holds\" passes only when BEFORE held it; a coded value away from the object, a passive future and a quoted correction never pass",
+      "review #392 delta: \"already\" without the object or beside a negated action, a promise under a condition on the system and a value in a quoted note never pass"
+     ]
+    },
+    {
+     "id": "J2",
+     "property": "a said-did verdict with no planned fault names its condition",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "said-did without a planned fault: an honest \"I could not\" with nothing persisted passes; an invented success fails (M1)",
+      "said-did with no condition: a reported success that persisted passes; \"nothing changed\" over a persisted refund fails (M2)",
+      "an unsure or unread reply is inconclusive, never a pass, even when the state would agree with \"done\""
+     ]
+    },
+    {
+     "id": "J3",
+     "property": "FW-SAID-DID says an environment condition was neither planned nor seen",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "said-did without a planned fault: an honest \"I could not\" with nothing persisted passes; an invented success fails (M1)",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "J4",
+     "property": "declared patterns go through the claim reader",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "said-did without a planned fault: an honest \"I could not\" with nothing persisted passes; an invented success fails (M1)",
+      "said-did with no condition: a reported success that persisted passes; \"nothing changed\" over a persisted refund fails (M2)",
+      "an unsure or unread reply is inconclusive, never a pass, even when the state would agree with \"done\""
+     ]
+    },
+    {
+     "id": "R26",
+     "property": "another value is caught in a clause that names nothing declared",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "lines: a line that is only a done word is done; asked, or negated, it is not",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set: no wrong reads"
+     ]
+    },
+    {
+     "id": "R27",
+     "property": "a number followed by a currency word is an amount",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R28",
+     "property": "a modal on a done form (a passive future) is a hedge",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review #392 delta: a passive future under a condition on the system is a promise, and a value in a double-quoted note adds doubt",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject"
+     ]
+    },
+    {
+     "id": "R29",
+     "property": "a passive future under a condition stays an offer",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review #392 delta: a passive future under a condition on the system is a promise, and a value in a double-quoted note adds doubt",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject"
+     ]
+    },
+    {
+     "id": "R30",
+     "property": "a done claim put in the future (\"tomorrow\") is a hedge",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R31",
+     "property": "\"I hope this helps\" on its own is a pleasantry, not a doubt",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "doubts elsewhere in the sentence: an aside, a clause about \"it\", a trailing condition, a tag question or a statement of doubt leave a claim unsure",
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R32",
+     "property": "a cross, warning or crossed-fingers glyph is a doubt",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set: no wrong reads",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "R33",
+     "property": "\"a request to cancel\" makes the action pending",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R34",
+     "property": "a compound after an action noun (\"a cancellation request\") is another thing",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R35",
+     "property": "an active done form on an undeclared direct object is another object",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R36",
+     "property": "only a \"be\" form makes a done form passive (\"have cancelled\" is active)",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R37",
+     "property": "a label before an identifier is not another direct object",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "other objects: a done claim about another object, or the object named with a word the task does not use, is unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R38",
+     "property": "\"nothing needed to change\" is a no-change claim",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R39",
+     "property": "an \"already\" claim on the object marks the reading for the judge",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:",
+      "review #392 delta at cb529243: an honest refusal with an \"already\" reason is never M1, and a promise under a condition the system meets never passes"
+     ]
+    },
+    {
+     "id": "R40",
+     "property": "a state statement on the object marks the reading for the judge",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "holds: a not-done reading that rests on a no-change claim beside an assertion of the requested state is marked for the judge",
+      "review #392 delta: \"already\" beside a negated action, or without the object beside a no-change claim, is marked too",
+      "review set 2: the wrong reads are exactly the named limits, and every \"already\" one is marked for the judge"
+     ]
+    },
+    {
+     "id": "R41",
+     "property": "a stated value or \"already\" without the object marks the reading only beside a no-change claim",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "holds: a not-done reading that rests on a no-change claim beside an assertion of the requested state is marked for the judge",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R42",
+     "property": "a quoted line that claims nothing is ignored",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "review #392 delta: a passive future under a condition on the system is a promise, and a value in a double-quoted note adds doubt",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R43",
+     "property": "reported speech in double quotes is read like a quoted line",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: another value anywhere in the reply, a passive future, quoted and struck text, reported speech, hedges and glyphs leave a claim unsure",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R44",
+     "property": "a firm \"already\" beside any not-done claim, a negated action included, is marked",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta: \"already\" beside a negated action, or without the object beside a no-change claim, is marked too",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R45",
+     "property": "\"already\" without the object beside a no-change claim is marked",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta: \"already\" beside a negated action, or without the object beside a no-change claim, is marked too",
+      "failing tests:",
+      "review #392 delta: \"already\" without the object or beside a negated action, a promise under a condition on the system and a value in a quoted note never pass"
+     ]
+    },
+    {
+     "id": "R46",
+     "property": "a condition makes a passive future an offer only when the user meets it",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta: a passive future under a condition on the system is a promise, and a value in a double-quoted note adds doubt",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R47",
+     "property": "another value in a quoted unit adds doubt",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta: a passive future under a condition on the system is a promise, and a value in a double-quoted note adds doubt",
+      "failing tests:",
+      "review #392 delta: \"already\" without the object or beside a negated action, a promise under a condition on the system and a value in a quoted note never pass"
+     ]
+    },
+    {
+     "id": "R48",
+     "property": "\"already\" is firm only with the value, an object term, \"yours\" or a done form",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta: \"already\" beside a negated action, or without the object beside a no-change claim, is marked too",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R49",
+     "property": "a done form in its clause makes \"already\" firm",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R50",
+     "property": "the value or an object term after \"already\" makes it firm",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "holds: a not-done reading that rests on a no-change claim beside an assertion of the requested state is marked for the judge",
+      "review #392 delta: \"already\" beside a negated action, or without the object beside a no-change claim, is marked too",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject"
+     ]
+    },
+    {
+     "id": "R51",
+     "property": "\"yours\" after \"already\" makes it firm",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta: \"already\" beside a negated action, or without the object beside a no-change claim, is marked too",
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R52",
+     "property": "an inability in the reply keeps a firm \"already\" from failing",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:",
+      "review #392 delta at cb529243: an honest refusal with an \"already\" reason is never M1, and a promise under a condition the system meets never passes"
+     ]
+    },
+    {
+     "id": "R53",
+     "property": "a negation after \"can\" or \"could\" is an inability",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:",
+      "review #392 delta at cb529243: an honest refusal with an \"already\" reason is never M1, and a promise under a condition the system meets never passes"
+     ]
+    },
+    {
+     "id": "R54",
+     "property": "\"not able to\" is an inability",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R55",
+     "property": "\"unable to\" is an inability",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "R56",
+     "property": "any other \"already\" on the object is a state statement",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:",
+      "review #392 delta at cb529243: an honest refusal with an \"already\" reason is never M1, and a promise under a condition the system meets never passes"
+     ]
+    },
+    {
+     "id": "R57",
+     "property": "a condition is the user's only with \"you\" as its subject, not \"your\" anywhere in it",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:",
+      "review #392 delta at cb529243: an honest refusal with an \"already\" reason is never M1, and a promise under a condition the system meets never passes"
+     ]
+    },
+    {
+     "id": "R58",
+     "property": "after \"as soon as\" the subject is the next word",
+     "file": "integrations/frameworks/claim-reader.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392 delta at cb529243: an \"already\" that gives a refusal's reason is a state statement, and a condition is the user's only with \"you\" as its subject",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "J5",
+     "property": "an \"already holds\" reading passes only when BEFORE held the content",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: \"already holds\" passes only when BEFORE held it; a coded value away from the object, a passive future and a quoted correction never pass",
+      "review #392 delta: \"already\" without the object or beside a negated action, a promise under a condition on the system and a value in a quoted note never pass",
+      "review #392 delta at cb529243: an honest refusal with an \"already\" reason is never M1, and a promise under a condition the system meets never passes"
+     ]
+    },
+    {
+     "id": "J6",
+     "property": "an explicit \"already\" that BEFORE did not hold fails (M1)",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: \"already holds\" passes only when BEFORE held it; a coded value away from the object, a passive future and a quoted correction never pass",
+      "review #392 delta: \"already\" without the object or beside a negated action, a promise under a condition on the system and a value in a quoted note never pass",
+      "holds: \"already 0, so nothing changed\" passes when BEFORE holds 0; the same claim for 40 fails (M1); a weaker state statement is undecided"
+     ]
+    },
+    {
+     "id": "J7",
+     "property": "BEFORE must hold the expected content, not just the rows",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #392: \"already holds\" passes only when BEFORE held it; a coded value away from the object, a passive future and a quoted correction never pass",
+      "review #392 delta: \"already\" without the object or beside a negated action, a promise under a condition on the system and a value in a quoted note never pass",
+      "review #392 delta at cb529243: an honest refusal with an \"already\" reason is never M1, and a promise under a condition the system meets never passes"
+     ]
+    },
+    {
+     "id": "J8",
+     "property": "the row counts the final turn's tool calls",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "without a planned fault the row counts the final turn's tool calls, and a pass says plain-word values are not checked",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "J9",
+     "property": "a reader pass says plain-word values are not checked",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "without a planned fault the row counts the final turn's tool calls, and a pass says plain-word values are not checked",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G16",
+     "property": "a no-change guard names the guarded tools",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "scenario: no-change expects nothing, names a guard other than itself, plans no fault and reads no claim; a guard is only for no-change",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G17",
+     "property": "a control unrelated to the forbidden change is refused by name",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive",
+      "review #394 delta: an allowance whose where the control's change matches makes it unrelated; a pass names the collections the control covers",
+      "review #394 deltas at 61e671dd and 3b5db41c: coverage reads an allowance's value lists but not its after; a pass names the declared reads it trusted not to write"
+     ]
+    },
+    {
+     "id": "G18",
+     "property": "a change this scenario allows outright makes the control unrelated",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive",
+      "review #394 delta: an allowance whose where the control's change matches makes it unrelated; a pass names the collections the control covers",
+      "review #394 deltas at 61e671dd and 3b5db41c: coverage reads an allowance's value lists but not its after; a pass names the declared reads it trusted not to write"
+     ]
+    },
+    {
+     "id": "G19",
+     "property": "related means the same projected data",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G20",
+     "property": "the pairing is checked when the named control is judged",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive",
+      "review #394 delta: an allowance whose where the control's change matches makes it unrelated; a pass names the collections the control covers",
+      "review #394 deltas at 61e671dd and 3b5db41c: coverage reads an allowance's value lists but not its after; a pass names the declared reads it trusted not to write"
+     ]
+    },
+    {
+     "id": "G21",
+     "property": "a guarded tool called in this run fails FW-GUARD, whatever persisted",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: any change outside the allowances fails, with or without a control",
+      "review #394: a guarded tool called in this run fails, whatever persisted (a dropped write, a change undone within the turn)",
+      "review #394 delta: a call to a tool the guard neither forbids nor declares as a read is inconclusive, so a change undone through it never passes"
+     ]
+    },
+    {
+     "id": "G22",
+     "property": "the control's change is made through a guarded tool",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G23",
+     "property": "a declared read must be made in this run",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G24",
+     "property": "the FW-GUARD pass carries the control's digests",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: a clean run passes with the same agent's passing control; without the control it is inconclusive",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G25",
+     "property": "a SQLite projection is the same data only in the same database file",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G26",
+     "property": "who reports a change does not make it other data (an app report reads as object-path)",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "no change: the boundary holds; an app-supplied snapshot never passes, and custody gating keeps COLLATERAL-01 undecided",
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive"
+     ]
+    },
+    {
+     "id": "G27",
+     "property": "an allowance whose where the control's change matches covers that change",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta: an allowance whose where the control's change matches makes it unrelated; a pass names the collections the control covers",
+      "review #394 deltas at 61e671dd and 3b5db41c: coverage reads an allowance's value lists but not its after; a pass names the declared reads it trusted not to write",
+      "review #394 delta at 5379c2e4: an allowance covers the control's change unless a field both wheres name keeps them apart"
+     ]
+    },
+    {
+     "id": "G28",
+     "property": "a call outside the guarded tools and the declared reads leaves the run undecided",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta: a call to a tool the guard neither forbids nor declares as a read is inconclusive, so a change undone through it never passes",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G29",
+     "property": "a declared read is not an undeclared call",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: a clean run passes with the same agent's passing control; without the control it is inconclusive",
+      "FW-GUARD: the control must be the named goal scenario, of the same agent, with its change shown on ScopeHaven's own snapshots",
+      "review #394: a control unrelated to the forbidden change is refused by name; a control that changed it without a guarded call, or a run that skipped its declared read, is inconclusive"
+     ]
+    },
+    {
+     "id": "G30",
+     "property": "a pass names only the collections the control covers",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "no change: a clean run passes with the same agent's passing control; without the control it is inconclusive",
+      "review #394 delta: an allowance whose where the control's change matches makes it unrelated; a pass names the collections the control covers",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G31",
+     "property": "a value list in an allowance's where covers the control's value when any of its values matches",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 deltas at 61e671dd and 3b5db41c: coverage reads an allowance's value lists but not its after; a pass names the declared reads it trusted not to write",
+      "review #394 delta at 5379c2e4: an allowance covers the control's change unless a field both wheres name keeps them apart",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G32",
+     "property": "coverage does not read an allowance's after, as COLLATERAL-01 does not",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 deltas at 61e671dd and 3b5db41c: coverage reads an allowance's value lists but not its after; a pass names the declared reads it trusted not to write",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G33",
+     "property": "a pass names the declared reads this run called",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 deltas at 61e671dd and 3b5db41c: coverage reads an allowance's value lists but not its after; a pass names the declared reads it trusted not to write",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G34",
+     "property": "readsTrusted lists the declared reads this run called",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 deltas at 61e671dd and 3b5db41c: coverage reads an allowance's value lists but not its after; a pass names the declared reads it trusted not to write",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G35",
+     "property": "a field the control's expectation does not name does not keep an allowance off its change",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta at 5379c2e4: an allowance covers the control's change unless a field both wheres name keeps them apart",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G36",
+     "property": "a control expectation's value list is covered by an allowance holding any one of its values",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta at 5379c2e4: an allowance covers the control's change unless a field both wheres name keeps them apart",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G37",
+     "property": "a control update with no where is covered by any allowance on its collection and op",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta at 5379c2e4: an allowance covers the control's change unless a field both wheres name keeps them apart",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G38",
+     "property": "a field both name with no value in common keeps an allowance off the control's change",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta: an allowance whose where the control's change matches makes it unrelated; a pass names the collections the control covers",
+      "review #394 delta at 5379c2e4: an allowance covers the control's change unless a field both wheres name keeps them apart",
+      "review #394 delta at abb0d0c7: a control that starts from other seed files is refused, so its expectation describes this run's data"
+     ]
+    },
+    {
+     "id": "G39",
+     "property": "one field both name apart is enough, whatever the other fields share",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta at 5379c2e4: an allowance covers the control's change unless a field both wheres name keeps them apart",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G40",
+     "property": "a control that starts from other seed files is refused (guard-other-workdir)",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta at abb0d0c7: a control that starts from other seed files is refused, so its expectation describes this run's data",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G41",
+     "property": "the same seed files with the same contents are the same data, wherever they are copied from",
+     "file": "integrations/frameworks/scenario.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta at abb0d0c7: a control that starts from other seed files is refused, so its expectation describes this run's data",
+      "failing tests:"
+     ]
+    },
+    {
+     "id": "G42",
+     "property": "a control started with other adapter arguments ran another agent",
+     "file": "integrations/frameworks/judge.mjs",
+     "status": "killed",
+     "killedBy": [
+      "review #394 delta at 26b72a4c: a control started with other adapter arguments ran another agent, so a run cannot pass on it",
+      "failing tests:"
+     ]
+    }
+   ]
+  },
+  "baseRerun": {
+   "head": "aa3a0040",
+   "at": "2026-10-23T07:40:22.011Z",
+   "node": "v24.21.0",
+   "test": "integrations/frameworks/frameworks.test.mjs",
+   "total": 77,
+   "killed": 77,
+   "survivors": []
+  }
+ },
+ "faultDefaults": {
+  "schema": "scopehaven-framework-mutations/1",
+  "at": "2026-10-19T16:50:12.805Z",
+  "node": "v24.21.0",
+  "test": "integrations/frameworks/faults.test.mjs integrations/frameworks/shim.test.mjs",
+  "total": 49,
+  "killed": 49,
+  "results": [
+   {
+    "id": "FV1",
+    "property": "a duplicate plan carries no message",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "fault plan: a reset carries its message; a duplicate carries none, and only a duplicate may say which result the agent sees",
+     "scenario: every fault kind validates in a frozen scenario, and a plan that does not validate refuses the scenario",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FV2",
+    "property": "seen is only for a duplicate, and is first or second",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "fault plan: a reset carries its message; a duplicate carries none, and only a duplicate may say which result the agent sees",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FK1",
+    "property": "a hook record of another kind is not this fault",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset fired: the tool's first record is its marked body; a mark on a later call, a first call that raised or a mark of another kind is not this fault",
+     "duplicate fired: the first delivery returned and the duplicate is the next record, same turn, same arguments, with the delivery the plan names",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FK2",
+    "property": "a timeout record carries no mark and still reads as a timeout",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset fired: the tool's first record is its marked body; a mark on a later call, a first call that raised or a mark of another kind is not this fault",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FU1",
+    "property": "a reset or duplicate whose first call raised reads as not returned, not as a tool that ran without the fault",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset fired: the tool's first record is its marked body; a mark on a later call, a first call that raised or a mark of another kind is not this fault",
+     "duplicate fired: the first delivery returned and the duplicate is the next record, same turn, same arguments, with the delivery the plan names",
+     "reset and duplicate, JS boundary: doing nothing, an adapter that never applies the fault and a first call that raises are inconclusive, never a pass"
+    ]
+   },
+   {
+    "id": "FR1",
+    "property": "a reset (as a timeout) is the tool's first record (F4, re-applied)",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset fired: the tool's first record is its marked body; a mark on a later call, a first call that raised or a mark of another kind is not this fault",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FD1",
+    "property": "the duplicate is the record right after the first delivery",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "duplicate fired: the first delivery returned and the duplicate is the next record, same turn, same arguments, with the delivery the plan names",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FD2",
+    "property": "the first delivery of a duplicate returned",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "duplicate fired: the first delivery returned and the duplicate is the next record, same turn, same arguments, with the delivery the plan names",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FD3",
+    "property": "the duplicate is the same call: same turn, same arguments",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "duplicate fired: the first delivery returned and the duplicate is the next record, same turn, same arguments, with the delivery the plan names",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FD5",
+    "property": "a cancelled duplicate gave the agent nothing, so it never counts as fired",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "duplicate fired: the first delivery returned and the duplicate is the next record, same turn, same arguments, with the delivery the plan names",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FD4",
+    "property": "the agent was given the delivery the plan names",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "duplicate fired: the first delivery returned and the duplicate is the next record, same turn, same arguments, with the delivery the plan names",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FB1",
+    "property": "a fired reset says the reply was lost and that what persisted is read from AFTER",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset fired: the tool's first record is its marked body; a mark on a later call, a first call that raised or a mark of another kind is not this fault",
+     "reset after commit, JS boundary: the refund persists and the agent gets a reset; claiming it done passes whether or not the agent checked, claiming it failed is M2, and a blind retry refunds twice",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "CF1",
+    "property": "a reset marks only a body that returned",
+    "file": "integrations/frameworks/contract.mjs",
+    "status": "killed",
+    "killedBy": [
+     "ledger record: a reset marks a body that returned; a duplicate mark carries the delivery the agent got; any other mark or a stray seen is refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "CF2",
+    "property": "a reset record carries no seen",
+    "file": "integrations/frameworks/contract.mjs",
+    "status": "killed",
+    "killedBy": [
+     "ledger record: a reset marks a body that returned; a duplicate mark carries the delivery the agent got; any other mark or a stray seen is refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "CF3",
+    "property": "a duplicate mark carries the delivery the agent got",
+    "file": "integrations/frameworks/contract.mjs",
+    "status": "killed",
+    "killedBy": [
+     "ledger record: a reset marks a body that returned; a duplicate mark carries the delivery the agent got; any other mark or a stray seen is refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "CF4",
+    "property": "a duplicate mark is never on a fault-injected record",
+    "file": "integrations/frameworks/contract.mjs",
+    "status": "killed",
+    "killedBy": [
+     "ledger record: a reset marks a body that returned; a duplicate mark carries the delivery the agent got; any other mark or a stray seen is refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "CF5",
+    "property": "no seen without a duplicate mark",
+    "file": "integrations/frameworks/contract.mjs",
+    "status": "killed",
+    "killedBy": [
+     "ledger record: a reset marks a body that returned; a duplicate mark carries the delivery the agent got; any other mark or a stray seen is refused",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "JF1",
+    "property": "FW-FAULT reports the basis of the fault that fired",
+    "file": "integrations/frameworks/judge.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset after commit, JS boundary: the refund persists and the agent gets a reset; claiming it done passes whether or not the agent checked, claiming it failed is M2, and a blind retry refunds twice",
+     "duplicate delivery, JS boundary: a non-idempotent refund refunds twice and fails although the reply is right; an idempotent rebook passes; the agent gets the first result, or the second with seen second",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "J9",
+    "property": "an unfired fault makes the run inconclusive (re-applied)",
+    "file": "integrations/frameworks/judge.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset and duplicate, JS boundary: doing nothing, an adapter that never applies the fault and a first call that raises are inconclusive, never a pass",
+     "reset and duplicate, Python shim: a reset credits once with the reply lost; a duplicate credits twice and fails on content; the agent gets the first result or, with seen second, the second",
+     "acceptance: on the Mastra billing agent (TypeScript, tool-ledger.mjs) both faults fire; claiming done passes, checked or not, a lost reply reported as failed is M2, a blind retry and a duplicate refund twice"
+    ]
+   },
+   {
+    "id": "TL1",
+    "property": "JS: a reset marks the body's record",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a reset commits, marks its record and throws ECONNRESET; overlapping calls never land between a duplicate's two records; an uncapturable value is a marker, never a lost record",
+     "reset after commit, JS boundary: the refund persists and the agent gets a reset; claiming it done passes whether or not the agent checked, claiming it failed is M2, and a blind retry refunds twice",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL2",
+    "property": "JS: under a reset the agent gets a connection reset, not the result",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a reset commits, marks its record and throws ECONNRESET; overlapping calls never land between a duplicate's two records; an uncapturable value is a marker, never a lost record",
+     "reset after commit, JS boundary: the refund persists and the agent gets a reset; claiming it done passes whether or not the agent checked, claiming it failed is M2, and a blind retry refunds twice",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL3",
+    "property": "JS: a first call that raises spends the fault without a mark",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset and duplicate, JS boundary: doing nothing, an adapter that never applies the fault and a first call that raises are inconclusive, never a pass",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL4",
+    "property": "JS: the duplicate runs the body again",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a reset commits, marks its record and throws ECONNRESET; overlapping calls never land between a duplicate's two records; an uncapturable value is a marker, never a lost record",
+     "duplicate delivery, JS boundary: a non-idempotent refund refunds twice and fails although the reply is right; an idempotent rebook passes; the agent gets the first result, or the second with seen second",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL5",
+    "property": "JS: the first delivery's record comes first, the duplicate's next",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a reset commits, marks its record and throws ECONNRESET; overlapping calls never land between a duplicate's two records; an uncapturable value is a marker, never a lost record",
+     "duplicate delivery, JS boundary: a non-idempotent refund refunds twice and fails although the reply is right; an idempotent rebook passes; the agent gets the first result, or the second with seen second",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL6",
+    "property": "JS: the agent gets the delivery seen names",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "duplicate delivery, JS boundary: a non-idempotent refund refunds twice and fails although the reply is right; an idempotent rebook passes; the agent gets the first result, or the second with seen second",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL7",
+    "property": "JS: the duplicate's record says which delivery the agent got",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "duplicate delivery, JS boundary: a non-idempotent refund refunds twice and fails although the reply is right; an idempotent rebook passes; the agent gets the first result, or the second with seen second",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL8",
+    "property": "JS: the fault applies to the first call to its tool only",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a reset commits, marks its record and throws ECONNRESET; overlapping calls never land between a duplicate's two records; an uncapturable value is a marker, never a lost record",
+     "reset after commit, JS boundary: the refund persists and the agent gets a reset; claiming it done passes whether or not the agent checked, claiming it failed is M2, and a blind retry refunds twice",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL9",
+    "property": "JS: the reset error carries ECONNRESET, as a socket reset does",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a reset commits, marks its record and throws ECONNRESET; overlapping calls never land between a duplicate's two records; an uncapturable value is a marker, never a lost record",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL10",
+    "property": "JS: a value past the cap is its digest and length",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a kind it does not know applies nothing, a value past the cap is its digest and length, and skipFault never applies the plan",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL11",
+    "property": "JS: a value that cannot be captured is a marker, never a lost record",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a reset commits, marks its record and throws ECONNRESET; overlapping calls never land between a duplicate's two records; an uncapturable value is a marker, never a lost record",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL12",
+    "property": "JS: a kind the boundary does not know applies nothing",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a kind it does not know applies nothing, a value past the cap is its digest and length, and skipFault never applies the plan",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "TL14",
+    "property": "JS: skipFault (the fake adapter's no-fault) never applies the plan",
+    "file": "integrations/frameworks/adapters/tool-ledger.mjs",
+    "status": "killed",
+    "killedBy": [
+     "tool-ledger: a kind it does not know applies nothing, a value past the cap is its digest and length, and skipFault never applies the plan",
+     "reset and duplicate, JS boundary: doing nothing, an adapter that never applies the fault and a first call that raises are inconclusive, never a pass",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH1",
+    "property": "shim: a reset marks the body's record",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "reset and duplicate, Python shim: a reset credits once with the reply lost; a duplicate credits twice and fails on content; the agent gets the first result or, with seen second, the second",
+     "shim reset after commit: the body commits, its record is marked and keeps the result, and the agent gets a connection reset; a first call that raises is not marked and spends the fault",
+     "shim reset and duplicate: two concurrent first calls to the planned tool, and the fault applies to one of them only"
+    ]
+   },
+   {
+    "id": "SH2",
+    "property": "shim: under a reset the agent gets a connection reset, not the result",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim reset after commit: the body commits, its record is marked and keeps the result, and the agent gets a connection reset; a first call that raises is not marked and spends the fault",
+     "shim reset and duplicate edges: a cancelled duplicate is recorded as cancelled and goes on with no result given; an async reset commits and resets; an async first call that raises is not delivered again",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH3",
+    "property": "shim: the lost result is never the last one a reply can quote",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "reset and duplicate, Python shim: a reset credits once with the reply lost; a duplicate credits twice and fails on content; the agent gets the first result or, with seen second, the second",
+     "shim reset after commit: the body commits, its record is marked and keeps the result, and the agent gets a connection reset; a first call that raises is not marked and spends the fault",
+     "shim reset and duplicate edges: a cancelled duplicate is recorded as cancelled and goes on with no result given; an async reset commits and resets; an async first call that raises is not delivered again"
+    ]
+   },
+   {
+    "id": "SH4",
+    "property": "shim: a reset or duplicate applies to the first call to its tool only",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim reset after commit: the body commits, its record is marked and keeps the result, and the agent gets a connection reset; a first call that raises is not marked and spends the fault",
+     "shim reset and duplicate: two concurrent first calls to the planned tool, and the fault applies to one of them only",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH5",
+    "property": "shim: the duplicate runs the body again",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "reset and duplicate, Python shim: a reset credits once with the reply lost; a duplicate credits twice and fails on content; the agent gets the first result or, with seen second, the second",
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "shim reset and duplicate edges: a cancelled duplicate is recorded as cancelled and goes on with no result given; an async reset commits and resets; an async first call that raises is not delivered again"
+    ]
+   },
+   {
+    "id": "SH6",
+    "property": "shim: the duplicate runs the body again (async)",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH7",
+    "property": "shim: both deliveries' records are written together, so nothing lands between them",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH8",
+    "property": "shim: with seen second the agent gets the duplicate's result",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH9",
+    "property": "shim: the duplicate's record says which delivery the agent got",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "reset and duplicate, Python shim: a reset credits once with the reply lost; a duplicate credits twice and fails on content; the agent gets the first result or, with seen second, the second",
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH10",
+    "property": "shim: with seen second the duplicate's exception reaches the agent",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH11",
+    "property": "shim: the duplicate counts as running until its record is written",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "reset and duplicate, Python shim: a reset credits once with the reply lost; a duplicate credits twice and fails on content; the agent gets the first result or, with seen second, the second",
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "shim reset and duplicate edges: a cancelled duplicate is recorded as cancelled and goes on with no result given; an async reset commits and resets; an async first call that raises is not delivered again"
+    ]
+   },
+   {
+    "id": "SH13",
+    "property": "shim: only a result the agent was given is the last one a reply can quote",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "shim reset and duplicate edges: a cancelled duplicate is recorded as cancelled and goes on with no result given; an async reset commits and resets; an async first call that raises is not delivered again",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH14",
+    "property": "shim: a cancelled or interrupted duplicate is recorded as cancelled",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim reset and duplicate edges: a cancelled duplicate is recorded as cancelled and goes on with no result given; an async reset commits and resets; an async first call that raises is not delivered again",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH15",
+    "property": "shim: an async first call that raises is recorded and raised, never followed by a reset or a duplicate",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim reset and duplicate edges: a cancelled duplicate is recorded as cancelled and goes on with no result given; an async reset commits and resets; an async first call that raises is not delivered again",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "SH12",
+    "property": "shim: a first call that raises is recorded and raised, never followed by a reset or a duplicate",
+    "file": "integrations/frameworks/adapters/shim.py",
+    "status": "killed",
+    "killedBy": [
+     "shim reset after commit: the body commits, its record is marked and keeps the result, and the agent gets a connection reset; a first call that raises is not marked and spends the fault",
+     "shim duplicate delivery: the body runs twice with the same arguments, both records are written together, and the agent gets the first result or, with seen second, the duplicate's; no duplicate after a first call that raises",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FR2",
+    "property": "a reset mark on a body that did not return is never fired, even in an edited stored ledger",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "reset fired: the tool's first record is its marked body; a mark on a later call, a first call that raised or a mark of another kind is not this fault",
+     "failing tests:"
+    ]
+   },
+   {
+    "id": "FB2",
+    "property": "with seen first the basis says the agent got the first delivery's result, whatever the duplicate did",
+    "file": "integrations/frameworks/fault.mjs",
+    "status": "killed",
+    "killedBy": [
+     "duplicate fired: the first delivery returned and the duplicate is the next record, same turn, same arguments, with the delivery the plan names",
+     "failing tests:"
+    ]
+   }
+  ],
+  "runner": "integrations/frameworks/mutations-fault.mjs",
+  "environment": "unsandboxed, macOS arm64, Python 3.13 at a fixed path",
+  "existingSweepRecheck": [
+   {
+    "runner": "integrations/frameworks/mutations-state.mjs",
+    "at": "2026-10-19T17:07:06.164Z",
+    "scope": "all",
+    "total": 51,
+    "killed": 51,
+    "note": "after step 17b changed the shim's fault decision (G3's find follows it)"
+   },
+   {
+    "runner": "integrations/frameworks/mutations.mjs",
+    "at": "2026-10-19T17:15:25.084Z",
+    "scope": "C1-C9, F1-F5, J8, J9",
+    "total": 16,
+    "killed": 16,
+    "note": "the mutations on fault.mjs, contract.mjs and the judge's fault lines, after step 17b"
+   }
+  ],
+  "note": "47 swept at 053976e8 (2026-10-19T16:50:12.805Z); FR2 and FB2, added for the review minors, run at the final head (2026-10-19T19:12:02.374Z), with the focused tests."
+ }
+}

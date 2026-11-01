@@ -1,0 +1,2075 @@
+{
+  "schemaVersion": 1,
+  "pair": "loopback-response-contract/1|http-contract/2",
+  "generatedFrom": "origin/main 4444dc7 runHttpAssessment with in-process stub transports (generate-contract-http-v1-fixtures.mjs)",
+  "runs": {
+    "one": {
+      "schemaVersion": 1,
+      "id": "39b331fc-4f09-42e9-ab93-ba5e08f7e0cf",
+      "createdAt": "2026-10-05T05:46:57.331Z",
+      "targetId": "http-lab",
+      "targetName": "Separate HTTP application",
+      "build": "lab-one",
+      "applicationId": "owned-http-lab",
+      "suiteId": "http-lab-contracts",
+      "suiteHash": "9132c2241671c2cbd69a0f2c85ec19c5cc6b81700ba429f3c8aace054dc22a66",
+      "policyHash": "9132c2241671c2cbd69a0f2c85ec19c5cc6b81700ba429f3c8aace054dc22a66",
+      "profileHash": "568601a1947bdc00a39271761491a7af1b412a8d15251293f6ddacd1b22d7a9c",
+      "contextId": "synthetic-records-v1",
+      "fixtureVersion": "operator-declared-context/1",
+      "fixtureHash": "c330fc4ffddcc78f8902cb11a4eecc2a4816506231c6004d439056b3d4b6a641",
+      "adapterVersion": "loopback-response-contract/1",
+      "assertionSchemaVersion": "http-contract/2",
+      "evaluatorHash": "bb0d3bbc4ec43dc8af69e4fa74152ff401dcd0a69e92e801c3bc58178871d69e",
+      "requiredControlIds": [
+        "WHOAMI",
+        "OWN-RECORD"
+      ],
+      "evidenceOrigin": "local-http-response",
+      "runtimeMode": "configured-local-application",
+      "targetBuildHash": null,
+      "targetConfigHash": "3bc8422277e3c0d2038d4edea8b16c11efa3413e671d25c90d7d40552e768ad7",
+      "buildIdentity": "Declared in configuration; not independently attested.",
+      "scopeLabel": "HTTP response contracts only. Backend access and action effects are not independently verified.",
+      "durationMs": 3,
+      "checksTotal": 7,
+      "counts": {
+        "pass": 2,
+        "fail": 1,
+        "inconclusive": 2,
+        "error": 1,
+        "not_applicable": 1
+      },
+      "results": [
+        {
+          "id": "WHOAMI",
+          "title": "The configured account is a member",
+          "category": "Local application contracts",
+          "severity": "control",
+          "status": "pass",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 200",
+              "actual": "HTTP 200"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "pass",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Present; type string; predicate pass"
+            }
+          ],
+          "observed": {
+            "httpStatus": 200,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": true,
+                "type": "string",
+                "outcome": "pass"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Response contract predicates passed; backend effects remain unverified.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "e8381b57-a555-46ad-9dfe-17f0715c4384",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "b4104b822236e8acba1cec3b8531cb785a5a11300e229b22306ba70151590fe2",
+                "httpStatus": 200,
+                "responseComplete": true,
+                "responseBytes": 51,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check WHOAMI"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "256867b738e8620af452ea2ad901e071c4c7ee8a66d6ba33fe8e2dc78b4d70d5"
+        },
+        {
+          "id": "OWN-RECORD",
+          "title": "The member receives their own record",
+          "category": "Local application contracts",
+          "severity": "control",
+          "status": "fail",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "fail",
+              "expected": "HTTP 200",
+              "actual": "HTTP 403"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "fail",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Absent; type absent; predicate fail"
+            }
+          ],
+          "observed": {
+            "httpStatus": 403,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": false,
+                "type": "absent",
+                "outcome": "fail"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "An observable response contract predicate failed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "b9c810a4-177e-44c1-a33e-80a2b5c32473",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "6dea1cf623ad0540061cddbd947fb69ff2d5250973199eefe5ac9af424e5c7a9",
+                "httpStatus": 403,
+                "responseComplete": true,
+                "responseBytes": 26,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check OWN-RECORD"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "90b7531adbcf4fd18c94d5ec71f4de078c79d8a9872ab35d14bf64e62c7572dd"
+        },
+        {
+          "id": "FOREIGN-STATUS",
+          "title": "The foreign-record endpoint returns a denial",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "pass",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 403",
+              "actual": "HTTP 403"
+            }
+          ],
+          "observed": {
+            "httpStatus": 403,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Response contract predicates passed; backend effects remain unverified.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "34a7aee5-a796-4794-b57e-735b2ea67770",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "71431d699ffebe50929567fb2a83721468dfbd25504d48404c1fb26261e7fb2f",
+                "httpStatus": 403,
+                "responseComplete": true,
+                "responseBytes": 26,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check FOREIGN-STATUS"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "622a537a5373f84a846e1590a3fdf43f04902f43e9c743f03993b8228d7c3849"
+        },
+        {
+          "id": "ANONYMOUS",
+          "title": "An anonymous request receives 401",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 401",
+              "actual": "HTTP status unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "fbf33926-e02b-4f00-b042-df00004f4b0b",
+                "actorId": "anonymous",
+                "method": "GET",
+                "requestPathHash": "6dea1cf623ad0540061cddbd947fb69ff2d5250973199eefe5ac9af424e5c7a9",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "network",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check ANONYMOUS"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "21bcb021f810d80757ef986ddcdbdccff10ab0e91557750f518ae5e2ace32aa7"
+        },
+        {
+          "id": "BACKEND-UNVERIFIED",
+          "title": "Protected content is not retrieved internally",
+          "category": "Local application contracts",
+          "severity": "critical",
+          "status": "inconclusive",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 403",
+              "actual": "HTTP 403"
+            },
+            {
+              "name": "json.notContains predicate 1",
+              "status": "pass",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Present; type string; predicate pass"
+            },
+            {
+              "name": "Trusted backend observation available",
+              "status": "inconclusive",
+              "expected": "Independent backend evidence required",
+              "actual": "Backend evidence unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": 403,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [
+              {
+                "kind": "json.notContains",
+                "present": true,
+                "type": "string",
+                "outcome": "pass"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Required evidence or a JSON predicate could not be verified.",
+          "evidenceRequirement": "backend",
+          "expected": "Configured response predicates and independent backend evidence.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "886aa601-460f-454c-a972-eb6a8081a072",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "71431d699ffebe50929567fb2a83721468dfbd25504d48404c1fb26261e7fb2f",
+                "httpStatus": 403,
+                "responseComplete": true,
+                "responseBytes": 26,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check BACKEND-UNVERIFIED"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "29308cdb97f36c2011e6c635e3628c9bac055d0c06e8541d0d7bbb2acf1751ea"
+        },
+        {
+          "id": "ECHO",
+          "title": "A JSON POST completes its response contract",
+          "category": "Local application contracts",
+          "severity": "low",
+          "status": "inconclusive",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 200",
+              "actual": "HTTP 200"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": 200,
+            "complete": true,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Required evidence or a JSON predicate could not be verified.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "16eec581-3848-44dd-99f3-0ec526d87892",
+                "actorId": "member",
+                "method": "POST",
+                "requestPathHash": "cb9c1f54d8102d68b7a40c2376e1f0e85e330f2df11a0bb83c8084694f5c73c2",
+                "httpStatus": 200,
+                "responseComplete": true,
+                "responseBytes": 9,
+                "jsonParsed": false,
+                "transportOutcome": "invalid-json",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed; a timeout does not undo an action."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check ECHO"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "67163b124f1762695934564fbfcfe48c4cfcea236da69e6462fe2467f741ad5a"
+        },
+        {
+          "id": "NOT-APPLICABLE",
+          "title": "The foreign-record endpoint returns a denial",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "not_applicable",
+          "summary": "Excluded by the versioned applicability declaration.",
+          "evidenceRequirement": "response",
+          "expected": "A documented scope decision; no request is sent.",
+          "observed": {
+            "reason": "This build does not expose that capability.",
+            "requestAttempted": false
+          },
+          "assertions": [
+            {
+              "name": "Declared applicability",
+              "status": "not_applicable",
+              "expected": "Documented scope",
+              "actual": "This build does not expose that capability."
+            }
+          ],
+          "backendEvidence": "not-assessed",
+          "trace": [
+            {
+              "type": "scope",
+              "label": "No test request sent",
+              "data": {
+                "reason": "This build does not expose that capability.",
+                "requestAttempted": false
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review scope when capabilities change",
+            "why": "Not applicable is not a passing security test.",
+            "steps": [
+              "Confirm the capability is genuinely absent.",
+              "Re-enable the check when the application scope changes."
+            ],
+            "codePointers": [
+              "Local target profile"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "16ba3b04d1522ade0cebf5c04040b013b8216ec2adda6e2269e279f585e5120a"
+        }
+      ],
+      "limitations": [
+        "The connector assessed an operator-configured local application using HTTP response predicates; it did not independently observe backend retrieval or tool effects.",
+        "Application, actor, build and data-context identities are declared by the profile. The target may have its own model, database or network dependencies.",
+        "A passing response contract is not a security certification. Requirements needing backend evidence remain inconclusive when response predicates pass.",
+        "Raw request/response content and credentials are not retained. Reproducing a predicate requires the original private profile and comparable target state.",
+        "Requests run once without retries or automatic reset. A timed-out POST may still have executed; inspect the target before retrying manually."
+      ]
+    },
+    "two": {
+      "schemaVersion": 1,
+      "id": "e0ac9844-2ee3-4d30-827e-844cca5bfba9",
+      "createdAt": "2026-10-05T05:46:57.334Z",
+      "targetId": "http-lab",
+      "targetName": "Separate HTTP application",
+      "build": "lab-two",
+      "applicationId": "owned-http-lab",
+      "suiteId": "http-lab-contracts",
+      "suiteHash": "9132c2241671c2cbd69a0f2c85ec19c5cc6b81700ba429f3c8aace054dc22a66",
+      "policyHash": "9132c2241671c2cbd69a0f2c85ec19c5cc6b81700ba429f3c8aace054dc22a66",
+      "profileHash": "568601a1947bdc00a39271761491a7af1b412a8d15251293f6ddacd1b22d7a9c",
+      "contextId": "synthetic-records-v1",
+      "fixtureVersion": "operator-declared-context/1",
+      "fixtureHash": "c330fc4ffddcc78f8902cb11a4eecc2a4816506231c6004d439056b3d4b6a641",
+      "adapterVersion": "loopback-response-contract/1",
+      "assertionSchemaVersion": "http-contract/2",
+      "evaluatorHash": "bb0d3bbc4ec43dc8af69e4fa74152ff401dcd0a69e92e801c3bc58178871d69e",
+      "requiredControlIds": [
+        "WHOAMI",
+        "OWN-RECORD"
+      ],
+      "evidenceOrigin": "local-http-response",
+      "runtimeMode": "configured-local-application",
+      "targetBuildHash": null,
+      "targetConfigHash": "cac0c0744d1912015d8f4f8411cde3eb423620455c451868c90ba7b68dcdd13a",
+      "buildIdentity": "Declared in configuration; not independently attested.",
+      "scopeLabel": "HTTP response contracts only. Backend access and action effects are not independently verified.",
+      "durationMs": 0,
+      "checksTotal": 7,
+      "counts": {
+        "pass": 2,
+        "fail": 1,
+        "inconclusive": 2,
+        "error": 1,
+        "not_applicable": 1
+      },
+      "results": [
+        {
+          "id": "WHOAMI",
+          "title": "The configured account is a member",
+          "category": "Local application contracts",
+          "severity": "control",
+          "status": "pass",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 200",
+              "actual": "HTTP 200"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "pass",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Present; type string; predicate pass"
+            }
+          ],
+          "observed": {
+            "httpStatus": 200,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": true,
+                "type": "string",
+                "outcome": "pass"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Response contract predicates passed; backend effects remain unverified.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "d6feb101-1cbc-4a57-8dd3-90c1561edde6",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "b4104b822236e8acba1cec3b8531cb785a5a11300e229b22306ba70151590fe2",
+                "httpStatus": 200,
+                "responseComplete": true,
+                "responseBytes": 51,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check WHOAMI"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "ae16f1783278cc0907b6860c8e67ce57465b0bc9fa93cc68bcd7026fecfc85ca"
+        },
+        {
+          "id": "OWN-RECORD",
+          "title": "The member receives their own record",
+          "category": "Local application contracts",
+          "severity": "control",
+          "status": "fail",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "fail",
+              "expected": "HTTP 200",
+              "actual": "HTTP 403"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "fail",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Absent; type absent; predicate fail"
+            }
+          ],
+          "observed": {
+            "httpStatus": 403,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": false,
+                "type": "absent",
+                "outcome": "fail"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "An observable response contract predicate failed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "97d7f243-9e5f-4e43-ac2b-6f1abd0554e5",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "6dea1cf623ad0540061cddbd947fb69ff2d5250973199eefe5ac9af424e5c7a9",
+                "httpStatus": 403,
+                "responseComplete": true,
+                "responseBytes": 26,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check OWN-RECORD"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "d8e72ce63252c3f287e8dea22e6d5f6b6646dc79f080d2f8e643bea24599a3d2"
+        },
+        {
+          "id": "FOREIGN-STATUS",
+          "title": "The foreign-record endpoint returns a denial",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "pass",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 403",
+              "actual": "HTTP 403"
+            }
+          ],
+          "observed": {
+            "httpStatus": 403,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Response contract predicates passed; backend effects remain unverified.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "67ec9773-0be7-4742-bbb6-d38ff67a64e6",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "71431d699ffebe50929567fb2a83721468dfbd25504d48404c1fb26261e7fb2f",
+                "httpStatus": 403,
+                "responseComplete": true,
+                "responseBytes": 26,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check FOREIGN-STATUS"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "922778b4a675e6e108ca72b795efdc747c264180d694cade9ca8050fd2063df2"
+        },
+        {
+          "id": "ANONYMOUS",
+          "title": "An anonymous request receives 401",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 401",
+              "actual": "HTTP status unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "7a696dc0-f613-4610-8294-adcc43374226",
+                "actorId": "anonymous",
+                "method": "GET",
+                "requestPathHash": "6dea1cf623ad0540061cddbd947fb69ff2d5250973199eefe5ac9af424e5c7a9",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "network",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check ANONYMOUS"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "b53d844846eced5ca4f380c0f17ee1b0bc8ebea3d460e911eef4c8b0f7fe4397"
+        },
+        {
+          "id": "BACKEND-UNVERIFIED",
+          "title": "Protected content is not retrieved internally",
+          "category": "Local application contracts",
+          "severity": "critical",
+          "status": "inconclusive",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 403",
+              "actual": "HTTP 403"
+            },
+            {
+              "name": "json.notContains predicate 1",
+              "status": "pass",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Present; type string; predicate pass"
+            },
+            {
+              "name": "Trusted backend observation available",
+              "status": "inconclusive",
+              "expected": "Independent backend evidence required",
+              "actual": "Backend evidence unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": 403,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [
+              {
+                "kind": "json.notContains",
+                "present": true,
+                "type": "string",
+                "outcome": "pass"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Required evidence or a JSON predicate could not be verified.",
+          "evidenceRequirement": "backend",
+          "expected": "Configured response predicates and independent backend evidence.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "15420ccf-37e0-42a2-be9a-8657dbaf6e84",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "71431d699ffebe50929567fb2a83721468dfbd25504d48404c1fb26261e7fb2f",
+                "httpStatus": 403,
+                "responseComplete": true,
+                "responseBytes": 26,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check BACKEND-UNVERIFIED"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "94d562542cae6c25dc89f95b43b63720ef867507f3dc51731cd57aff7ea3fed3"
+        },
+        {
+          "id": "ECHO",
+          "title": "A JSON POST completes its response contract",
+          "category": "Local application contracts",
+          "severity": "low",
+          "status": "inconclusive",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 200",
+              "actual": "HTTP 200"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": 200,
+            "complete": true,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Required evidence or a JSON predicate could not be verified.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "28b60c54-d18d-4504-8734-bf8e831b8d50",
+                "actorId": "member",
+                "method": "POST",
+                "requestPathHash": "cb9c1f54d8102d68b7a40c2376e1f0e85e330f2df11a0bb83c8084694f5c73c2",
+                "httpStatus": 200,
+                "responseComplete": true,
+                "responseBytes": 9,
+                "jsonParsed": false,
+                "transportOutcome": "invalid-json",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed; a timeout does not undo an action."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check ECHO"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "be0d488302b013d5c022547a41a6b715ee1a7e62d19b7d22a725fadefb8942d7"
+        },
+        {
+          "id": "NOT-APPLICABLE",
+          "title": "The foreign-record endpoint returns a denial",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "not_applicable",
+          "summary": "Excluded by the versioned applicability declaration.",
+          "evidenceRequirement": "response",
+          "expected": "A documented scope decision; no request is sent.",
+          "observed": {
+            "reason": "This build does not expose that capability.",
+            "requestAttempted": false
+          },
+          "assertions": [
+            {
+              "name": "Declared applicability",
+              "status": "not_applicable",
+              "expected": "Documented scope",
+              "actual": "This build does not expose that capability."
+            }
+          ],
+          "backendEvidence": "not-assessed",
+          "trace": [
+            {
+              "type": "scope",
+              "label": "No test request sent",
+              "data": {
+                "reason": "This build does not expose that capability.",
+                "requestAttempted": false
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review scope when capabilities change",
+            "why": "Not applicable is not a passing security test.",
+            "steps": [
+              "Confirm the capability is genuinely absent.",
+              "Re-enable the check when the application scope changes."
+            ],
+            "codePointers": [
+              "Local target profile"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "16ba3b04d1522ade0cebf5c04040b013b8216ec2adda6e2269e279f585e5120a"
+        }
+      ],
+      "limitations": [
+        "The connector assessed an operator-configured local application using HTTP response predicates; it did not independently observe backend retrieval or tool effects.",
+        "Application, actor, build and data-context identities are declared by the profile. The target may have its own model, database or network dependencies.",
+        "A passing response contract is not a security certification. Requirements needing backend evidence remain inconclusive when response predicates pass.",
+        "Raw request/response content and credentials are not retained. Reproducing a predicate requires the original private profile and comparable target state.",
+        "Requests run once without retries or automatic reset. A timed-out POST may still have executed; inspect the target before retrying manually."
+      ]
+    },
+    "budget": {
+      "schemaVersion": 1,
+      "id": "7f8c4ea7-1a94-4319-a51f-8b5562827837",
+      "createdAt": "2026-10-05T05:46:57.335Z",
+      "targetId": "http-lab",
+      "targetName": "Separate HTTP application",
+      "build": "lab-budget",
+      "applicationId": "owned-http-lab",
+      "suiteId": "http-lab-contracts",
+      "suiteHash": "9132c2241671c2cbd69a0f2c85ec19c5cc6b81700ba429f3c8aace054dc22a66",
+      "policyHash": "9132c2241671c2cbd69a0f2c85ec19c5cc6b81700ba429f3c8aace054dc22a66",
+      "profileHash": "568601a1947bdc00a39271761491a7af1b412a8d15251293f6ddacd1b22d7a9c",
+      "contextId": "synthetic-records-v1",
+      "fixtureVersion": "operator-declared-context/1",
+      "fixtureHash": "c330fc4ffddcc78f8902cb11a4eecc2a4816506231c6004d439056b3d4b6a641",
+      "adapterVersion": "loopback-response-contract/1",
+      "assertionSchemaVersion": "http-contract/2",
+      "evaluatorHash": "bb0d3bbc4ec43dc8af69e4fa74152ff401dcd0a69e92e801c3bc58178871d69e",
+      "requiredControlIds": [
+        "WHOAMI",
+        "OWN-RECORD"
+      ],
+      "evidenceOrigin": "local-http-response",
+      "runtimeMode": "configured-local-application",
+      "targetBuildHash": null,
+      "targetConfigHash": "85d7c026d4299be6d5cc197a1a872f9ba35e4de9416b21f04050e2139c28a020",
+      "buildIdentity": "Declared in configuration; not independently attested.",
+      "scopeLabel": "HTTP response contracts only. Backend access and action effects are not independently verified.",
+      "durationMs": 0,
+      "checksTotal": 7,
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "inconclusive": 0,
+        "error": 6,
+        "not_applicable": 1
+      },
+      "results": [
+        {
+          "id": "WHOAMI",
+          "title": "The configured account is a member",
+          "category": "Local application contracts",
+          "severity": "control",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 200",
+              "actual": "HTTP status unavailable"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "5bc45b23-e192-41c2-a709-bf36f35e2f83",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "b4104b822236e8acba1cec3b8531cb785a5a11300e229b22306ba70151590fe2",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "timeout",
+                "backendEvidence": "unavailable",
+                "requestAttempted": false,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check WHOAMI"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "0bf6f3e748fe2e9de054669172578c37e5d57dd4d6c195b1af19fb763c5558b2"
+        },
+        {
+          "id": "OWN-RECORD",
+          "title": "The member receives their own record",
+          "category": "Local application contracts",
+          "severity": "control",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 200",
+              "actual": "HTTP status unavailable"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "071c4c4c-9c2e-4f6c-b5b3-7c140afd903a",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "6dea1cf623ad0540061cddbd947fb69ff2d5250973199eefe5ac9af424e5c7a9",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "timeout",
+                "backendEvidence": "unavailable",
+                "requestAttempted": false,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check OWN-RECORD"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "473897b99a5701abc444c3f2ba2304ca0bf9d863158c528162e81d3728cb9189"
+        },
+        {
+          "id": "FOREIGN-STATUS",
+          "title": "The foreign-record endpoint returns a denial",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 403",
+              "actual": "HTTP status unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "beb5bbda-9a09-43c2-b388-a1f372161efc",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "71431d699ffebe50929567fb2a83721468dfbd25504d48404c1fb26261e7fb2f",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "timeout",
+                "backendEvidence": "unavailable",
+                "requestAttempted": false,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check FOREIGN-STATUS"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "60188d4e77410ffa8957680d64c50a297b417b88e9ddb518c66af5df994328b3"
+        },
+        {
+          "id": "ANONYMOUS",
+          "title": "An anonymous request receives 401",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 401",
+              "actual": "HTTP status unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "3f0a103a-e9d6-4f9b-a6c9-17f07d4ffc10",
+                "actorId": "anonymous",
+                "method": "GET",
+                "requestPathHash": "6dea1cf623ad0540061cddbd947fb69ff2d5250973199eefe5ac9af424e5c7a9",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "timeout",
+                "backendEvidence": "unavailable",
+                "requestAttempted": false,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check ANONYMOUS"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "cb5d6ff5c866d5f34066a0fce4dd64977f35e1104134178e98b16fa6e09f625f"
+        },
+        {
+          "id": "BACKEND-UNVERIFIED",
+          "title": "Protected content is not retrieved internally",
+          "category": "Local application contracts",
+          "severity": "critical",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 403",
+              "actual": "HTTP status unavailable"
+            },
+            {
+              "name": "json.notContains predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            },
+            {
+              "name": "Trusted backend observation available",
+              "status": "inconclusive",
+              "expected": "Independent backend evidence required",
+              "actual": "Backend evidence unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.notContains",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "backend",
+          "expected": "Configured response predicates and independent backend evidence.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "cd3ccea8-a312-4920-8e9f-5ce429e21345",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "71431d699ffebe50929567fb2a83721468dfbd25504d48404c1fb26261e7fb2f",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "timeout",
+                "backendEvidence": "unavailable",
+                "requestAttempted": false,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check BACKEND-UNVERIFIED"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "ad8302e24c8a3a597271140be374bce8ba7dd638bf00ceb147bd22fbef76bed2"
+        },
+        {
+          "id": "ECHO",
+          "title": "A JSON POST completes its response contract",
+          "category": "Local application contracts",
+          "severity": "low",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 200",
+              "actual": "HTTP status unavailable"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "855e4ebd-dd18-4316-be10-1a35e9c3613b",
+                "actorId": "member",
+                "method": "POST",
+                "requestPathHash": "cb9c1f54d8102d68b7a40c2376e1f0e85e330f2df11a0bb83c8084694f5c73c2",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "timeout",
+                "backendEvidence": "unavailable",
+                "requestAttempted": false,
+                "mutationEffects": "Not independently observed; a timeout does not undo an action."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check ECHO"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "e0efc07de032b5c038fbfc59a2af3265e63c83fdf4b21659314a1bfde3357310"
+        },
+        {
+          "id": "NOT-APPLICABLE",
+          "title": "The foreign-record endpoint returns a denial",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "not_applicable",
+          "summary": "Excluded by the versioned applicability declaration.",
+          "evidenceRequirement": "response",
+          "expected": "A documented scope decision; no request is sent.",
+          "observed": {
+            "reason": "This build does not expose that capability.",
+            "requestAttempted": false
+          },
+          "assertions": [
+            {
+              "name": "Declared applicability",
+              "status": "not_applicable",
+              "expected": "Documented scope",
+              "actual": "This build does not expose that capability."
+            }
+          ],
+          "backendEvidence": "not-assessed",
+          "trace": [
+            {
+              "type": "scope",
+              "label": "No test request sent",
+              "data": {
+                "reason": "This build does not expose that capability.",
+                "requestAttempted": false
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review scope when capabilities change",
+            "why": "Not applicable is not a passing security test.",
+            "steps": [
+              "Confirm the capability is genuinely absent.",
+              "Re-enable the check when the application scope changes."
+            ],
+            "codePointers": [
+              "Local target profile"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "16ba3b04d1522ade0cebf5c04040b013b8216ec2adda6e2269e279f585e5120a"
+        }
+      ],
+      "limitations": [
+        "The connector assessed an operator-configured local application using HTTP response predicates; it did not independently observe backend retrieval or tool effects.",
+        "Application, actor, build and data-context identities are declared by the profile. The target may have its own model, database or network dependencies.",
+        "A passing response contract is not a security certification. Requirements needing backend evidence remain inconclusive when response predicates pass.",
+        "Raw request/response content and credentials are not retained. Reproducing a predicate requires the original private profile and comparable target state.",
+        "Requests run once without retries or automatic reset. A timed-out POST may still have executed; inspect the target before retrying manually."
+      ]
+    },
+    "failures": {
+      "schemaVersion": 1,
+      "id": "a3be2ede-17bd-43d5-9608-8ffcb42ae0b3",
+      "createdAt": "2026-10-05T05:46:57.335Z",
+      "targetId": "http-lab",
+      "targetName": "Separate HTTP application",
+      "build": "lab-failures",
+      "applicationId": "owned-http-lab",
+      "suiteId": "http-lab-contracts",
+      "suiteHash": "9132c2241671c2cbd69a0f2c85ec19c5cc6b81700ba429f3c8aace054dc22a66",
+      "policyHash": "9132c2241671c2cbd69a0f2c85ec19c5cc6b81700ba429f3c8aace054dc22a66",
+      "profileHash": "568601a1947bdc00a39271761491a7af1b412a8d15251293f6ddacd1b22d7a9c",
+      "contextId": "synthetic-records-v1",
+      "fixtureVersion": "operator-declared-context/1",
+      "fixtureHash": "c330fc4ffddcc78f8902cb11a4eecc2a4816506231c6004d439056b3d4b6a641",
+      "adapterVersion": "loopback-response-contract/1",
+      "assertionSchemaVersion": "http-contract/2",
+      "evaluatorHash": "bb0d3bbc4ec43dc8af69e4fa74152ff401dcd0a69e92e801c3bc58178871d69e",
+      "requiredControlIds": [
+        "WHOAMI",
+        "OWN-RECORD"
+      ],
+      "evidenceOrigin": "local-http-response",
+      "runtimeMode": "configured-local-application",
+      "targetBuildHash": null,
+      "targetConfigHash": "f36fea0c06846d79be02198912eb61756a6c399e4e5427fa12f1333d70992b9b",
+      "buildIdentity": "Declared in configuration; not independently attested.",
+      "scopeLabel": "HTTP response contracts only. Backend access and action effects are not independently verified.",
+      "durationMs": 0,
+      "checksTotal": 7,
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "inconclusive": 2,
+        "error": 3,
+        "not_applicable": 1
+      },
+      "results": [
+        {
+          "id": "WHOAMI",
+          "title": "The configured account is a member",
+          "category": "Local application contracts",
+          "severity": "control",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 200",
+              "actual": "HTTP status unavailable"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "f2889774-0dc7-48f6-9d43-93dc1c471a4b",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "b4104b822236e8acba1cec3b8531cb785a5a11300e229b22306ba70151590fe2",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "timeout",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check WHOAMI"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "2ce489dba9ab59945348ffaa8121aea082779533da3ae80a2dc2398698127859"
+        },
+        {
+          "id": "OWN-RECORD",
+          "title": "The member receives their own record",
+          "category": "Local application contracts",
+          "severity": "control",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 200",
+              "actual": "HTTP 200"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": 200,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "7e6c426c-2558-472c-8303-34a3f6499d3c",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "6dea1cf623ad0540061cddbd947fb69ff2d5250973199eefe5ac9af424e5c7a9",
+                "httpStatus": 200,
+                "responseComplete": false,
+                "responseBytes": 65537,
+                "jsonParsed": false,
+                "transportOutcome": "too-large",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check OWN-RECORD"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "41bc1c4615f8d1729bbbf9b8d615d94b640ab3595025600cacb0042cf9f5c5cc"
+        },
+        {
+          "id": "FOREIGN-STATUS",
+          "title": "The foreign-record endpoint returns a denial",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "pass",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 403",
+              "actual": "HTTP 403"
+            }
+          ],
+          "observed": {
+            "httpStatus": 403,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Response contract predicates passed; backend effects remain unverified.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "3274868f-b116-43ca-b9a5-af8b4f04aba6",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "71431d699ffebe50929567fb2a83721468dfbd25504d48404c1fb26261e7fb2f",
+                "httpStatus": 403,
+                "responseComplete": true,
+                "responseBytes": 26,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check FOREIGN-STATUS"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "420fd8c0d36f246eea866fdccd978a82dd09fd7bd22d65e2a419d0dad6123012"
+        },
+        {
+          "id": "ANONYMOUS",
+          "title": "An anonymous request receives 401",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "error",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "inconclusive",
+              "expected": "HTTP 401",
+              "actual": "HTTP status unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": null,
+            "complete": false,
+            "jsonParsed": false,
+            "predicates": [],
+            "evidenceScope": "response-only"
+          },
+          "summary": "The response observation could not be completed.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "b34fa53b-e09c-4504-8f20-842bbdea8258",
+                "actorId": "anonymous",
+                "method": "GET",
+                "requestPathHash": "6dea1cf623ad0540061cddbd947fb69ff2d5250973199eefe5ac9af424e5c7a9",
+                "httpStatus": null,
+                "responseComplete": false,
+                "responseBytes": 0,
+                "jsonParsed": false,
+                "transportOutcome": "network",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check ANONYMOUS"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "2d097506ed92def300b629db9be44aed5e783cdcd6db7475f754d4accc3b8bb8"
+        },
+        {
+          "id": "BACKEND-UNVERIFIED",
+          "title": "Protected content is not retrieved internally",
+          "category": "Local application contracts",
+          "severity": "critical",
+          "status": "inconclusive",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 403",
+              "actual": "HTTP 403"
+            },
+            {
+              "name": "json.notContains predicate 1",
+              "status": "pass",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Present; type string; predicate pass"
+            },
+            {
+              "name": "Trusted backend observation available",
+              "status": "inconclusive",
+              "expected": "Independent backend evidence required",
+              "actual": "Backend evidence unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": 403,
+            "complete": true,
+            "jsonParsed": true,
+            "predicates": [
+              {
+                "kind": "json.notContains",
+                "present": true,
+                "type": "string",
+                "outcome": "pass"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Required evidence or a JSON predicate could not be verified.",
+          "evidenceRequirement": "backend",
+          "expected": "Configured response predicates and independent backend evidence.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "0d3a2bc1-1d37-4021-a2c8-5be15fb2ecd9",
+                "actorId": "member",
+                "method": "GET",
+                "requestPathHash": "71431d699ffebe50929567fb2a83721468dfbd25504d48404c1fb26261e7fb2f",
+                "httpStatus": 403,
+                "responseComplete": true,
+                "responseBytes": 26,
+                "jsonParsed": true,
+                "transportOutcome": "complete",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check BACKEND-UNVERIFIED"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "e014fae9ca9188f020c8952e86d642f1ff87713b56cf31e06d4508786366bba3"
+        },
+        {
+          "id": "ECHO",
+          "title": "A JSON POST completes its response contract",
+          "category": "Local application contracts",
+          "severity": "low",
+          "status": "inconclusive",
+          "assertions": [
+            {
+              "name": "HTTP status matches contract",
+              "status": "pass",
+              "expected": "HTTP 200",
+              "actual": "HTTP 200"
+            },
+            {
+              "name": "json.equals predicate 1",
+              "status": "inconclusive",
+              "expected": "Configured JSON predicate holds",
+              "actual": "Complete valid JSON unavailable"
+            }
+          ],
+          "observed": {
+            "httpStatus": 200,
+            "complete": true,
+            "jsonParsed": false,
+            "predicates": [
+              {
+                "kind": "json.equals",
+                "present": null,
+                "type": "unavailable",
+                "outcome": "inconclusive"
+              }
+            ],
+            "evidenceScope": "response-only"
+          },
+          "summary": "Required evidence or a JSON predicate could not be verified.",
+          "evidenceRequirement": "response",
+          "expected": "Configured HTTP response predicates only.",
+          "backendEvidence": "unavailable",
+          "trace": [
+            {
+              "type": "http-observation",
+              "label": "Retained response metadata; response content is not stored",
+              "data": {
+                "requestId": "4d5bda0a-7972-4cfe-aa4e-cbbaff4d175e",
+                "actorId": "member",
+                "method": "POST",
+                "requestPathHash": "cb9c1f54d8102d68b7a40c2376e1f0e85e330f2df11a0bb83c8084694f5c73c2",
+                "httpStatus": 200,
+                "responseComplete": true,
+                "responseBytes": 9,
+                "jsonParsed": false,
+                "transportOutcome": "invalid-json",
+                "backendEvidence": "unavailable",
+                "requestAttempted": true,
+                "mutationEffects": "Not independently observed; a timeout does not undo an action."
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review this application contract",
+            "why": "A response predicate is evidence about the response, not proof of a backend effect.",
+            "steps": [
+              "Review the original private profile and the target implementation.",
+              "Apply any repair in the authorized test application.",
+              "Retest the unchanged contract and required permitted-use controls."
+            ],
+            "codePointers": [
+              "Local target profile",
+              "Check ECHO"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "5518f43929d03a6c8a392d6832b09697633f0ee9d3ef0d36cdc8e0eda10290dc"
+        },
+        {
+          "id": "NOT-APPLICABLE",
+          "title": "The foreign-record endpoint returns a denial",
+          "category": "Local application contracts",
+          "severity": "high",
+          "status": "not_applicable",
+          "summary": "Excluded by the versioned applicability declaration.",
+          "evidenceRequirement": "response",
+          "expected": "A documented scope decision; no request is sent.",
+          "observed": {
+            "reason": "This build does not expose that capability.",
+            "requestAttempted": false
+          },
+          "assertions": [
+            {
+              "name": "Declared applicability",
+              "status": "not_applicable",
+              "expected": "Documented scope",
+              "actual": "This build does not expose that capability."
+            }
+          ],
+          "backendEvidence": "not-assessed",
+          "trace": [
+            {
+              "type": "scope",
+              "label": "No test request sent",
+              "data": {
+                "reason": "This build does not expose that capability.",
+                "requestAttempted": false
+              }
+            }
+          ],
+          "remediation": {
+            "title": "Review scope when capabilities change",
+            "why": "Not applicable is not a passing security test.",
+            "steps": [
+              "Confirm the capability is genuinely absent.",
+              "Re-enable the check when the application scope changes."
+            ],
+            "codePointers": [
+              "Local target profile"
+            ]
+          },
+          "durationMs": 0,
+          "evidenceDigest": "16ba3b04d1522ade0cebf5c04040b013b8216ec2adda6e2269e279f585e5120a"
+        }
+      ],
+      "limitations": [
+        "The connector assessed an operator-configured local application using HTTP response predicates; it did not independently observe backend retrieval or tool effects.",
+        "Application, actor, build and data-context identities are declared by the profile. The target may have its own model, database or network dependencies.",
+        "A passing response contract is not a security certification. Requirements needing backend evidence remain inconclusive when response predicates pass.",
+        "Raw request/response content and credentials are not retained. Reproducing a predicate requires the original private profile and comparable target state.",
+        "Requests run once without retries or automatic reset. A timed-out POST may still have executed; inspect the target before retrying manually."
+      ]
+    }
+  }
+}

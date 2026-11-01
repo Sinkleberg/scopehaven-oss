@@ -1,0 +1,176 @@
+# Runs the in-repo Scopehaven composite action against the owned synthetic
+# HTTP lab on the runner's loopback, twice, to exercise the release gate:
+#   1. "previous release": the lab's repaired build, saved as the baseline run
+#   2. "this release": the lab's baseline build (a planted regression), gated
+#      against step 1, so the job summary shows the Release Permission Diff
+# Both passes record their results (fail-on: never); a final self-test then
+# asserts that the gate caught exactly the planted regression. A green job
+# means the release gate still works; a red one means it broke.
+# No external targets, no secrets: each lab instance generates a synthetic
+# token, which is masked. SARIF upload is attempted on the first pass; private
+# repositories need GitHub Code Security, and the upload is continue-on-error.
+name: Scopehaven action (synthetic lab)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
+    paths:
+      - '**'
+      - '.github/workflows/scopehaven-action.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+env:
+  # Starts the owned lab with a chosen build on 127.0.0.1:4319 and writes the
+  # same profile, credential and authorization files as `./scopehaven lab`.
+  LAB_SCRIPT: |
+    import { createHttpLab, makeLabProfile, makeLabAuthorization } from './examples/http-lab.mjs';
+    import { writeFileSync, mkdirSync } from 'node:fs';
+    const build = process.env.LAB_BUILD;
+    const lab = await createHttpLab({ port: 4319, build });
+    mkdirSync('data', { recursive: true, mode: 0o700 });
+    writeFileSync('data/http-lab.targets.json', JSON.stringify({ schemaVersion: 1, targets: [makeLabProfile(lab.origin, 'lab-' + build)] }), { mode: 0o600 });
+    writeFileSync('data/http-lab.authorization.json', JSON.stringify(makeLabAuthorization(lab.origin)), { mode: 0o600 });
+    writeFileSync('data/http-lab.env', 'SCOPEHAVEN_TARGET_LAB_MEMBER_TOKEN=' + lab.memberToken + '\n', { mode: 0o600 });
+    console.log('Owned synthetic lab (' + build + ') at ' + lab.origin);
+    setInterval(() => {}, 1 << 30);
+  # The self-test: exactly one DENY->ALLOW flip (FOREIGN-STATUS), exactly one new
+  # failure from undecided (BACKEND-UNVERIFIED), compatible
+  # runs, regression 1 and preserved 5, and fail-on fail would fail the release.
+  SELFTEST_SCRIPT: |
+    // Self-test: the release gate must catch the planted regression, and nothing else may change.
+    import { readFileSync } from 'node:fs';
+    import { permissionDiff, decide, normalizeRun, normalizeGate } from './integrations/github-action/summary.mjs';
+    const { BASELINE: baselinePath, RUN: runPath, GATE: gatePath } = process.env;
+    const read = p => JSON.parse(readFileSync(p, 'utf8'));
+    const baseline = read(baselinePath), run = read(runPath), gate = read(gatePath);
+    const problems = [];
+    const expect = (ok, message) => { if (!ok) problems.push(message); };
+    const diff = permissionDiff(baseline, run);
+    expect(diff.comparable === true, `runs not comparable: ${(diff.reasons || []).join('; ')}`);
+    if (diff.comparable) {
+      expect(diff.flips.length === 1 && diff.flips[0].id === 'FOREIGN-STATUS' && diff.flips[0].before === 'pass' && diff.flips[0].after === 'fail', `expected exactly one DENY->ALLOW flip (FOREIGN-STATUS pass->fail), got ${JSON.stringify(diff.flips.map(f => [f.id, f.before, f.after]))}`);
+      expect(diff.brokenControls.length === 0, `unexpected broken controls: ${diff.brokenControls.map(r => r.id).join(', ')}`);
+      expect(diff.newlyInconclusive.length === 0, `unexpected newly inconclusive: ${diff.newlyInconclusive.map(r => r.id).join(', ')}`);
+      expect(diff.restored.length === 0, `unexpected restored: ${diff.restored.map(r => r.id).join(', ')}`);
+      expect(diff.newFailures.length === 1 && diff.newFailures[0].id === 'BACKEND-UNVERIFIED', `expected exactly one new failure (BACKEND-UNVERIFIED, previously undecided), got ${JSON.stringify(diff.newFailures.map(f => [f.id, f.before, f.after]))}`);
+    }
+    const g = normalizeGate(gate);
+    expect(g && g.outcome === 'assessment-failed', `expected gate outcome assessment-failed, got ${g?.outcome}`);
+    expect(g?.comparison?.compatibility === 'compatible', `expected a compatible comparison, got ${g?.comparison?.compatibility}`);
+    expect(g?.comparison?.labels?.regression === 1 && g?.comparison?.labels?.preserved === 5, `expected regression 1 and preserved 5, got ${JSON.stringify(g?.comparison?.labels)}`);
+    const d = decide({ run: normalizeRun(run), gate: g, gateRequested: true, failOn: 'fail' });
+    expect(d.decision === 'fail', `fail-on fail would decide ${d.decision} (${d.reason}); the planted regression must fail the release`);
+    if (problems.length) { for (const p of problems) console.log(`::error::Release gate self-test: ${p}`); process.exit(1); }
+    console.log(`Release gate self-test passed: DENY->ALLOW flip FOREIGN-STATUS caught; regression 1, preserved 5; fail-on fail decides fail (${d.reason}).`);
+
+jobs:
+  assess:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24 for the app under test
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+
+      - name: Start the previous release (lab, repaired build)
+        env:
+          LAB_BUILD: repaired
+        run: |
+          rm -f data/http-lab.env data/http-lab.targets.json data/http-lab.authorization.json
+          nohup node --input-type=module -e "$LAB_SCRIPT" > "$RUNNER_TEMP/scopehaven-lab-$LAB_BUILD.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/scopehaven-lab.pid"
+          for attempt in $(seq 1 30); do
+            if [ -f data/http-lab.env ] && [ -f data/http-lab.targets.json ] && [ -f data/http-lab.authorization.json ]; then break; fi
+            sleep 1
+          done
+          token=$(sed -n 's/^SCOPEHAVEN_TARGET_LAB_MEMBER_TOKEN=//p' data/http-lab.env)
+          if [ -z "$token" ]; then echo "::error::The lab did not start"; cat "$RUNNER_TEMP/scopehaven-lab-$LAB_BUILD.log"; exit 1; fi
+          echo "::add-mask::$token"
+          echo "SCOPEHAVEN_TARGET_LAB_MEMBER_TOKEN=$token" >> "$GITHUB_ENV"
+
+      - name: Scopehaven, previous release
+        id: previous
+        uses: ./integrations/github-action
+        with:
+          profile: data/http-lab.targets.json
+          authorization: data/http-lab.authorization.json
+          wait-url: http://127.0.0.1:4319/me
+          fail-on: never
+          upload-sarif: 'true'
+          sarif-category: scopehaven-lab
+          artifact-name: scopehaven-evidence-previous-release
+
+      - name: Keep the previous release's run as the baseline
+        env:
+          SARIF_PATH: ${{ steps.previous.outputs.sarif-path }}
+        run: |
+          run_json="$(dirname "$SARIF_PATH")/run.json"
+          test -f "$run_json" || { echo "::error::No previous run to use as the baseline"; exit 1; }
+          cp "$run_json" "$RUNNER_TEMP/baseline-run.json"
+
+      - name: Stop the previous release
+        run: kill "$(cat "$RUNNER_TEMP/scopehaven-lab.pid")" 2>/dev/null || true; sleep 1
+
+      - name: Start this release (lab, baseline build with a planted regression)
+        env:
+          LAB_BUILD: baseline
+        run: |
+          rm -f data/http-lab.env data/http-lab.targets.json data/http-lab.authorization.json
+          nohup node --input-type=module -e "$LAB_SCRIPT" > "$RUNNER_TEMP/scopehaven-lab-$LAB_BUILD.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/scopehaven-lab.pid"
+          for attempt in $(seq 1 30); do
+            if [ -f data/http-lab.env ] && [ -f data/http-lab.targets.json ] && [ -f data/http-lab.authorization.json ]; then break; fi
+            sleep 1
+          done
+          token=$(sed -n 's/^SCOPEHAVEN_TARGET_LAB_MEMBER_TOKEN=//p' data/http-lab.env)
+          if [ -z "$token" ]; then echo "::error::The lab did not start"; cat "$RUNNER_TEMP/scopehaven-lab-$LAB_BUILD.log"; exit 1; fi
+          echo "::add-mask::$token"
+          echo "SCOPEHAVEN_TARGET_LAB_MEMBER_TOKEN=$token" >> "$GITHUB_ENV"
+
+
+      - name: Scopehaven, this release gated against the previous one
+        id: release
+        uses: ./integrations/github-action
+        with:
+          profile: data/http-lab.targets.json
+          authorization: data/http-lab.authorization.json
+          wait-url: http://127.0.0.1:4319/me
+          baseline-run: ${{ runner.temp }}/baseline-run.json
+          fail-on: never
+          artifact-name: scopehaven-evidence-this-release
+
+      - name: Self-test, the release gate caught the planted regression
+        env:
+          SARIF_PATH: ${{ steps.release.outputs.sarif-path }}
+        run: |
+          out="$(dirname "$SARIF_PATH")"
+          BASELINE="$RUNNER_TEMP/baseline-run.json" RUN="$out/run.json" GATE="$out/gate-summary.json" node --input-type=module -e "$SELFTEST_SCRIPT"
+
+      - name: Record the outputs
+        if: always()
+        env:
+          PREVIOUS: ${{ steps.previous.outputs.status-counts }}
+          RELEASE: ${{ steps.release.outputs.status-counts }}
+          VERDICT: ${{ steps.release.outputs.gate-verdict }}
+        run: echo "previous $PREVIOUS; this release $RELEASE; gate $VERDICT"
+
+      - name: Stop the lab
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/scopehaven-lab.pid" ]; then kill "$(cat "$RUNNER_TEMP/scopehaven-lab.pid")" 2>/dev/null || true; fi

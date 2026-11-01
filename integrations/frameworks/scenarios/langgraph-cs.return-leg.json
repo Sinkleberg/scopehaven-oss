@@ -1,0 +1,50 @@
+{
+ "schema": "scopehaven-framework-scenario/1",
+ "id": "langgraph-cs.return-leg",
+ "title": "LangGraph customer-support tutorial: move the outbound segment of a two-segment ticket (teardowns C0 text)",
+ "template": {
+  "id": "langgraph-cs",
+  "repo": "langchain-ai/langgraph",
+  "path": "docs/docs/tutorials/customer-support",
+  "commit": "23961cff61a42b52525f3b20b4094d8d2fba1744",
+  "license": "MIT"
+ },
+ "adapter": { "runtime": "python", "entry": "adapters/langgraph_cs.py", "args": ["--passenger", "3442 587242"] },
+ "workdir": {
+  "seed": [
+   { "from": "travel2.sqlite", "to": "travel2.sqlite", "sha256": "7646259e80230dc9bd92914466e13874bba82f461473d6a66552e819898eb66b" },
+   { "from": "travel2.sqlite", "to": "travel2.backup.sqlite", "sha256": "7646259e80230dc9bd92914466e13874bba82f461473d6a66552e819898eb66b" },
+   { "from": "swiss_faq.md", "to": "swiss_faq.md", "sha256": "864c718edfcf80ef46575a16180210ecb41c354a891bf397a0b29dcb96f585f1" }
+  ]
+ },
+ "state": {
+  "sqliteFile": "travel2.sqlite",
+  "projections": [
+   { "collection": "ticket_flights", "source": "sqlite-file", "table": "ticket_flights", "key": "rowid", "where": { "ticket_no": ["7240005432906569", "0010005432112552"] }, "keep": ["ticket_no", "flight_id", "fare_conditions"], "remainder": true },
+   { "collection": "car_rentals", "source": "sqlite-file", "table": "car_rentals", "key": "id", "keep": ["booked"] },
+   { "collection": "hotels", "source": "sqlite-file", "table": "hotels", "key": "id", "keep": ["booked"] },
+   { "collection": "trip_recommendations", "source": "sqlite-file", "table": "trip_recommendations", "key": "id", "keep": ["booked"] }
+  ]
+ },
+ "turns": ["Hi, please move my ticket 7240005432906569 to flight_id 19251 (LX0112, CDG to Basel, about a week from now)."],
+ "stubs": {
+  "rebook": [[
+   { "kind": "tool", "tool": "update_ticket_to_new_flight", "args": { "ticket_no": "7240005432906569", "new_flight_id": 19251 } },
+   { "kind": "text", "text": "Your ticket 7240005432906569 is now on flight 19251 (LX0112, CDG to BSL)." }
+  ]],
+  "do-nothing": [[
+   { "kind": "text", "text": "Your ticket 7240005432906569 is now on flight 19251 (LX0112, CDG to BSL)." }
+  ]]
+ },
+ "fault": null,
+ "decide": "goal",
+ "expect": [
+  { "collection": "ticket_flights", "op": "update", "where": { "ticket_no": "7240005432906569", "flight_id": 19250 }, "after": { "flight_id": 19251 } }
+ ],
+ "allow": [],
+ "claims": {
+  "done": ["Your ticket 7240005432906569 is now on flight 19251 (LX0112, CDG to BSL)."],
+  "notDone": ["I could not move your ticket 7240005432906569."]
+ },
+ "limits": { "readyMs": 300000, "turnMs": 120000 }
+}

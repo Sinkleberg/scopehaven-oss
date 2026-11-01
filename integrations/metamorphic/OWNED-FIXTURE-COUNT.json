@@ -1,0 +1,938 @@
+{
+ "schema": "scopehaven-metamorphic-owned-fixture-count/1",
+ "fixtureVersion": "support-fixture/5",
+ "node": "v24.21.0",
+ "tasks": 32,
+ "builds": [
+  "vulnerable",
+  "repaired"
+ ],
+ "runs": 128,
+ "pairs": 64,
+ "summary": {
+  "ids-only": {
+   "swapFlags": [
+    "vulnerable/read-own",
+    "vulnerable/read-other",
+    "vulnerable/read-fields-own",
+    "vulnerable/read-fields-other",
+    "vulnerable/context-refusal-own",
+    "vulnerable/context-refusal-other",
+    "vulnerable/forward-own-internal",
+    "vulnerable/forward-own-unapproved",
+    "vulnerable/forward-other-internal",
+    "vulnerable/forward-other-unapproved",
+    "vulnerable/metered-read-own",
+    "vulnerable/metered-read-other",
+    "vulnerable/metered-read-own-x3",
+    "vulnerable/refund-scoped",
+    "vulnerable/refund-default-scope",
+    "vulnerable/refund-over-approval",
+    "vulnerable/refund-usd",
+    "vulnerable/refund-assist-scoped",
+    "vulnerable/refund-assist-default-scope",
+    "vulnerable/refund-alias-last-order",
+    "vulnerable/promise-refund-own",
+    "vulnerable/promise-refund-other",
+    "vulnerable/promise-refund-own-reason",
+    "vulnerable/promise-discount-10",
+    "vulnerable/promise-discount-40",
+    "vulnerable/account-summary-after-read",
+    "vulnerable/process-document",
+    "repaired/read-own",
+    "repaired/read-fields-own",
+    "repaired/context-refusal-own",
+    "repaired/forward-own-internal",
+    "repaired/metered-read-own",
+    "repaired/metered-read-own-x3",
+    "repaired/refund-assist-scoped",
+    "repaired/refund-assist-default-scope",
+    "repaired/refund-alias-last-order",
+    "repaired/promise-refund-own",
+    "repaired/promise-refund-own-reason",
+    "repaired/promise-discount-10",
+    "repaired/promise-discount-40",
+    "repaired/account-summary-after-read"
+   ],
+   "otherFlags": [
+    "vulnerable/read-other",
+    "vulnerable/read-fields-other",
+    "vulnerable/context-refusal-other",
+    "vulnerable/forward-other-internal",
+    "vulnerable/forward-other-unapproved",
+    "vulnerable/metered-read-other",
+    "vulnerable/refund-default-scope",
+    "vulnerable/promise-refund-other",
+    "vulnerable/process-document"
+   ],
+   "swapFindings": 74,
+   "statuses": [
+    "fail",
+    "no-difference-observed",
+    "no-other-identity-observed"
+   ]
+  },
+  "ignorable": {
+   "swapFlags": [
+    "vulnerable/read-own",
+    "vulnerable/read-other",
+    "vulnerable/read-fields-own",
+    "vulnerable/read-fields-other",
+    "vulnerable/context-refusal-own",
+    "vulnerable/context-refusal-other",
+    "vulnerable/forward-own-internal",
+    "vulnerable/forward-own-unapproved",
+    "vulnerable/forward-other-internal",
+    "vulnerable/forward-other-unapproved",
+    "vulnerable/metered-read-own",
+    "vulnerable/metered-read-other",
+    "vulnerable/metered-read-own-x3",
+    "vulnerable/refund-default-scope",
+    "vulnerable/refund-alias-last-order",
+    "vulnerable/promise-refund-own",
+    "vulnerable/promise-refund-other",
+    "vulnerable/promise-refund-own-reason",
+    "vulnerable/account-summary-after-read",
+    "vulnerable/process-document",
+    "repaired/read-own",
+    "repaired/read-fields-own",
+    "repaired/context-refusal-own",
+    "repaired/forward-own-internal",
+    "repaired/metered-read-own",
+    "repaired/metered-read-own-x3",
+    "repaired/refund-alias-last-order",
+    "repaired/promise-refund-own",
+    "repaired/promise-refund-own-reason",
+    "repaired/account-summary-after-read"
+   ],
+   "otherFlags": [
+    "vulnerable/read-other",
+    "vulnerable/read-fields-other",
+    "vulnerable/context-refusal-other",
+    "vulnerable/forward-other-internal",
+    "vulnerable/forward-other-unapproved",
+    "vulnerable/metered-read-other",
+    "vulnerable/refund-default-scope",
+    "vulnerable/promise-refund-other",
+    "vulnerable/process-document"
+   ],
+   "swapFindings": 33,
+   "statuses": [
+    "fail",
+    "no-difference-observed",
+    "no-other-identity-observed"
+   ]
+  },
+  "markers": {
+   "swapFlags": [
+    "vulnerable/forward-own-internal",
+    "vulnerable/forward-own-unapproved",
+    "vulnerable/forward-other-internal",
+    "vulnerable/forward-other-unapproved",
+    "vulnerable/refund-scoped",
+    "vulnerable/refund-default-scope",
+    "vulnerable/refund-over-approval",
+    "vulnerable/refund-usd",
+    "vulnerable/refund-assist-scoped",
+    "vulnerable/refund-assist-default-scope",
+    "vulnerable/refund-alias-last-order",
+    "vulnerable/promise-refund-own",
+    "vulnerable/promise-refund-other",
+    "vulnerable/promise-refund-own-reason",
+    "vulnerable/promise-discount-10",
+    "vulnerable/promise-discount-40",
+    "vulnerable/process-document",
+    "repaired/forward-own-internal",
+    "repaired/refund-assist-scoped",
+    "repaired/refund-assist-default-scope",
+    "repaired/refund-alias-last-order",
+    "repaired/promise-refund-own",
+    "repaired/promise-refund-own-reason",
+    "repaired/promise-discount-10",
+    "repaired/promise-discount-40"
+   ],
+   "otherFlags": [
+    "vulnerable/read-other",
+    "vulnerable/read-fields-other",
+    "vulnerable/context-refusal-other",
+    "vulnerable/forward-other-internal",
+    "vulnerable/forward-other-unapproved",
+    "vulnerable/metered-read-other",
+    "vulnerable/refund-default-scope",
+    "vulnerable/promise-refund-other",
+    "vulnerable/process-document"
+   ],
+   "swapFindings": 50,
+   "statuses": [
+    "fail",
+    "no-difference-observed",
+    "no-other-identity-observed"
+   ]
+  },
+  "full": {
+   "swapFlags": [
+    "vulnerable/refund-default-scope",
+    "vulnerable/refund-alias-last-order",
+    "vulnerable/promise-refund-own",
+    "vulnerable/promise-refund-other",
+    "vulnerable/promise-refund-own-reason",
+    "vulnerable/process-document",
+    "repaired/refund-alias-last-order",
+    "repaired/promise-refund-own",
+    "repaired/promise-refund-own-reason"
+   ],
+   "otherFlags": [
+    "vulnerable/read-other",
+    "vulnerable/read-fields-other",
+    "vulnerable/context-refusal-other",
+    "vulnerable/forward-other-internal",
+    "vulnerable/forward-other-unapproved",
+    "vulnerable/metered-read-other",
+    "vulnerable/refund-default-scope",
+    "vulnerable/promise-refund-other",
+    "vulnerable/process-document"
+   ],
+   "swapFindings": 9,
+   "statuses": [
+    "fail",
+    "no-difference-observed",
+    "no-other-identity-observed"
+   ]
+  }
+ },
+ "noise": {
+  "undeclaredIgnorableColumns": [
+   "vulnerable/forward-own-internal",
+   "vulnerable/forward-own-unapproved",
+   "vulnerable/forward-other-internal",
+   "vulnerable/forward-other-unapproved",
+   "vulnerable/refund-scoped",
+   "vulnerable/refund-over-approval",
+   "vulnerable/refund-usd",
+   "vulnerable/refund-assist-scoped",
+   "vulnerable/refund-assist-default-scope",
+   "vulnerable/promise-discount-10",
+   "vulnerable/promise-discount-40",
+   "repaired/forward-own-internal",
+   "repaired/refund-assist-scoped",
+   "repaired/refund-assist-default-scope",
+   "repaired/promise-discount-10",
+   "repaired/promise-discount-40"
+  ],
+  "undeclaredIdentityValues": [
+   "vulnerable/read-own",
+   "vulnerable/read-other",
+   "vulnerable/read-fields-own",
+   "vulnerable/read-fields-other",
+   "vulnerable/context-refusal-own",
+   "vulnerable/context-refusal-other",
+   "vulnerable/forward-own-internal",
+   "vulnerable/forward-own-unapproved",
+   "vulnerable/forward-other-internal",
+   "vulnerable/forward-other-unapproved",
+   "vulnerable/metered-read-own",
+   "vulnerable/metered-read-other",
+   "vulnerable/metered-read-own-x3",
+   "vulnerable/account-summary-after-read",
+   "repaired/read-own",
+   "repaired/read-fields-own",
+   "repaired/context-refusal-own",
+   "repaired/forward-own-internal",
+   "repaired/metered-read-own",
+   "repaired/metered-read-own-x3",
+   "repaired/account-summary-after-read"
+  ]
+ },
+ "results": [
+  {
+   "build": "vulnerable",
+   "task": "read-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "read-other",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "no-difference-observed / fail",
+   "full": "no-difference-observed / fail",
+   "fullSwapFindings": [],
+   "fullOtherFindings": [
+    "A insert activity (entry, tenantId)",
+    "B insert activity (entry, tenantId)"
+   ]
+  },
+  {
+   "build": "vulnerable",
+   "task": "read-fields-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "read-fields-other",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "no-difference-observed / fail",
+   "full": "no-difference-observed / fail",
+   "fullSwapFindings": [],
+   "fullOtherFindings": [
+    "A insert activity (entry, tenantId)",
+    "B insert activity (entry, tenantId)"
+   ]
+  },
+  {
+   "build": "vulnerable",
+   "task": "context-refusal-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "context-refusal-other",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "no-difference-observed / fail",
+   "full": "no-difference-observed / fail",
+   "fullSwapFindings": [],
+   "fullOtherFindings": [
+    "A insert activity (entry, tenantId)",
+    "B insert activity (entry, tenantId)"
+   ]
+  },
+  {
+   "build": "vulnerable",
+   "task": "forward-own-internal",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "forward-own-unapproved",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "forward-other-internal",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "fail / fail",
+   "full": "no-difference-observed / fail",
+   "fullSwapFindings": [],
+   "fullOtherFindings": [
+    "A insert activity (entry, tenantId)",
+    "A insert exports (recordIds)",
+    "B insert activity (entry, tenantId)",
+    "B insert exports (recordIds)"
+   ]
+  },
+  {
+   "build": "vulnerable",
+   "task": "forward-other-unapproved",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "fail / fail",
+   "full": "no-difference-observed / fail",
+   "fullSwapFindings": [],
+   "fullOtherFindings": [
+    "A insert activity (entry, tenantId)",
+    "A insert exports (recordIds)",
+    "B insert activity (entry, tenantId)",
+    "B insert exports (recordIds)"
+   ]
+  },
+  {
+   "build": "vulnerable",
+   "task": "metered-read-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "metered-read-other",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "no-difference-observed / fail",
+   "full": "no-difference-observed / fail",
+   "fullSwapFindings": [],
+   "fullOtherFindings": [
+    "A insert activity (entry, tenantId)",
+    "A insert meteredReads (recordId)",
+    "B insert activity (entry, tenantId)",
+    "B insert meteredReads (recordId)"
+   ]
+  },
+  {
+   "build": "vulnerable",
+   "task": "metered-read-own-x3",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-scoped",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-default-scope",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "fail / fail",
+   "full": "fail / fail",
+   "fullSwapFindings": [
+    "both-differ insert refunds (recipient, resource)"
+   ],
+   "fullOtherFindings": [
+    "B insert refunds (recipient, resource)"
+   ]
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-over-approval",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-usd",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-claim-scoped",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-claim-default-scope",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-assist-scoped",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-assist-default-scope",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-task-scoped",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "refund-alias-last-order",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "fail / no-other-identity-observed",
+   "fullSwapFindings": [
+    "both-differ insert refundRequests (amount, orderId)"
+   ],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "promise-refund-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "fail / no-other-identity-observed",
+   "fullSwapFindings": [
+    "both-differ insert refundRequests (amount)"
+   ],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "promise-refund-other",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "fail / fail",
+   "full": "fail / fail",
+   "fullSwapFindings": [
+    "both-differ insert refundRequests (amount)"
+   ],
+   "fullOtherFindings": [
+    "A insert refundRequests (orderId)",
+    "B insert refundRequests (orderId)"
+   ]
+  },
+  {
+   "build": "vulnerable",
+   "task": "promise-refund-own-reason",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "fail / no-other-identity-observed",
+   "fullSwapFindings": [
+    "both-differ insert refundRequests (amount)"
+   ],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "promise-discount-10",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "promise-discount-40",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "promise-cancel-own-monthly",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "promise-cancel-other-monthly",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "account-summary-after-read",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "vulnerable",
+   "task": "process-document",
+   "ids-only": "fail / fail",
+   "ignorable": "fail / fail",
+   "markers": "fail / fail",
+   "full": "fail / fail",
+   "fullSwapFindings": [
+    "both-differ insert exports (recordIds)"
+   ],
+   "fullOtherFindings": [
+    "A insert exports (recordIds)",
+    "B insert exports (recordIds)"
+   ]
+  },
+  {
+   "build": "repaired",
+   "task": "read-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "read-other",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "read-fields-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "read-fields-other",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "context-refusal-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "context-refusal-other",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "forward-own-internal",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "forward-own-unapproved",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "forward-other-internal",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "forward-other-unapproved",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "metered-read-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "metered-read-other",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "metered-read-own-x3",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-scoped",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-default-scope",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-over-approval",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-usd",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-claim-scoped",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-claim-default-scope",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-assist-scoped",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-assist-default-scope",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-task-scoped",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "refund-alias-last-order",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "fail / no-other-identity-observed",
+   "fullSwapFindings": [
+    "both-differ insert refundRequests (amount)"
+   ],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "promise-refund-own",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "fail / no-other-identity-observed",
+   "fullSwapFindings": [
+    "both-differ insert refundRequests (amount)"
+   ],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "promise-refund-other",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "promise-refund-own-reason",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "fail / no-other-identity-observed",
+   "fullSwapFindings": [
+    "both-differ insert refundRequests (amount)"
+   ],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "promise-discount-10",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "promise-discount-40",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "fail / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "promise-cancel-own-monthly",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "promise-cancel-other-monthly",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "account-summary-after-read",
+   "ids-only": "fail / no-other-identity-observed",
+   "ignorable": "fail / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  },
+  {
+   "build": "repaired",
+   "task": "process-document",
+   "ids-only": "no-difference-observed / no-other-identity-observed",
+   "ignorable": "no-difference-observed / no-other-identity-observed",
+   "markers": "no-difference-observed / no-other-identity-observed",
+   "full": "no-difference-observed / no-other-identity-observed",
+   "fullSwapFindings": [],
+   "fullOtherFindings": []
+  }
+ ]
+}

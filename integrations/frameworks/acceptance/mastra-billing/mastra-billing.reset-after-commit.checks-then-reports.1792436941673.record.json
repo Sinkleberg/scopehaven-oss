@@ -1,0 +1,225 @@
+{
+ "schema": "scopehaven-framework-run/1",
+ "runId": "mastra-billing.reset-after-commit.checks-then-reports.1792436941673",
+ "label": null,
+ "scenarioId": "mastra-billing.reset-after-commit",
+ "scenarioDigest": "1ae3c6a916852466fcfcba5fb5caa8a1dfad3a5c400a248257c46bb3387235e0",
+ "stub": {
+  "id": "checks-then-reports",
+  "digest": "bb7f3a0cd639e3dd8a17f83a10a515062cbf54767c386d5d8f649fdf98150cd8"
+ },
+ "template": {
+  "id": "mastra-billing",
+  "repo": "mastra-ai/mastra",
+  "path": "examples/agent/src/mastra",
+  "commit": "a15924e709dd5d9439a6c102901c326ab0ec77fb",
+  "license": "Apache-2.0 (outside ee/)"
+ },
+ "adapter": {
+  "entry": "adapters/mastra_billing.mts",
+  "sha256": "6baae9d72cbf7d320c9ffa607ddd7d8ade05fcc288ba63832e582f5a8bfc14a8",
+  "runtime": "tsx",
+  "args": [],
+  "tsx": "4.23.15",
+  "node": "v24.21.0",
+  "checkout": {
+   "commit": "a15924e709dd5d9439a6c102901c326ab0ec77fb",
+   "clean": true
+  },
+  "seeds": [],
+  "runtimeName": "tsx"
+ },
+ "startedAt": "2026-10-19T19:09:01.673Z",
+ "endedAt": "2026-10-19T19:09:03.816Z",
+ "ready": {
+  "type": "ready",
+  "framework": "mastra",
+  "tools": [
+   "getUserBalance",
+   "refundUser",
+   "agent-balanceAgent",
+   "workflow-refundWorkflow"
+  ],
+  "template": {
+   "files": {
+    "agent": {
+     "path": "examples/agent/src/mastra/agents/billing-agent.ts",
+     "sha256": "f7484c26eebe53b8247c9342807f039fd0323ca43d9173a19680682fa5e9198a"
+    },
+    "tools": {
+     "path": "examples/agent/src/mastra/tools/billing-tools.ts",
+     "sha256": "c2352ab7248bba40a3bb5ca9f9b049f9c399310e7c4876372db314f7b0a25b65"
+    },
+    "workflow": {
+     "path": "examples/agent/src/mastra/workflows/refund-workflow.ts",
+     "sha256": "47af760781f2d78bb26f30be0afc0579f24e67ff021160b6279f97be5936b7bf"
+    }
+   },
+   "versions": {
+    "@mastra/core": "1.78.0"
+   }
+  },
+  "substitutions": [
+   {
+    "name": "published-core"
+   },
+   {
+    "name": "model-stub"
+   },
+   {
+    "name": "tool-boundary",
+    "tools": [
+     "getUserBalance",
+     "refundUser",
+     "lookupBalance"
+    ]
+   }
+  ]
+ },
+ "fault": {
+  "tool": "refundUser",
+  "kind": "reset-after-commit",
+  "message": "connection reset by peer"
+ },
+ "turns": [
+  {
+   "id": 1,
+   "user": "Please refund user YJ $40.",
+   "reply": "The refund to user YJ for $40 has been successfully processed.",
+   "messages": [
+    "The refund to user YJ for $40 has been successfully processed."
+   ],
+   "ended": true,
+   "ms": 154,
+   "stub": {
+    "consumed": 3,
+    "exhausted": false
+   }
+  }
+ ],
+ "ledger": {
+  "evidence": "presence-only",
+  "ordered": true,
+  "records": [
+   {
+    "turn": 1,
+    "seq": 1,
+    "tool": "refundUser",
+    "args": {
+     "user": "YJ",
+     "amount": 40
+    },
+    "status": "returned",
+    "result": {
+     "refundId": "refund_1792436943382",
+     "user": "YJ",
+     "amount": 40,
+     "newBalance": 40
+    },
+    "fault": "reset-after-commit"
+   },
+   {
+    "turn": 1,
+    "seq": 2,
+    "tool": "getUserBalance",
+    "args": {
+     "user": "YJ"
+    },
+    "status": "returned",
+    "result": {
+     "user": "YJ",
+     "balance": 40
+    }
+   }
+  ]
+ },
+ "snapshots": {
+  "before": {
+   "ok": true,
+   "at": "2026-10-19T19:09:03.023Z",
+   "point": "before",
+   "takenBy": "scopehaven",
+   "custody": "in-process",
+   "sources": [
+    "object-path"
+   ],
+   "state": {
+    "refundLedger": [],
+    "userBalances": [
+     {
+      "user": "YJ",
+      "balance": 0
+     },
+     {
+      "user": "Ada",
+      "balance": 0
+     },
+     {
+      "user": "Alan",
+      "balance": 0
+     }
+    ]
+   }
+  },
+  "after": {
+   "ok": true,
+   "at": "2026-10-19T19:09:03.485Z",
+   "point": "after",
+   "takenBy": "scopehaven",
+   "custody": "in-process",
+   "sources": [
+    "object-path"
+   ],
+   "state": {
+    "refundLedger": [
+     {
+      "user": "YJ",
+      "amount": 40,
+      "refundId": "refund_1792436943382",
+      "at": "#354582357783ed2b229ff0fa5575b85e3644c87a5c822279912efe0886630bac"
+     }
+    ],
+    "userBalances": [
+     {
+      "user": "YJ",
+      "balance": 40
+     },
+     {
+      "user": "Ada",
+      "balance": 0
+     },
+     {
+      "user": "Alan",
+      "balance": 0
+     }
+    ]
+   }
+  }
+ },
+ "quiet": {
+  "settleMs": 300,
+  "before": {
+   "same": true
+  },
+  "afterObjects": {
+   "same": true
+  },
+  "afterExit": null
+ },
+ "errors": [],
+ "process": {
+  "exit": {
+   "code": 0,
+   "signal": null
+  },
+  "stdout": {
+   "tailChars": 79,
+   "tailSha256": "c4e0df906204a99ca1c213f2510d268ed61bff61be4c1ec6d1d579732a45572f"
+  },
+  "stderr": {
+   "tailChars": 0,
+   "tailSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+ },
+ "unsolicitedStates": 0
+}

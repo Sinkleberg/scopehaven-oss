@@ -1,0 +1,34 @@
+{
+  "schema": "scopehaven-connector/1",
+  "stack": "stripe",
+  "title": "Stripe payments (charges, refunds, payouts) in test mode on loopback",
+  "kind": "payments",
+  "summary": "An app or agent that moves money through a Stripe client. The client's base URL points at the payments double, a Stripe-shaped test-mode provider on loopback, and the refunds and payments pack grades what the agent asked the provider for from the provider's own ledger, which the app cannot edit. With the src/ hook proposed in connectors/README.md, `assess` runs the pack beside the HTTP profile and the regression gate compares both.",
+  "observers": [
+    {
+      "type": "egress-recorder", "role": "absence", "source": "http-egress",
+      "why": "The app's Stripe base URL points at the recorder, which forwards to the payments double: every refund, charge and payout request is seen on the request path, before the provider acts.",
+      "defaults": {},
+      "setup": [
+        "Point the app's Stripe client at the double: set the variable it reads for the API base (one of payments.clientEnv) to http://127.0.0.1:<provider port><routePrefix>, and give it a sk_test_ key the double accepts.",
+        "Add the witness route the pack calls (GET <witness path>?scopehaven_witness=<nonce>), which sends that nonce through the payment client to <witnessPrefix>."
+      ]
+    }
+  ],
+  "payments": {
+    "provider": "payments-double",
+    "clientEnv": ["STRIPE_API_BASE", "STRIPE_BASE_URL", "STRIPE_API_URL"],
+    "routePrefix": "/stripe/",
+    "witnessPrefix": "/witness/",
+    "runsIn": "assess"
+  },
+  "policyImporter": null,
+  "packs": ["payments-pack", "refund-window"],
+  "reset": null,
+  "limits": [
+    "A Stripe-shaped subset: charges, refunds and payouts. No payment intents, customers, disputes or webhooks.",
+    "The double, never api.stripe.com. Stripe's own test mode (integrations/payments-stripe, stage 2) waits on Yusef's sandbox keys.",
+    "Ownership and caps are the pack's policy, written by the operator with the buyer; a wrong policy gives a wrong verdict.",
+    "Running inside `assess` and the gate needs the src/ hook in connectors/README.md; until it lands the pack runs as `./scopehaven payments run`."
+  ]
+}

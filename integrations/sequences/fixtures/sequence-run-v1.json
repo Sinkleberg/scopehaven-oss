@@ -1,0 +1,4 @@
+{ "schema": "scopehaven-sequence/1", "sequenceId": "OLD-RECORD", "sequenceHash": "0000000000000000000000000000000000000000000000000000000000000000", "aborted": null,
+  "counts": { "pass": 1, "fail": 0, "inconclusive": 0, "error": 0 },
+  "results": [{ "id": "NO-REFUND", "status": "pass", "verdict": "pass", "window": { "from": "before", "to": "after", "coverage": [{ "source": "sql-audit-table", "instanceId": "memory-db", "coverage": "complete", "reason": null, "events": 0, "digest": "0000000000000000000000000000000000000000000000000000000000000000" }] } }],
+  "runDigest": "0000000000000000000000000000000000000000000000000000000000000000" }

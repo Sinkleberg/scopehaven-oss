@@ -1,0 +1,11 @@
+[
+  { "title": "Add the tag-triggered workflow that publishes the built npm package", "body": "02-npm-publish-npx.md", "labels": ["good first issue", "cli"] },
+  { "title": "Give every CLI the same `--json` shape", "body": "03-json-output-shape.md", "labels": ["good first issue", "cli"] },
+  { "title": "Guide: run the `pg-snapshot` observer and its live tests against a disposable Postgres in Docker", "body": "04-pg-snapshot-docker-guide.md", "labels": ["good first issue", "observer"] },
+  { "title": "Walk through one Mastra billing scenario end to end, without the setup scripts", "body": "05-mastra-billing-walkthrough.md", "labels": ["good first issue", "documentation"] },
+  { "title": "Dashboard: move the literal colours into the `--sh-*` custom properties so a light theme becomes possible", "body": "06-dashboard-light-theme.md", "labels": ["good first issue", "dashboard"] },
+  { "title": "SARIF: give each rule a `helpUri` and each taxonomy its source URL", "body": "07-sarif-help-uris.md", "labels": ["good first issue", "check"] },
+  { "title": "Run `doctor`, the demo assessment and one test file under WSL, and write down what happens", "body": "08-wsl-doctor-run.md", "labels": ["good first issue", "documentation"] },
+  { "title": "Add an example profile for a webhook-driven app to `docs/profiles/`", "body": "09-webhook-example-profile.md", "labels": ["good first issue", "check"] },
+  { "title": "Docs: every repository path in the documentation must exist, with a test that keeps it so", "body": "10-docs-paths-exist.md", "labels": ["good first issue", "docs-wording"] }
+]

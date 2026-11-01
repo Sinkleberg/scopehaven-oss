@@ -1,0 +1,16 @@
+{
+  "schema": "scopehaven-coverage-inventory/1",
+  "applicationId": "example-support",
+  "source": "Written for the shipped example profiles (docs/profiles/*.example.json), the synthetic two-company support app docs/ONBOARDING.md describes. That app has no code in this repository, so the operations here are the ones those profiles address, and the fixture ids are the ones they name.",
+  "tenants": ["acme", "globex"],
+  "roles": ["agent"],
+  "members": { "acme": ["agent"], "globex": ["agent"] },
+  "operations": [
+    { "id": "GET /api/me", "surface": "api", "method": "GET", "path": "/api/me", "auth": "session", "tenantScoped": false },
+    { "id": "GET /api/orders/:id", "surface": "api", "method": "GET", "path": "/api/orders/:id", "object": "orders", "auth": "session", "tenantScoped": true },
+    { "id": "POST /api/orders/:id/refunds", "surface": "api", "method": "POST", "path": "/api/orders/:id/refunds", "object": "orders", "auth": "session", "tenantScoped": true, "writes": ["refunds", "audit"] },
+    { "id": "POST /api/assistant/chat", "surface": "assistant-api", "method": "POST", "path": "/api/assistant/chat", "auth": "session", "tenantScoped": true, "refs": [{ "in": "body", "field": "orderId", "object": "orders" }], "writes": ["refunds", "audit"] }
+  ],
+  "datastores": [{ "name": "orders" }, { "name": "refunds" }, { "name": "audit" }],
+  "objects": { "orders": { "A-1": "acme", "B-1": "globex", "B-2": "globex", "B-3": "globex", "B-4": "globex" } }
+}

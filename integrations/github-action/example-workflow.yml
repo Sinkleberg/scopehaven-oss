@@ -1,0 +1,86 @@
+# INERT EXAMPLE: not installed as a workflow. To use it in your
+# repository, review it and copy it to
+# .github/workflows/scopehaven-assess.yml.
+#
+# It starts the owned synthetic HTTP lab (./scopehaven lab) as the app under
+# test on loopback, then runs the local composite action against the profile
+# the lab writes. Replace the lab step with your own app's start command and
+# profile to assess a real loopback deployment of an app you are authorized to test.
+name: Scopehaven assessment
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # SARIF variant: uncomment the two lines below and set upload-sarif: 'true'.
+  # Private repositories need paid GitHub Code Security for code scanning uploads.
+  # security-events: write
+  # actions: read
+
+jobs:
+  assess:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24 for the app under test
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+
+      - name: Start the app under test in the background (owned synthetic lab)
+        working-directory: scopehaven
+        run: |
+          SCOPEHAVEN_LAB_PORT=4319 nohup ./scopehaven lab > "$RUNNER_TEMP/scopehaven-lab.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/scopehaven-lab.pid"
+          for attempt in $(seq 1 30); do
+            if [ -f data/http-lab.env ] && [ -f data/http-lab.targets.json ] && [ -f data/http-lab.authorization.json ]; then break; fi
+            sleep 1
+          done
+          # The lab generates a synthetic member token. Mask it, then expose it to
+          # later steps under the SCOPEHAVEN_TARGET_ name its profile references.
+          token=$(sed -n 's/^SCOPEHAVEN_TARGET_LAB_MEMBER_TOKEN=//p' data/http-lab.env)
+          if [ -z "$token" ]; then echo "::error::The lab did not start"; exit 1; fi
+          echo "::add-mask::$token"
+          echo "SCOPEHAVEN_TARGET_LAB_MEMBER_TOKEN=$token" >> "$GITHUB_ENV"
+
+      - name: Scopehaven
+        id: scopehaven
+        uses: ./integrations/github-action
+        # For a real app, pass each credential the profile references from a
+        # repository secret, for example:
+        # env:
+        #   SCOPEHAVEN_TARGET_APP_MEMBER_TOKEN: ${{ secrets.SCOPEHAVEN_TARGET_APP_MEMBER_TOKEN }}
+        with:
+          profile: scopehaven/data/http-lab.targets.json
+          # The record that authorizes this run (docs/RULES-OF-ENGAGEMENT.md); `./scopehaven lab` writes one for the lab.
+          # For a real app, commit the client's record where the app under test cannot write it.
+          authorization: scopehaven/data/http-lab.authorization.json
+          wait-url: http://127.0.0.1:4319/me
+          wait-timeout-seconds: '60'
+          fail-on: fail
+          # baseline-run: path/to/previous/run.json   # from an earlier scopehaven-evidence artifact
+          # upload-sarif: 'true'                       # SARIF variant, see permissions above
+          # sarif-category: scopehaven-lab
+          # policy-baseline-matrix: path/to/previous/matrix.json  # from `scopehaven policy import` on the base branch
+          # policy-matrix: path/to/current/matrix.json            # the same import on this commit
+          # fail-on-policy-diff: 'true'                           # default 'false' only reports the policy diff
+
+      - name: Use the outputs
+        if: always()
+        env:
+          RUN_ID: ${{ steps.scopehaven.outputs.run-id }}
+          COUNTS: ${{ steps.scopehaven.outputs.status-counts }}
+          VERDICT: ${{ steps.scopehaven.outputs.gate-verdict }}
+        run: echo "run $RUN_ID counts $COUNTS gate $VERDICT"
+
+      - name: Stop the app under test
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/scopehaven-lab.pid" ]; then kill "$(cat "$RUNNER_TEMP/scopehaven-lab.pid")" 2>/dev/null || true; fi

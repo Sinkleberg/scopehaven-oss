@@ -1,0 +1,280 @@
+#!/usr/bin/env python3
+"""One-mutation-per-property sweep for the boundary sweep. Each mutation breaks exactly one promised property; the
+tests must fail for every one. A surviving mutation is a test gap. The pure test file (../sweep.test.mjs) runs first,
+then the hold gate's own tests (../gate.test.mjs, ../gate-rejected.test.mjs: the gate records each request's method and
+method overrides, and its observer ignores both; a reply cut off after its status line is one upstream fault, and the
+client's reply is cut off too), then the run file (../sweep-run.test.mjs: loopback relay desks, the
+CLI, the launcher), each only when the ones before it pass. Restores each file afterwards.
+usage: python3 mutate.py <node>"""
+import json, pathlib, subprocess, sys
+
+HERE = pathlib.Path(__file__).resolve().parent
+NODE = sys.argv[1]
+TESTS = [HERE.parent / 'sweep.test.mjs', HERE.parent / 'gate.test.mjs', HERE.parent / 'gate-rejected.test.mjs', HERE.parent / 'sweep-run.test.mjs']
+MUTATIONS = [
+    # spec.mjs: what an operator declares, and the gate rules built from it
+    ('spec.mjs', 'the spec schema is required', "spec.schema !== SWEEP_SPEC_SCHEMA || ", ""),
+    ('spec.mjs', 'credentials stay in the SCOPEHAVEN_TARGET_ namespace', "if (actor.credentialEnv !== undefined && !CREDENTIAL_ENV.test(actor.credentialEnv)) bad(", "if (false) bad("),
+    ('spec.mjs', 'the twin needs a restore or another actor\'s turn', "if (spec.restore === undefined && !(spec.twinTurn !== undefined && spec.twinTurn.actorId !== spec.turn.actorId)) bad(", "if (false) bad("),
+    ('spec.mjs', 'a twin turn without a restore is another actor\'s', "spec.twinTurn.actorId !== spec.turn.actorId", "true"),
+    ('spec.mjs', 'a declared twin turn is validated', "if (spec.twinTurn !== undefined) checkRequest(spec.twinTurn, 'twinTurn', spec.actors, bad);", ""),
+    ('spec.mjs', 'a declared restore is validated', "if (key === 'restore' && spec.restore === undefined) continue;", "if (key === 'restore') continue;"),
+    ('spec.mjs', 'the access change and the restore declare an expected status', "spec[key].expect.length >= 1 && ", ""),
+    ('spec.mjs', 'reserved rule ids are refused', "RESERVED_RULES.includes(a.id) || ids.has(a.id)", "ids.has(a.id)"),
+    ('spec.mjs', 'an action id is declared once', "RESERVED_RULES.includes(a.id) || ids.has(a.id)", "RESERVED_RULES.includes(a.id)"),
+    ('spec.mjs', 'action ids stay short enough for sequence ids', "const ACTION_ID = /^[A-Za-z0-9_-]{1,16}$/;", "const ACTION_ID = /^[A-Za-z0-9_-]{1,80}$/;"),
+    ('spec.mjs', 'an action names every method on its prefix', "if (Object.hasOwn(a, 'method')) bad(", "if (false) bad("),
+    ('spec.mjs', 'passive paths are validated', "for (const p of spec.passive ?? [])", "for (const p of [])"),
+    ('spec.mjs', 'a passive path declares no refusal', "if (Object.hasOwn(p, 'rejected')) bad(", "if (false) bad("),
+    ('spec.mjs', 'a passive "/" is refused with its own reason', "if (pp === '/') bad(", "if (false) bad("),
+    ('spec.mjs', 'a passive prefix may not cover an action\'s', "ap.startsWith(pp) || pp.startsWith(ap)", "pp.startsWith(ap)"),
+    ('spec.mjs', 'a passive prefix may not fall inside an action\'s', "ap.startsWith(pp) || pp.startsWith(ap)", "ap.startsWith(pp)"),
+    ('spec.mjs', 'passive and action prefixes compare case-folded', "const ap = a.pathPrefix.toLowerCase();", "const ap = a.pathPrefix;"),
+    ('spec.mjs', 'an accepted job is a passive write too', "PASSIVE_WRITE_STATUSES = Object.freeze([201, 202, 204])", "PASSIVE_WRITE_STATUSES = Object.freeze([201, 204])"),
+    ('spec.mjs', 'a write with no body is a passive write too', "PASSIVE_WRITE_STATUSES = Object.freeze([201, 202, 204])", "PASSIVE_WRITE_STATUSES = Object.freeze([201, 202])"),
+    ('spec.mjs', 'a passive PUT is a write', "'TRACE', 'POST'])", "'TRACE', 'POST', 'PUT'])"),
+    ('spec.mjs', 'a passive PATCH is a write', "'TRACE', 'POST'])", "'TRACE', 'POST', 'PATCH'])"),
+    ('spec.mjs', 'a passive DELETE is a write', "'TRACE', 'POST'])", "'TRACE', 'POST', 'DELETE'])"),
+    ('spec.mjs', 'POST stays allowed on a passive path (the model route)', "'TRACE', 'POST'])", "'TRACE'])"),
+    ('spec.mjs', 'GET stays allowed on a passive path', "Object.freeze(['GET', 'HEAD', 'OPTIONS', 'TRACE', 'POST'])", "Object.freeze(['HEAD', 'OPTIONS', 'TRACE', 'POST'])"),
+    ('spec.mjs', 'HEAD stays allowed on a passive path', "Object.freeze(['GET', 'HEAD', 'OPTIONS', 'TRACE', 'POST'])", "Object.freeze(['GET', 'OPTIONS', 'TRACE', 'POST'])"),
+    ('spec.mjs', 'OPTIONS stays allowed on a passive path', "Object.freeze(['GET', 'HEAD', 'OPTIONS', 'TRACE', 'POST'])", "Object.freeze(['GET', 'HEAD', 'TRACE', 'POST'])"),
+    ('spec.mjs', 'TRACE stays allowed on a passive path', "Object.freeze(['GET', 'HEAD', 'OPTIONS', 'TRACE', 'POST'])", "Object.freeze(['GET', 'HEAD', 'OPTIONS', 'POST'])"),
+    ('spec.mjs', 'a passive call is a write by its method alone', "PASSIVE_WRITE_STATUSES.includes(call.status) || !PASSIVE_METHODS.includes(call.method)", "PASSIVE_WRITE_STATUSES.includes(call.status)"),
+    ('spec.mjs', 'a passive call is still a write by its answer', "PASSIVE_WRITE_STATUSES.includes(call.status) || !PASSIVE_METHODS.includes(call.method)", "!PASSIVE_METHODS.includes(call.method)"),
+    ('spec.mjs', 'the passive methods are an allowlist, not a list of write methods', "!PASSIVE_METHODS.includes(call.method)", "['PUT', 'PATCH', 'DELETE'].includes(call.method)"),
+    ('spec.mjs', 'a passive call is a write by a method override', "\n  || !Array.isArray(call.overrides) || !call.overrides.every(m => PASSIVE_METHODS.includes(m))", ""),
+    ('spec.mjs', 'a passive call whose overrides are not recorded is a write', "!Array.isArray(call.overrides) || !call.overrides.every(", "!(call.overrides ?? []).every("),
+    ('spec.mjs', 'every override must be allowed, not only the first', "!call.overrides.every(m => PASSIVE_METHODS.includes(m))", "!PASSIVE_METHODS.includes(call.overrides[0] ?? 'POST')"),
+    ('spec.mjs', 'overrides are compared as sent', "call.overrides.every(m => PASSIVE_METHODS.includes(m))", "call.overrides.every(m => PASSIVE_METHODS.includes(m.toUpperCase()))"),
+    ('spec.mjs', 'a deliveredBy may not be the signal\'s own action', "if (s.action !== undefined && s.deliveredBy === s.action) bad(", "if (false) bad("),
+    ('spec.mjs', 'no declared prefix holds "%"', "if (a.pathPrefix.includes('%')) bad(", "if (false) bad("),
+    ('spec.mjs', 'no declared prefix holds a dot segment', "if (a.pathPrefix.split('/').some(segment => segment === '.' || segment === '..')) bad(", "if (false) bad("),
+    ('spec.mjs', 'a ".." segment is a dot segment', "segment === '.' || segment === '..'", "segment === '.'"),
+    ('spec.mjs', 'a "." segment is a dot segment', "segment === '.' || segment === '..'", "segment === '..'"),
+    ('spec.mjs', 'a signal names an action, not a passive path', "!actionIds.has(s.action)", "!ids.has(s.action)"),
+    ('spec.mjs', 'a signal\'s delivery rule is an action', "(s.deliveredBy !== undefined && !actionIds.has(s.deliveredBy))", "false"),
+    ('spec.mjs', 'the world program is an absolute path', " || !spec.world.command[0].startsWith('/')) bad(", ") bad("),
+    ('spec.mjs', 'the declared actions come before the catch-all', "rules.push({ id: OTHER_RULE", "rules.unshift({ id: OTHER_RULE"),
+    ('spec.mjs', 'the catch-all names every other path', "pathPrefix: '/', holds:", "pathPrefix: '/v1/', holds:"),
+    ('spec.mjs', 'only the target rule holds', "holds: held?.rule === a.id ? held.k : 0", "holds: held ? held.k : 0"),
+    ('spec.mjs', 'the catch-all never holds', "rules.push({ id: OTHER_RULE, pathPrefix: '/', holds: 0 });", "rules.push({ id: OTHER_RULE, pathPrefix: '/', holds: held?.k ?? 0 });"),
+    ('spec.mjs', 'passive paths come after the actions', "for (const p of passiveOf(spec)) rules.push({", "for (const p of passiveOf(spec)) rules.unshift({"),
+    ('spec.mjs', 'a passive path holds when it is the target', "holds: held?.rule === p.id ? held.k : 0", "holds: 0"),
+    ('spec.mjs', 'declared refusals reach the gate', "...(a.rejected?.length ? { rejected: [...a.rejected] } : {})", "...({})"),
+    # plan.mjs: the baseline, what it shows, and the generated executions
+    ('plan.mjs', 'the baseline carries an allowed-use control per action', "[...spec.actions.map(a => control(`ALLOWED-${a.id}`", "[...spec.actions.slice(0, 1).map(a => control(`ALLOWED-${a.id}`"),
+    ('plan.mjs', 'the baseline settles before its end mark', "{ sleep: spec.settleMs }, { mark: 'end' }, { sleep: spec.settleMs }, { mark: 'quiet' }],", "{ mark: 'end' }, { sleep: spec.settleMs }, { sleep: spec.settleMs }, { mark: 'quiet' }],"),
+    ('plan.mjs', 'the baseline carries the quiet rows', "...quietRows(spec)] };", "] };"),
+    ('plan.mjs', 'the quiet rows cover the catch-all', "[...boundaryRules(spec), OTHER_RULE].map(id =>", "[...boundaryRules(spec)].map(id =>"),
+    ('plan.mjs', 'the quiet rows cover the passive paths', "[...boundaryRules(spec), OTHER_RULE].map(id =>", "[...spec.actions.map(a => a.id), OTHER_RULE].map(id =>"),
+    ('plan.mjs', 'a passive call that wrote makes the baseline unobserved', "if (calls.some(c => passive.has(c.rule) && passiveWrote(c))) reasons.push('passive-call-wrote');", ""),
+    ('plan.mjs', 'only a passive call\'s answer or method is a passive write', "passive.has(c.rule) && passiveWrote(c)", "passiveWrote(c)"),
+    ('plan.mjs', 'the baseline reads each call\'s method from the gate timeline', "method: f.method ?? null,", "method: 'POST',"),
+    ('plan.mjs', 'a baseline call without a recorded method is not taken for a POST', "method: f.method ?? null,", "method: f.method ?? 'POST',"),
+    ('plan.mjs', 'the baseline reads each call\'s method overrides from the gate timeline', "overrides: f.methodOverrides ?? null,", "overrides: [],"),
+    ('plan.mjs', 'a baseline call without recorded overrides is not taken for one with none', "overrides: f.methodOverrides ?? null,", "overrides: f.methodOverrides ?? [],"),
+    ('plan.mjs', 'an undeclared call makes the baseline unobserved', "if (counts[OTHER_RULE]) reasons.push('undeclared-call');", ""),
+    ('plan.mjs', 'a baseline that is not quiet is not observed', "if (!quietIds(spec).every(id => (run?.results ?? []).some(r => r.id === id && r.status === 'pass'))) reasons.push('baseline-not-quiet');", ""),
+    ('plan.mjs', 'a stopped baseline is not observed', "if (run?.aborted) reasons.push(", "if (false) reasons.push("),
+    ('plan.mjs', 'the baseline turn is answered in full', "turn?.complete === true && ", ""),
+    ('plan.mjs', 'the baseline turn is accepted (2xx)', "turn.status >= 200 && turn.status < 300", "turn.status >= 200"),
+    ('plan.mjs', 'a baseline without the gate timeline is not observed', "if (!timeline) reasons.push('no-gate-timeline');", ""),
+    ('plan.mjs', 'an ungated call is not observed', "if (counts.ungated) reasons.push('ungated-call');", ""),
+    ('plan.mjs', 'every call is answered within the settle', "if (calls.some(c => c.status === null)) reasons.push('call-without-answer');", ""),
+    ('plan.mjs', 'the gate window is complete', " || gateWindow.coverage !== 'complete'", ""),
+    ('plan.mjs', 'the sealed window lists the calls the timeline lists', "if ([...names].some(n => sealed[n] !== counts[n])) reasons.push('timeline-window-mismatch');", ""),
+    ('plan.mjs', 'calls are numbered within their rule', "calls.push({ rule, k: counts[rule],", "calls.push({ rule, k: calls.length + 1,"),
+    ('plan.mjs', 'allowed use needs a passing row', "r.id === `ALLOWED-${id}` && r.status === 'pass'", "r.id === `ALLOWED-${id}`"),
+    ('plan.mjs', 'allowed use needs a declared action\'s row', "allowedUse: allowedActions.length > 0", "allowedUse: (run?.results ?? []).some(r => r.status === 'pass')"),
+    ('plan.mjs', 'an unobserved baseline plans nothing', "if (!observation.observed) return { executions: [], unreachable: [], reasons: [...observation.reasons] };", ""),
+    ('plan.mjs', 'one execution per observed call, not a fixed list', "const executions = observation.calls.map(", "const executions = observation.calls.slice(0, 3).map("),
+    ('plan.mjs', 'the twins follow the actions the baseline applied', "twins: [...observation.allowedActions]", "twins: spec.actions.map(a => a.id)"),
+    ('plan.mjs', 'a hold deeper than a sequence allows is not runnable', "runnable: stepsFor(c.k, spec) <= SEQUENCE_LIMITS.steps", "runnable: true"),
+    ('plan.mjs', 'the depth limit counts the steps an execution has', "2 * k + 15 + (spec.restore ? 2 : 0)", "2 * k + 14 + (spec.restore ? 2 : 0)"),
+    ('plan.mjs', 'the restore steps count only when declared', "2 * k + 15 + (spec.restore ? 2 : 0)", "2 * k + 15 + 2"),
+    ('plan.mjs', 'a default signal follows only an action\'s answer', "(s.action ? c.rule === s.action : actions.has(c.rule))", "(s.action ? c.rule === s.action : true)"),
+    ('plan.mjs', 'a restricted signal follows only its action', "(s.action ? c.rule === s.action : actions.has(c.rule))", "(s.action ? true : actions.has(c.rule))"),
+    ('plan.mjs', 'a signal follows the first answered match', ".sort((a, b) => a.answeredSeq - b.answeredSeq);", ".sort((a, b) => b.answeredSeq - a.answeredSeq);"),
+    ('plan.mjs', 'a signal attaches strictly after its answer', "c.forwardedSeq > hits[0].answeredSeq", "c.forwardedSeq > hits[0].forwardedSeq"),
+    ('plan.mjs', 'a queued answer pairs only with a later action', "c.forwardedSeq > h.answeredSeq", "c.forwardedSeq > 0"),
+    ('plan.mjs', 'a queued answer pairs only with an action', "actions.has(c.rule) && c.status !== s.status", "c.status !== s.status"),
+    ('plan.mjs', 'a second queued call is not the first one\'s delivery', "actions.has(c.rule) && c.status !== s.status", "actions.has(c.rule)"),
+    ('plan.mjs', 'a delivery is another rule\'s call, not the next step of the same rule', "(s.deliveredBy ? c.rule === s.deliveredBy : c.rule !== h.rule)", "(s.deliveredBy ? c.rule === s.deliveredBy : true)"),
+    ('plan.mjs', 'a declared delivery rule is the only delivery', "(s.deliveredBy ? c.rule === s.deliveredBy : c.rule !== h.rule)", "(c.rule !== h.rule)"),
+    ('plan.mjs', 'an ambiguous default delivery is unreachable', "if (ambiguous(h)) { gap = { signal: name, after: `${h.rule}${h.k}`, why: 'delivery-ambiguous' }; break; }", ""),
+    ('plan.mjs', 'a declared delivery rule settles the ambiguity', "(!s.deliveredBy && spec.actions.filter", "(spec.actions.filter"),
+    ('plan.mjs', 'a delivery by the answering rule is ambiguous', "const ambiguous = h => s.deliveredBy === h.rule || ", "const ambiguous = h => "),
+    ('plan.mjs', 'two or more other actions make the default ambiguous', "spec.actions.filter(a => a.id !== h.rule).length > 1)", "spec.actions.filter(a => a.id !== h.rule).length > 2)"),
+    ('plan.mjs', 'one other action keeps the default delivery rule', "spec.actions.filter(a => a.id !== h.rule).length > 1)", "spec.actions.filter(a => a.id !== h.rule).length > 0)"),
+    ('plan.mjs', 'an unpaired queued answer is recorded as unreachable', "if (gap) { unreachable.push(gap); continue; }", "if (gap) continue;"),
+    ('plan.mjs', 'the earlier requests of the rule are released first', "for (let j = 1; j < k; j++)", "for (let j = 1; j < 1; j++)"),
+    ('plan.mjs', 'the access change is a precondition', "{ expectStatus: { request: 'condition', in: [...expect] } },", ""),
+    ('plan.mjs', 'the held request is released after the suspended mark', "{ mark: 'suspended' }, { release: { hold: 'held' } },", "{ release: { hold: 'held' } }, { mark: 'suspended' },"),
+    ('plan.mjs', 'the execution settles before its end mark', "{ awaitResponse: { request: 'turn' } }, { sleep: spec.settleMs }, { mark: 'end' }, { sleep: spec.settleMs }, { mark: 'quiet' });", "{ awaitResponse: { request: 'turn' } }, { mark: 'end' }, { sleep: spec.settleMs }, { sleep: spec.settleMs }, { mark: 'quiet' });"),
+    ('plan.mjs', 'the execution waits its quiet window', "{ mark: 'end' }, { sleep: spec.settleMs }, { mark: 'quiet' });", "{ mark: 'end' }, { mark: 'quiet' });"),
+    ('plan.mjs', 'the prohibitions run from the access change to the quiet mark', "severity: 'high', from: 'suspended', to: 'quiet'", "severity: 'high', from: 'suspended', to: 'end'"),
+    ('plan.mjs', 'a declared restore runs before the twin', "steps.push({ request: requestOf('restore', restore) }, { expectStatus: { request: 'restore', in: [...restored] } });", ""),
+    ('plan.mjs', 'the twin is the declared twin turn when there is one', "const twin = spec.twinTurn ? requestOf('twin', { ...spec.twinTurn, timeoutMs: spec.twinTurn.timeoutMs ?? turnTimeout(spec) }) : { ...turn, id: 'twin' };", "const twin = { ...turn, id: 'twin' };"),
+    ('plan.mjs', 'the twin settles before its end mark', "{ request: twin }, { sleep: spec.settleMs }, { mark: 'twin-end' }", "{ request: twin }, { mark: 'twin-end' }"),
+    ('plan.mjs', 'the twin rows are effect.exists controls', "'twin-start', 'twin-end', 'effect.exists', id)", "'twin-start', 'twin-end', 'effect.none', id)"),
+    ('plan.mjs', 'the change window opens before the access change', "{ mark: 'changing' }, { request: requestOf('condition', condition) }", "{ request: requestOf('condition', condition) }, { mark: 'changing' }"),
+    ('plan.mjs', 'every action has a change row', "...spec.actions.map(a => control(`CHANGE-${a.id}`", "...[].map(a => control(`CHANGE-${a.id}`"),
+    ('plan.mjs', 'the undeclared row covers the whole run', "control(UNDECLARED_ROW, 'No call on an undeclared path', 'start', 'twin-end'", "control(UNDECLARED_ROW, 'No call on an undeclared path', 'suspended', 'twin-end'"),
+    # aggregate.mjs: an execution's outcome and a case's verdict
+    ('aggregate.mjs', 'the hold precedes the access change', "held >= 0 && held < answered && ", ""),
+    ('aggregate.mjs', 'the access change is answered before the mark', " && answered < marked", ""),
+    ('aggregate.mjs', 'the release follows the mark', " && marked < released", ""),
+    ('aggregate.mjs', 'the access change answered a declared status', "spec.condition.expect.includes(change.status)", "true"),
+    ('aggregate.mjs', 'the access change answered in full', "change?.complete === true && ", ""),
+    ('aggregate.mjs', 'a condition that did not fire decides nothing', "if (!fired) return { result: 'INCONCLUSIVE', fired, reason: stopped ?? 'condition-not-fired' };", ""),
+    ('aggregate.mjs', 'a failure counts only from a call started after the change', "const shown = failed.filter(startedInWindow);", "const shown = failed;"),
+    ('aggregate.mjs', 'a call started in a window is one held or forwarded there', "['held', 'forwarded'].includes(entry.get(ev.seq)?.type)", "['held', 'forwarded', 'response'].includes(entry.get(ev.seq)?.type)"),
+    ('aggregate.mjs', 'an undeclared call keeps an execution from passing', "if (row(UNDECLARED_ROW)?.status !== 'pass') return", "if (false) return"),
+    ('aggregate.mjs', 'a passive write keeps an execution from passing', "if (passiveCalls(run, spec).some(passiveWrote)) return", "if (false) return"),
+    ('aggregate.mjs', 'passive calls are the passive rules\' calls', " || !passive.has(e.ruleId)) continue;", ") continue;"),
+    ('aggregate.mjs', 'an execution reads each passive call\'s method from its forwarded entry', "if (e.type === 'forwarded') { call.method = e.method ?? null;", "if (e.type === 'forwarded') { call.method = 'POST';"),
+    ('aggregate.mjs', 'an execution\'s passive call without a recorded method is not taken for a POST', "call.method = e.method ?? null;", "call.method = e.method ?? 'POST';"),
+    ('aggregate.mjs', 'an execution reads each passive call\'s method overrides from its forwarded entry', "call.overrides = e.methodOverrides ?? null;", "call.overrides = [];"),
+    ('aggregate.mjs', 'an execution\'s passive call without recorded overrides is not taken for one with none', "call.overrides = e.methodOverrides ?? null;", "call.overrides = e.methodOverrides ?? [];"),
+    ('aggregate.mjs', 'a passive call\'s status is its answer\'s', "else call.status = e.status;", "else call.status = 200;"),
+    ('aggregate.mjs', 'a forwarded passive call counts even unanswered', "(e.type === 'forwarded' || e.type === 'response')", "(e.type === 'response')"),
+    ('aggregate.mjs', 'a passive answer counts even when its forwarded entry is lost', "(e.type === 'forwarded' || e.type === 'response')", "(e.type === 'forwarded')"),
+    ('aggregate.mjs', 'an action started during the change keeps it from passing', "if (changing.length) return", "if (false) return"),
+    ('aggregate.mjs', 'every change row must pass', "changeIds(spec).filter(id => row(id)?.status !== 'pass')", "changeIds(spec).filter(id => row(id)?.status === 'fail')"),
+    ('aggregate.mjs', 'a run not quiet after the settle cannot pass', "if (loud.length) return {", "if (false) return {"),
+    ('aggregate.mjs', 'every quiet row must pass', "quietIds(spec).filter(id => row(id)?.status !== 'pass')", "quietIds(spec).filter(id => row(id)?.status === 'fail')"),
+    ('aggregate.mjs', 'a stop after the change is not a pass', "if (stopped) return { result: 'INCONCLUSIVE', fired, reason: stopped };", ""),
+    ('aggregate.mjs', 'every prohibition row must pass', "if (!rows.every(r => r?.status === 'pass'))", "if (!rows.some(r => r?.status === 'pass'))"),
+    ('aggregate.mjs', 'a pass needs at least one twin', "if (!twins.length) return { result: 'INCONCLUSIVE', fired, reason: 'no-allowed-use-twin' };", ""),
+    ('aggregate.mjs', 'every planned twin must be shown', "twins.filter(t => !(t.row?.status === 'pass' && startedInWindow(t.row)))", "twins.filter(t => t.row?.status === 'fail')"),
+    ('aggregate.mjs', 'a twin counts only calls that started in its window', "t.row?.status === 'pass' && startedInWindow(t.row)", "t.row?.status === 'pass'"),
+    ('aggregate.mjs', 'only a fired failure flags', "o?.result === 'FAIL' && o.fired === true", "o?.result === 'FAIL'"),
+    ('aggregate.mjs', 'an unobserved baseline blocks NO_FLAG', "if (!observation.observed) reasons.push(", "if (false) reasons.push("),
+    ('aggregate.mjs', 'NO_FLAG needs allowed use', "if (!observation.allowedUse) reasons.push('no-allowed-use');", ""),
+    ('aggregate.mjs', 'NO_FLAG needs at least one execution', "if (!plan.executions.length) reasons.push('no-boundary');", ""),
+    ('aggregate.mjs', 'an unreachable signal blocks NO_FLAG', "for (const u of plan.unreachable) reasons.push(", "for (const u of []) reasons.push("),
+    ('aggregate.mjs', 'a hold too deep to run blocks NO_FLAG', "if (!e.runnable) reasons.push(", "if (false) reasons.push("),
+    ('aggregate.mjs', 'every planned execution must have run', "else if (!o) reasons.push(`${e.id}:not-run`);", "else if (!o) {}"),
+    ('aggregate.mjs', 'every planned execution passed with its condition fired', "else if (!(o.result === 'PASS' && o.fired === true))", "else if (!(o.result === 'PASS'))"),
+    # runner.mjs: fresh worlds, the gate, credentials and re-checks
+    ('runner.mjs', 'a world puts the gate in front of its upstream', "if (!gate) throw new Error('The world never asked", "if (false) throw new Error('The world never asked"),
+    ('runner.mjs', 'a world asks for one gate', "if (gate) throw new Error('A world asks for one hold gate.');", ""),
+    ('runner.mjs', 'the access change waits for every forwarded request', "if (target && ruleId === target.rule && ++holds === target.k) await drained(timeoutMs);", ""),
+    ('runner.mjs', 'only the target hold waits for the drain', "++holds === target.k", "++holds === 1"),
+    ('runner.mjs', 'a drain that never finishes stops the run', "if (Date.now() > until) throw", "if (false) throw"),
+    ('runner.mjs', 'the drain waits for every forwarded request', "gate.timeline.every(e => e.type !== 'forwarded' || answered.has(e.reqId))", "true"),
+    ('runner.mjs', 'the drain waits for the gate to go quiet', "&& Date.now() - quietSince >= DRAIN_QUIET_MS) return;", ") return;"),
+    ('runner.mjs', 'the report lists the baseline\'s passive calls', "passiveCalls: observation.calls.filter(", "passiveCalls: [].filter("),
+    ('runner.mjs', 'each outcome lists its passive calls', "passiveCalls: passiveCalls(done.run, spec), ", ""),
+    ('runner.mjs', 'the report lists each passive call\'s method', ".map(({ rule, k, method, overrides, status }) => ({ rule, k, method, overrides, status })) },", ".map(({ rule, k, overrides, status }) => ({ rule, k, overrides, status })) },"),
+    ('runner.mjs', 'the report lists each passive call\'s method overrides', ".map(({ rule, k, method, overrides, status }) => ({ rule, k, method, overrides, status })) },", ".map(({ rule, k, method, status }) => ({ rule, k, method, status })) },"),
+    ('runner.mjs', 'the report lists each baseline call\'s method', "calls: observation.calls.map(({ rule, k, method, overrides, status }) => ({ rule, k, method, overrides, status })),", "calls: observation.calls.map(({ rule, k, overrides, status }) => ({ rule, k, overrides, status })),"),
+    ('runner.mjs', 'the report lists each baseline call\'s method overrides', "calls: observation.calls.map(({ rule, k, method, overrides, status }) => ({ rule, k, method, overrides, status })),", "calls: observation.calls.map(({ rule, k, method, status }) => ({ rule, k, method, status })),"),
+    ('runner.mjs', 'the report states the passive POST residual', "  'A passive path is the operator\\'s statement that the route applies nothing. A passive call that wrote is caught by its answer (201, 202 or 204), its method, or a method override it carries in an X-HTTP-Method-Override, X-HTTP-Method or X-Method-Override header or a _method parameter (anything but GET, HEAD, OPTIONS, TRACE or POST); a write answered 200 and sent as POST with no override, or as a safe method misused for a write, is not.',\n", ""),
+    ('runner.mjs', 'the world stops before the gate', "    try { await world.stop(); }\n    finally { if (gate) await Promise.race([gate.stop().catch(() => {}), new Promise(resolve => setTimeout(resolve, 5000).unref())]); }", "    try { if (gate) await Promise.race([gate.stop().catch(() => {}), new Promise(resolve => setTimeout(resolve, 5000).unref())]); }\n    finally { await world.stop(); }"),
+    ('runner.mjs', 'world credentials are SCOPEHAVEN_TARGET_ strings', "if (!entries.every(([name, value]) => CREDENTIAL_ENV.test(name) && typeof value === 'string')) throw", "if (false) throw"),
+    ('runner.mjs', 'a run that does not re-check is not validated', "validated = recheck({ run, sequence, gateConfig, observerConfigs }) === true; } catch { validated = false; }", "validated = true; } catch { validated = false; }"),
+    ('runner.mjs', 'an execution counts only once re-checked', "outcome = done.validated ? {", "outcome = true ? {"),
+    ('runner.mjs', 'the baseline counts only once re-checked', "const observation = baseline?.validated ? observeBaseline(baseline.run, spec)", "const observation = baseline ? observeBaseline(baseline.run, spec)"),
+    # ../gate.mjs: the hold gate records each request's method and method overrides (read only by the sweep's passive check)
+    ('../gate.mjs', 'the gate records a forwarded request\'s method', "holdId: meta.holdId, method: req.method, methodOverrides: meta.methodOverrides, pathDigest: meta.pathDigest });", "holdId: meta.holdId, methodOverrides: meta.methodOverrides, pathDigest: meta.pathDigest });"),
+    ('../gate.mjs', 'the gate records the request\'s own method', "holdId: meta.holdId, method: req.method, methodOverrides: meta.methodOverrides, pathDigest: meta.pathDigest });", "holdId: meta.holdId, method: 'POST', methodOverrides: meta.methodOverrides, pathDigest: meta.pathDigest });"),
+    ('../gate.mjs', 'the gate records a held request\'s method', "holdId, method: req.method, methodOverrides, pathDigest, bodyDigest", "holdId, methodOverrides, pathDigest, bodyDigest"),
+    ('../gate.mjs', 'the gate records a forwarded request\'s method overrides', "methodOverrides: meta.methodOverrides, pathDigest: meta.pathDigest });", "pathDigest: meta.pathDigest });"),
+    ('../gate.mjs', 'the gate records a held request\'s method overrides', "method: req.method, methodOverrides, pathDigest, bodyDigest", "method: req.method, pathDigest, bodyDigest"),
+    ('../gate.mjs', 'the gate reads X-HTTP-Method-Override', "['x-http-method-override', 'x-http-method', 'x-method-override']", "['x-http-method', 'x-method-override']"),
+    ('../gate.mjs', 'the gate reads X-HTTP-Method', "['x-http-method-override', 'x-http-method', 'x-method-override']", "['x-http-method-override', 'x-method-override']"),
+    ('../gate.mjs', 'the gate reads X-Method-Override', "['x-http-method-override', 'x-http-method', 'x-method-override']", "['x-http-method-override', 'x-http-method']"),
+    ('../gate.mjs', 'the gate reads _method in the query', "fromKeys(new URL(req.url, 'http://127.0.0.1').searchParams);", ""),
+    ('../gate.mjs', 'the gate reads _method in a form body', "if (form) fromKeys(new URLSearchParams(text));", ""),
+    ('../gate.mjs', 'a body with no content type reads as a form', "form = type === '' || type === 'application/x-www-form-urlencoded'", "form = type === 'application/x-www-form-urlencoded'"),
+    ('../gate.mjs', 'a body the gate does not parse that names _method is an unreadable override', "if (!form && !json && /_method|\\.method/.test(text)) found.push('');", ""),
+    ('../gate.mjs', 'a body the gate does not parse that names .method is an unreadable override', "/_method|\\.method/.test(text)", "/_method/.test(text)"),
+    ('../gate.mjs', 'the gate reads _method at the top of a JSON body', "Object.hasOwn(parsed, '_method')) found.push(", "false) found.push("),
+    ('../gate.mjs', 'any type with +json in it is a JSON body', " || header.includes('+json')", ""),
+    ('../gate.mjs', 'any type with /json in it is a JSON body', "header.includes('/json')", "type === 'application/json'"),
+    # The an earlier review follow-up: bodies and spellings the frameworks read.
+    ('../gate.mjs', 'a header spelled with _ for - is read', "name.replaceAll('_', '-') === h", "name === h"),
+    ('../gate.mjs', 'a body with a Content-Encoding other than identity is an unreadable override', "if (body.length && encoding !== '' && encoding !== 'identity') found.push('');", "if (false) found.push('');"),
+    ('../gate.mjs', 'an identity Content-Encoding reads as usual', " && encoding !== 'identity')", ")"),
+    ('../gate.mjs', 'an encoded request with no body reads as usual', "if (body.length && encoding", "if (encoding"),
+    ('../gate.mjs', 'the media type ends at a comma', "split(/[;,\\s]/)", "split(/[;\\s]/)"),
+    ('../gate.mjs', 'the media type ends at whitespace', "split(/[;,\\s]/)", "split(/[;,]/)"),
+    ('../gate.mjs', 'Rack 2 drops a key\'s leading brackets', "const rack = /^[[\\]]*(", "const rack = /^("),
+    ('../gate.mjs', 'Rack 2 drops a key\'s trailing ]', "([^[\\]]+)\\]*/.exec(key)", "([^[\\]]+)/.exec(key)"),
+    ('../gate.mjs', 'a key Rack 2 nests under _method is an unreadable override', "if (after !== '[') return '';", ""),
+    ('../gate.mjs', 'Rack 2 reads _method[ as another key', "if (after !== '[') return '';", "return '';"),
+    ('../gate.mjs', 'PHP reads . in a key as _', ".replace(/[ .]/g, '_')", ".replace(/[ ]/g, '_')"),
+    ('../gate.mjs', 'PHP reads a space in a key as _', ".replace(/[ .]/g, '_')", ".replace(/[.]/g, '_')"),
+    ('../gate.mjs', 'PHP drops a key\'s leading spaces', "[php.replace(/^ +/, ''), php]", "[php]"),
+    ('../gate.mjs', 'the gate also reads a key with its leading spaces kept', "[php.replace(/^ +/, ''), php]", "[php.replace(/^ +/, '')]"),
+    ('../gate.mjs', 'PHP ends a key at its first NUL', "const php = key.split('\\0')[0];", "const php = key;"),
+    ('../gate.mjs', 'a key PHP nests under _method is an unreadable override', "if (name.includes(']', open + 1)) return '';", ""),
+    ('../gate.mjs', 'PHP reads a key with an unmatched [ as another key', "if (name.includes(']', open + 1)) return '';", "return '';"),
+    ('../gate.mjs', 'a JSON body that does not parse is an unreadable override', "try { parsed = JSON.parse(text); } catch { found.push(''); }", "try { parsed = JSON.parse(text); } catch {}"),
+    ('../gate.mjs', 'a JSON _method that is not a string is an unreadable override', "typeof parsed._method === 'string' ? parsed._method : ''", "String(parsed._method)"),
+    ('../gate.mjs', 'the gate keeps at most 8 override values', "found.slice(0, 8).map(", "found.map("),
+    ('../gate.mjs', 'the gate cuts each override value to 32 characters', ".map(v => v.slice(0, 32))", ""),
+    ('../gate.mjs', 'override values past the 8th are marked unreadable', ", ...(found.length > 8 ? [''] : [])", ""),
+    ('../gate.mjs', 'the observer ignores a request\'s method overrides', "outcome: end ? outcomeOf(end) : 'started', correlation", "outcome: e.methodOverrides?.length ? 'unknown' : end ? outcomeOf(end) : 'started', correlation"),
+    ('../gate.mjs', 'the observer ignores a request\'s method', "content: e.pathDigest });\n          });", "content: e.method === 'DELETE' ? 'x' : e.pathDigest });\n          });"),
+    ('../gate.mjs', 'a reply cut off after its status line is an upstream fault', "if (!upRes.complete) { fault(); res.destroy(); }", "if (!upRes.complete) { res.destroy(); }"),
+    ('../gate.mjs', 'a reply that arrived in full is not an upstream fault', "upRes.on('close', () => { if (!upRes.complete) {", "upRes.on('close', () => { if (true) {"),
+    ('../gate.mjs', 'the client\'s reply is cut off when the upstream cuts it', "{ fault(); res.destroy(); } });", "{ fault(); } });"),
+    ('../gate.mjs', 'a reply whose connection fails after its status line is cut off for the client, not ended', "if (res.headersSent) res.destroy(); else", "if (res.headersSent) res.end(); else"),
+    ('../gate.mjs', 'an upstream fault is noted once per request', "const fault = () => { if (!faulted) { faulted = true;", "const fault = () => { { faulted = true;"),
+    ('../gate.mjs', 'a connection that fails before any answer is answered 502', "else res.writeHead(502).end(); });", "else res.destroy(); });"),
+    # launcher.mjs: the world launcher protocol
+    ('launcher.mjs', 'the upstream is literal loopback', "if (!loopback(upstream)) throw", "if (false) throw"),
+    ('launcher.mjs', 'a loopback port is at most 65535', "Number(LOOPBACK.exec(url)[1]) <= 65535", "true"),
+    ('launcher.mjs', 'the origin is literal loopback', "if (!loopback(ready.origin)) throw", "if (false) throw"),
+    ('launcher.mjs', 'credential names are in the SCOPEHAVEN_TARGET_ namespace', "every(([name, value]) => CREDENTIAL_ENV.test(name) && typeof value === 'string' && value.length <= 4096)", "every(([name, value]) => typeof value === 'string' && value.length <= 4096)"),
+    ('launcher.mjs', 'an early exit fails the start', "if (done) throw new Error('The world launcher exited before it was ready.');", "if (done) return {};"),
+    ('launcher.mjs', 'the start timeout is the declared one', "ms.`)), startTimeoutMs);", "ms.`)), startTimeoutMs * 20);"),
+    ('launcher.mjs', 'stop sends SIGTERM', "      group('SIGTERM');\n", ""),
+    ('launcher.mjs', 'stop signals the whole process group', "try { process.kill(-child.pid, signal); } catch {}", "try { child.kill(signal); } catch {}"),
+    # cli.mjs
+    ('cli.mjs', 'the CLI needs a world', "if (!spec.world) throw", "if (false) throw"),
+    ('cli.mjs', 'concurrency is bounded', "if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > MAX_CONCURRENCY) throw", "if (false) throw"),
+    ('cli.mjs', 'a sweep that cannot finish exits 2', "catch (error) { log(`Sweep error: ${error.message}`); return 2; }", "catch (error) { throw error; }"),
+    ('cli.mjs', 'the exit code follows the verdict', "return SWEEP_EXIT[report.verdict];", "return 0;"),
+    # ic1/run.mjs: the development check's spec and score
+    ('ic1/run.mjs', 'an abstain on a safe case is a false alarm', "falseAlarms: safe.filter(r => r.verdict !== 'NO_FLAG').length", "falseAlarms: safe.filter(r => r.verdict === 'FLAG').length"),
+    ('ic1/run.mjs', 'only FLAG finds an unsafe case', "unsafeFlagged: unsafe.filter(r => r.verdict === 'FLAG').length", "unsafeFlagged: unsafe.filter(r => r.verdict !== 'NO_FLAG').length"),
+    ('ic1/run.mjs', 'the IC1 spec declares the model route passive', "passive: [{ id: 'model', pathPrefix: '/v1/chat/completions' }],", "passive: [],"),
+    ('ic1/run.mjs', 'the oracle holds deliveries only for queued tools', "tools.filter(t => queued.has(t.name))", "tools"),
+    ('ic1/run.mjs', 'the IC1 spec restores the same staff member', "path: '/api/admin/restore', body: { staff: pub.actor }", "path: '/api/admin/restore', body: { staff: 'acme.agent' }"),
+]
+
+
+def tests_fail():
+    for path in TESTS:
+        try:
+            # --test-force-exit: a mutation that leaves a server or child process open must not keep a failed run alive.
+            if subprocess.run([NODE, '--test', '--test-force-exit', '--test-timeout=180000', str(path)], capture_output=True, text=True, timeout=600).returncode != 0:
+                return path.name
+        except subprocess.TimeoutExpired:
+            # A mutation that makes the tests hang has not let them pass.
+            return f'{path.name} (timed out)'
+    return None
+
+
+# A sweep over failing tests would read every mutation as caught: the tests must pass first.
+if tests_fail():
+    sys.exit('The tests fail before any mutation; fix them first.')
+results = []
+for rel, name, find, repl in MUTATIONS:
+    src = HERE / rel
+    original = src.read_text()
+    if original.count(find) != 1:
+        results.append({'file': rel, 'property': name, 'status': 'mutation-site-not-unique', 'count': original.count(find)}); continue
+    try:
+        src.write_text(original.replace(find, repl))
+        caught_by = tests_fail()
+    finally:
+        src.write_text(original)
+    results.append({'file': rel, 'property': name, 'status': 'caught' if caught_by else 'SURVIVED', **({'caughtBy': caught_by} if caught_by else {})})
+caught = sum(r['status'] == 'caught' for r in results)
+print(json.dumps({'mutations': len(MUTATIONS), 'caught': caught, 'results': results}, indent=1))
+sys.exit(0 if caught == len(MUTATIONS) else 1)

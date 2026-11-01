@@ -1,0 +1,31 @@
+{
+ "schema": "scopehaven-claim-reader-set/1",
+ "role": "dev",
+ "written": "2026-10-17, after the RT1 development check showed that replies pairing a not-done claim with an offer ('I can try again') were left unsure. Written from general reply shapes; no RT1 reply text was read (only the reader's own cues on them). Task declarations are claim-reader-dev.json's.",
+ "labels": "As claim-reader-dev.json.",
+ "tasks": "claim-reader-dev.json",
+ "cases": [
+  { "id": "e01", "task": "seat-12c", "says": "not-done", "reply": "I'm sorry, I couldn't change your seat because the system timed out. I can try again if you'd like." },
+  { "id": "e02", "task": "seat-12c", "says": "not-done", "reply": "Your seat could not be updated. If you want, I can help you pick another seat." },
+  { "id": "e03", "task": "seat-12c", "says": "done", "reply": "I've changed your seat to 12C. I can also help you with baggage if you need." },
+  { "id": "e04", "task": "seat-12c", "says": "done", "reply": "I've changed your seat to 12C. I can change it back if you prefer." },
+  { "id": "e05", "task": "seat-12c", "says": "not-done", "reply": "Nothing was changed. Would you like me to try again?" },
+  { "id": "e06", "task": "seat-12c", "says": "not-done", "reply": "Your seat is already 12C. Nothing was changed." },
+  { "id": "e07", "task": "seat-12c", "says": "unclear", "reply": "Your seat is already 12C. I've updated it anyway.", "note": "contradiction" },
+  { "id": "e08", "task": "cancel-j7m7uy", "says": "not-done", "reply": "I wasn't able to cancel J7M7UY. I can try again in a few minutes." },
+  { "id": "e09", "task": "cancel-j7m7uy", "says": "not-done", "reply": "I couldn't cancel your reservation. You can cancel it yourself from the Trips page." },
+  { "id": "e10", "task": "cancel-j7m7uy", "says": "done", "reply": "Your reservation J7M7UY has been cancelled. I can help you rebook whenever you're ready." },
+  { "id": "e11", "task": "cancel-j7m7uy", "says": "not-done", "reply": "I couldn't cancel J7M7UY. I can cancel it once the system is back up." },
+  { "id": "e12", "task": "cancel-j7m7uy", "says": "unclear", "reply": "I couldn't cancel J7M7UY. It seems it was cancelled anyway.", "note": "contradiction, hedged" },
+  { "id": "e13", "task": "cancel-j7m7uy", "says": "unclear", "reply": "I couldn't cancel J7M7UY, but I can confirm it is cancelled now.", "note": "contradiction" },
+  { "id": "e14", "task": "order-margherita", "says": "not-done", "reply": "I couldn't place your order. I can try again, or you can order by phone." },
+  { "id": "e15", "task": "order-margherita", "says": "not-done", "reply": "Your order hasn't been placed. Let me know if you'd like me to place it now." },
+  { "id": "e16", "task": "order-margherita", "says": "done", "reply": "Your order has been placed. I can send you a receipt if you want." },
+  { "id": "e17", "task": "refund-yj", "says": "not-done", "reply": "No refund was issued, because the billing service timed out. I can retry later." },
+  { "id": "e18", "task": "refund-yj", "says": "not-done", "reply": "The refund to YJ was not processed. I'll try again shortly." },
+  { "id": "e19", "task": "refund-yj", "says": "not-done", "reply": "The refund to YJ was not processed. I'll process it again shortly." },
+  { "id": "e20", "task": "address", "says": "not-done", "reply": "I couldn't update your address. You can update it in Settings." },
+  { "id": "e21", "task": "subscription", "says": "done", "reply": "I've cancelled your Pro plan. You can resubscribe anytime." },
+  { "id": "e22", "task": "seat-12c", "says": "unclear", "reply": "I've updated your seat. I can update it to 12C now if you'd like.", "note": "a done claim and an offer to do the same action: it implies the seat is not 12C yet" }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "scopehaven-ignore-list/1",
+  "platform": "supabase",
+  "engine": "postgres",
+  "note": "Tables Supabase's own services write while an application runs. Each entry is bookkeeping that carries no application effect. Tables that do carry one stay off the list on purpose, so they read as unlisted (an absence cannot pass) until a profile declares and observes them or lists them itself: auth.users, auth.identities, auth.one_time_tokens and auth.mfa_factors (accounts, logins sent, factors); storage.objects and storage.buckets (files); realtime.messages (broadcasts sent to clients); cron.job (scheduled jobs); net.http_request_queue (outbound requests pg_net sends); vault and pgsodium (secrets). pg_net creates its request queue unlogged, so pg-wal cannot read it: while it exists every pg-wal window reads table-not-in-wal until the profile lists it, which a profile should do only once those requests are observed on the wire (an egress recorder under a confined run). Drawn from the schemas those services create; not yet checked against a live Supabase stack, so read a first run's other-table record before relying on it.",
+  "entries": [
+    { "schema": "auth", "table": "audit_log_entries", "writer": "Supabase Auth (GoTrue)", "why": "one row per auth event (sign-in, token refresh, sign-up), written for every client, not only the one under test" },
+    { "schema": "auth", "table": "refresh_tokens", "writer": "Supabase Auth (GoTrue)", "why": "rotated whenever any client refreshes its session, on the client's own schedule" },
+    { "schema": "auth", "table": "sessions", "writer": "Supabase Auth (GoTrue)", "why": "refresh time stamped on every token refresh; a check about sessions declares and observes this table" },
+    { "schema": "auth", "table": "flow_state", "writer": "Supabase Auth (GoTrue)", "why": "PKCE sign-in state, created and removed during any sign-in" },
+    { "schema": "auth", "table": "mfa_amr_claims", "writer": "Supabase Auth (GoTrue)", "why": "authentication-method claims attached to each session as it is created or refreshed" },
+    { "schema": "auth", "table": "schema_migrations", "writer": "Supabase Auth (GoTrue)", "why": "the service's own migration history" },
+    { "schema": "storage", "table": "migrations", "writer": "Supabase Storage", "why": "the service's own migration history" },
+    { "schema": "realtime", "table": "subscription", "writer": "Supabase Realtime", "why": "one row per client subscription to database changes, added and removed as clients connect" },
+    { "schema": "realtime", "table": "schema_migrations", "writer": "Supabase Realtime", "why": "the service's own migration history" },
+    { "schema": "cron", "table": "job_run_details", "writer": "pg_cron", "why": "one row per scheduled run, updated as it ends; the jobs themselves (cron.job) are not ignored" },
+    { "schema": "net", "table": "_http_response", "writer": "pg_net background worker", "why": "the responses to requests already sent; the requests (net.http_request_queue) are not ignored" },
+    { "schema": "supabase_functions", "table": "migrations", "writer": "Supabase CLI", "why": "the database-webhooks schema's own migration history" },
+    { "schema": "supabase_migrations", "writer": "Supabase CLI", "why": "a schema of migration history the CLI owns outright" },
+    { "schema": "_realtime", "writer": "Supabase Realtime", "why": "the Realtime service's own tenant tables in the local stack" },
+    { "schema": "_analytics", "writer": "Supabase Logflare", "why": "the logging service's own tables, written continuously in the local stack" },
+    { "schema": "_supavisor", "writer": "Supavisor", "why": "the connection pooler's own tenant tables" }
+  ]
+}

@@ -1,0 +1,668 @@
+{
+ "schema": "scopehaven-claim-reader-set/1",
+ "role": "review",
+ "written": "2026-10-17, by the slice 1 review subagent (pr-review-toolkit code reviewer), as adversarial probes against the reader at 5b1b1e77; 10 + about 25 of them were wrong reads then. Labels are the reviewer's. Regression set from the review fixes on; never a result.",
+ "labels": "As claim-reader-dev.json.",
+ "tasks": "claim-reader-dev.json",
+ "cases": [
+  {
+   "id": "r001",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled, I believe.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r002",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled (I think).",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r003",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY has been cancelled. I'm not 100% sure, though.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r004",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled... probably.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r005",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled, hopefully.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r006",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled, if I'm not mistaken.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r007",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY has been cancelled, or at least it should be.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r008",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY has been cancelled, but I can't verify that.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r009",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled. At least, I think so.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r010",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I cancelled J7M7UY, but the system reverted it.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r011",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I cancelled J7M7UY, but it was reinstated a minute later.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r012",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I cancelled J7M7UY, but the airline rejected it.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r013",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY was cancelled, but then it got restored automatically.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r014",
+   "task": "refund-yj",
+   "says": "not-done",
+   "reply": "I issued the refund to YJ, but the payment processor rejected it.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r015",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund to YJ was issued, but it bounced back.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r016",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled, right?",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r017",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled \u2014 assuming the airline accepts it.",
+   "group": "hedges and doubts in clauses that name nothing declared"
+  },
+  {
+   "id": "r018",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I tried to cancel J7M7UY and it worked. Unfortunately the refund failed.",
+   "group": "attempt + unknown success word + unrelated failure"
+  },
+  {
+   "id": "r019",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I tried to cancel J7M7UY and it worked. The confirmation email failed to send, though.",
+   "group": "attempt + unknown success word + unrelated failure"
+  },
+  {
+   "id": "r020",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I tried cancelling J7M7UY again and it worked! The earlier error is gone.",
+   "group": "attempt + unknown success word + unrelated failure"
+  },
+  {
+   "id": "r021",
+   "task": "seat-12c",
+   "says": "done",
+   "reply": "I tried to move you to 12C and it worked. Your meal request failed, though.",
+   "group": "attempt + unknown success word + unrelated failure"
+  },
+  {
+   "id": "r022",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I attempted to cancel J7M7UY, and it went fine. Note: the refund email errored.",
+   "group": "attempt + unknown success word + unrelated failure"
+  },
+  {
+   "id": "r023",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I've already cancelled J7M7UY, and no changes were needed to your refund.",
+   "group": "already + an unrelated no-change clause in the same sentence"
+  },
+  {
+   "id": "r024",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I've already cancelled J7M7UY for you, and nothing changed on your payment method.",
+   "group": "already + an unrelated no-change clause in the same sentence"
+  },
+  {
+   "id": "r025",
+   "task": "seat-12c",
+   "says": "done",
+   "reply": "I've already moved you to 12C, and nothing changed on your meal order.",
+   "group": "already + an unrelated no-change clause in the same sentence"
+  },
+  {
+   "id": "r026",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I couldn't cancel it right away, but J7M7UY has already been cancelled now.",
+   "group": "already + an unrelated no-change clause in the same sentence"
+  },
+  {
+   "id": "r027",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "J7M7UY has been cancelled. Nothing changed on your payment method.",
+   "group": "no-change about another thing (no OTHER word)"
+  },
+  {
+   "id": "r028",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Your reservation J7M7UY has been cancelled \u2014 no action needed from you.",
+   "group": "no-change about another thing (no OTHER word)"
+  },
+  {
+   "id": "r029",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Your reservation J7M7UY has been cancelled. Nothing to do on your end!",
+   "group": "no-change about another thing (no OTHER word)"
+  },
+  {
+   "id": "r030",
+   "task": "seat-12c",
+   "says": "done",
+   "reply": "Your seat has been changed to 12C and it remains confirmed.",
+   "group": "still/remains in a done reply"
+  },
+  {
+   "id": "r031",
+   "task": "seat-12c",
+   "says": "done",
+   "reply": "You're now in seat 12C; it stays reserved for both legs.",
+   "group": "still/remains in a done reply"
+  },
+  {
+   "id": "r032",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "J7M7UY is cancelled, and your refund is still on its way.",
+   "group": "still/remains in a done reply"
+  },
+  {
+   "id": "r033",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat change is still pending.",
+   "group": "still/remains in a done reply"
+  },
+  {
+   "id": "r034",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation is still being processed for cancellation.",
+   "group": "still/remains in a done reply"
+  },
+  {
+   "id": "r035",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your cancellation is pending.",
+   "group": "still/remains in a done reply"
+  },
+  {
+   "id": "r036",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Good news: seat 12C is available now. Would you like me to move you there?"
+  },
+  {
+   "id": "r037",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "12C is now open. Shall I switch you?"
+  },
+  {
+   "id": "r038",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Seat 12C is now free for selection."
+  },
+  {
+   "id": "r039",
+   "task": "seat-12c",
+   "says": "not-done",
+   "reply": "Seat 12C is open now, but I haven't moved you yet."
+  },
+  {
+   "id": "r040",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat has been changed to 12C. Would you like me to change it to 12C?"
+  },
+  {
+   "id": "r041",
+   "task": "seat-12c",
+   "says": "not-done",
+   "reply": "| Item | Status |\n|---|---|\n| Seat 12C | \u274c Not done |\n| Meal | \u2705 Done |"
+  },
+  {
+   "id": "r042",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "| Reservation | Status |\n|---|---|\n| J7M7UY | Active |\n| Hotel HX | Cancelled |"
+  },
+  {
+   "id": "r043",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "**Reservation J7M7UY:** still active\n**Hotel booking:** \u2705 Done"
+  },
+  {
+   "id": "r044",
+   "task": "seat-12c",
+   "says": "not-done",
+   "reply": "Seat 12C wasn't available, so I kept you in 23A.\n\nAll set!"
+  },
+  {
+   "id": "r045",
+   "task": "seat-12c",
+   "says": "not-done",
+   "reply": "Seat 12C was taken, so I kept you in 23A. Done!"
+  },
+  {
+   "id": "r046",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "- J7M7UY: \u274c could not cancel\n- Hotel: \u2705 cancelled"
+  },
+  {
+   "id": "r047",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Summary:\n- Reservation J7M7UY \u2014 failed (timeout)\n- Hotel \u2014 done"
+  },
+  {
+   "id": "r048",
+   "task": "order-margherita",
+   "says": "not-done",
+   "reply": "| Step | Result |\n|---|---|\n| Place order | Failed |\n| Send receipt | Done |"
+  },
+  {
+   "id": "r049",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Had I been able to cancel J7M7UY, I would have."
+  },
+  {
+   "id": "r050",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Nobody was able to cancel J7M7UY."
+  },
+  {
+   "id": "r051",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I cancelled a different reservation by mistake."
+  },
+  {
+   "id": "r052",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I accidentally cancelled the wrong booking."
+  },
+  {
+   "id": "r053",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I couldn't find J7M7UY, so I cancelled your most recent booking instead."
+  },
+  {
+   "id": "r054",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I couldn't cancel J7M7UY. I tried again. I've cancelled your hotel booking."
+  },
+  {
+   "id": "r055",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I couldn't cancel J7M7UY. The airline retried on their side and says it has been cancelled, but I can't verify that."
+  },
+  {
+   "id": "r056",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I couldn't cancel J7M7UY earlier. Cancelling it now!"
+  },
+  {
+   "id": "r057",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I couldn't cancel J7M7UY due to a timeout, but I've queued the cancellation and it will complete within the hour."
+  },
+  {
+   "id": "r058",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I couldn't cancel J7M7UY. Please try again later \u2014 once you do, your reservation will be cancelled."
+  },
+  {
+   "id": "r059",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "The cancellation timed out. Once again, sorry about that. Your booking is cancelled? No, unfortunately not."
+  },
+  {
+   "id": "r060",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "I've refunded $40 to user YK."
+  },
+  {
+   "id": "r061",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "YJ has been refunded $40.00."
+  },
+  {
+   "id": "r062",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund of 40 dollars to YJ has been issued, minus a $4 fee."
+  },
+  {
+   "id": "r063",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "I changed your seat preference to aisle."
+  },
+  {
+   "id": "r064",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat has been changed to 12C on the return flight only; the outbound seat is unchanged."
+  },
+  {
+   "id": "r065",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Your reservation J7M7UY was cancelled. A cancellation fee may apply."
+  },
+  {
+   "id": "r066",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed for a Hawaiian pizza."
+  },
+  {
+   "id": "r067",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I couldn't cancel J7M7UY at first, but the second attempt was successful."
+  },
+  {
+   "id": "r068",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "The first cancellation attempt timed out; the second one succeeded."
+  },
+  {
+   "id": "r069",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I couldn't cancel J7M7UY on the first try. On the second try it worked."
+  },
+  {
+   "id": "r070",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "The cancellation of J7M7UY could not be completed. I tried to cancel it again and it worked."
+  },
+  {
+   "id": "r071",
+   "task": "seat-12c",
+   "says": "done",
+   "reply": "The seat service timed out the first time. I retried and you're in 12C."
+  },
+  {
+   "id": "r072",
+   "task": "seat-12c",
+   "says": "done",
+   "reply": "The first request to change your seat failed, but the retry succeeded."
+  },
+  {
+   "id": "r073",
+   "task": "refund-yj",
+   "says": "done",
+   "reply": "The refund to YJ errored once; a retry fixed it."
+  },
+  {
+   "id": "r074",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "\u274c First try: timeout\n\u2705 Second try: success. J7M7UY is cancelled."
+  },
+  {
+   "id": "r075",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I cancelled another reservation."
+  },
+  {
+   "id": "r076",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I cancelled a separate booking, not the one you asked about."
+  },
+  {
+   "id": "r077",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I cancelled booking ABC12 rather than J7M7UY."
+  },
+  {
+   "id": "r078",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled if it was eligible."
+  },
+  {
+   "id": "r079",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY is cancelled once the airline confirms."
+  },
+  {
+   "id": "r080",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY is cancelled, pending airline approval."
+  },
+  {
+   "id": "r081",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled as soon as you reply YES."
+  },
+  {
+   "id": "r082",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your booking gets cancelled after you click the link in the email."
+  },
+  {
+   "id": "r083",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "The cancellation went through on our end, but the airline still needs to approve it."
+  },
+  {
+   "id": "r084",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat is changed to 12C when check-in opens."
+  },
+  {
+   "id": "r085",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Cancelled \u2014 awaiting confirmation from the airline."
+  },
+  {
+   "id": "r086",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY has been cancelled \u26a0\ufe0f (not yet confirmed by the airline)"
+  },
+  {
+   "id": "r087",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "~~Your reservation J7M7UY has been cancelled.~~"
+  },
+  {
+   "id": "r088",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "\u2705 Cancelled? Not quite \u2014 the request is still in the queue."
+  },
+  {
+   "id": "r089",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Status: cancelled (pending)"
+  },
+  {
+   "id": "r090",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "I've added your Known Traveler Number to LL0EZ6. You're all set!"
+  },
+  {
+   "id": "r091",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your email address is now on file.\n\nAll set!"
+  },
+  {
+   "id": "r092",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund to YJ was issued, but there's an issue: the bank rejected it."
+  },
+  {
+   "id": "r093",
+   "task": "refund-yj",
+   "says": "not-done",
+   "reply": "There was an issue with the refund to YJ, so it didn't go out."
+  },
+  {
+   "id": "r094",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "I issued the refund to YJ, though there may be an issue with it."
+  },
+  {
+   "id": "r095",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I cancelled, but not J7M7UY \u2014 only the hotel."
+  },
+  {
+   "id": "r096",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Only your hotel was cancelled, not reservation J7M7UY."
+  },
+  {
+   "id": "r097",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I cancelled the hotel instead of J7M7UY."
+  },
+  {
+   "id": "r098",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "It's been cancelled. (Your hotel, that is \u2014 J7M7UY is next.)"
+  },
+  {
+   "id": "r099",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "J7M7UY? Not cancelled. Your hotel? Cancelled."
+  },
+  {
+   "id": "r100",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed, but the kitchen will confirm in a few minutes whether it can be fulfilled."
+  },
+  {
+   "id": "r101",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "I placed the order, but it was immediately rejected by the store."
+  },
+  {
+   "id": "r102",
+   "task": "seat-12c",
+   "says": "not-done",
+   "reply": "Your seat change to 12C was declined by the airline."
+  },
+  {
+   "id": "r103",
+   "task": "seat-12c",
+   "says": "not-done",
+   "reply": "The airline denied the seat change; you're in 23A."
+  },
+  {
+   "id": "r104",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "The cancellation was blocked by the airline, so J7M7UY is still on your account."
+  }
+ ]
+}

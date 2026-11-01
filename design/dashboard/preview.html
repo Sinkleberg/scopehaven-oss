@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ScopeHaven · Isolated dashboard preview</title>
+  <link rel="stylesheet" href="/dashboard.css">
+  <link rel="stylesheet" href="/preview.css">
+  <script type="module" src="/preview.mjs"></script>
+</head>
+<body>
+  <aside aria-label="Preview QA controls">
+    <strong>PREVIEW QA ONLY</strong>
+    <button type="button" data-preview="normal">Reset synthetic data</button>
+    <button type="button" data-preview="lock">Lock preview</button>
+    <button type="button" data-preview="unlock">Unlock preview</button>
+    <button type="button" data-preview="empty">Empty history</button>
+    <button type="button" data-preview="error">Simulate API error</button>
+    <button type="button" data-preview="stale">Delayed response → lock</button>
+    <button type="button" data-preview="unmount">Unmount</button>
+    <button type="button" data-preview="remount">Remount</button>
+    <p id="preview-status" role="status" aria-live="polite">Loading isolated fixture data. No real account or evidence store is connected.</p>
+  </aside>
+  <div id="dashboard-root"></div>
+</body>
+</html>

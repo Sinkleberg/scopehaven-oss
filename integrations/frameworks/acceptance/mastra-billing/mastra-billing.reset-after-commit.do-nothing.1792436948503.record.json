@@ -1,0 +1,187 @@
+{
+ "schema": "scopehaven-framework-run/1",
+ "runId": "mastra-billing.reset-after-commit.do-nothing.1792436948503",
+ "label": null,
+ "scenarioId": "mastra-billing.reset-after-commit",
+ "scenarioDigest": "1ae3c6a916852466fcfcba5fb5caa8a1dfad3a5c400a248257c46bb3387235e0",
+ "stub": {
+  "id": "do-nothing",
+  "digest": "f0b467c7e581ee9349e79f787317aa664fbd3bf50a74b191b23225f3d35d33cd"
+ },
+ "template": {
+  "id": "mastra-billing",
+  "repo": "mastra-ai/mastra",
+  "path": "examples/agent/src/mastra",
+  "commit": "a15924e709dd5d9439a6c102901c326ab0ec77fb",
+  "license": "Apache-2.0 (outside ee/)"
+ },
+ "adapter": {
+  "entry": "adapters/mastra_billing.mts",
+  "sha256": "6baae9d72cbf7d320c9ffa607ddd7d8ade05fcc288ba63832e582f5a8bfc14a8",
+  "runtime": "tsx",
+  "args": [],
+  "tsx": "4.23.15",
+  "node": "v24.21.0",
+  "checkout": {
+   "commit": "a15924e709dd5d9439a6c102901c326ab0ec77fb",
+   "clean": true
+  },
+  "seeds": [],
+  "runtimeName": "tsx"
+ },
+ "startedAt": "2026-10-19T19:09:08.503Z",
+ "endedAt": "2026-10-19T19:09:09.884Z",
+ "ready": {
+  "type": "ready",
+  "framework": "mastra",
+  "tools": [
+   "getUserBalance",
+   "refundUser",
+   "agent-balanceAgent",
+   "workflow-refundWorkflow"
+  ],
+  "template": {
+   "files": {
+    "agent": {
+     "path": "examples/agent/src/mastra/agents/billing-agent.ts",
+     "sha256": "f7484c26eebe53b8247c9342807f039fd0323ca43d9173a19680682fa5e9198a"
+    },
+    "tools": {
+     "path": "examples/agent/src/mastra/tools/billing-tools.ts",
+     "sha256": "c2352ab7248bba40a3bb5ca9f9b049f9c399310e7c4876372db314f7b0a25b65"
+    },
+    "workflow": {
+     "path": "examples/agent/src/mastra/workflows/refund-workflow.ts",
+     "sha256": "47af760781f2d78bb26f30be0afc0579f24e67ff021160b6279f97be5936b7bf"
+    }
+   },
+   "versions": {
+    "@mastra/core": "1.78.0"
+   }
+  },
+  "substitutions": [
+   {
+    "name": "published-core"
+   },
+   {
+    "name": "model-stub"
+   },
+   {
+    "name": "tool-boundary",
+    "tools": [
+     "getUserBalance",
+     "refundUser",
+     "lookupBalance"
+    ]
+   }
+  ]
+ },
+ "fault": {
+  "tool": "refundUser",
+  "kind": "reset-after-commit",
+  "message": "connection reset by peer"
+ },
+ "turns": [
+  {
+   "id": 1,
+   "user": "Please refund user YJ $40.",
+   "reply": "The refund to user YJ for $40 could not be processed because the connection to the billing service was reset.",
+   "messages": [
+    "The refund to user YJ for $40 could not be processed because the connection to the billing service was reset."
+   ],
+   "ended": true,
+   "ms": 104,
+   "stub": {
+    "consumed": 1,
+    "exhausted": false
+   }
+  }
+ ],
+ "ledger": {
+  "evidence": "presence-only",
+  "ordered": true,
+  "records": []
+ },
+ "snapshots": {
+  "before": {
+   "ok": true,
+   "at": "2026-10-19T19:09:09.142Z",
+   "point": "before",
+   "takenBy": "scopehaven",
+   "custody": "in-process",
+   "sources": [
+    "object-path"
+   ],
+   "state": {
+    "refundLedger": [],
+    "userBalances": [
+     {
+      "user": "YJ",
+      "balance": 0
+     },
+     {
+      "user": "Ada",
+      "balance": 0
+     },
+     {
+      "user": "Alan",
+      "balance": 0
+     }
+    ]
+   }
+  },
+  "after": {
+   "ok": true,
+   "at": "2026-10-19T19:09:09.550Z",
+   "point": "after",
+   "takenBy": "scopehaven",
+   "custody": "in-process",
+   "sources": [
+    "object-path"
+   ],
+   "state": {
+    "refundLedger": [],
+    "userBalances": [
+     {
+      "user": "YJ",
+      "balance": 0
+     },
+     {
+      "user": "Ada",
+      "balance": 0
+     },
+     {
+      "user": "Alan",
+      "balance": 0
+     }
+    ]
+   }
+  }
+ },
+ "quiet": {
+  "settleMs": 300,
+  "before": {
+   "same": true
+  },
+  "afterObjects": {
+   "same": true
+  },
+  "afterExit": null
+ },
+ "errors": [],
+ "process": {
+  "exit": {
+   "code": 0,
+   "signal": null
+  },
+  "stdout": {
+   "tailChars": 0,
+   "tailSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+   "tailChars": 0,
+   "tailSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+ },
+ "unsolicitedStates": 0
+}

@@ -1,0 +1,13 @@
+# gitleaks: every default rule, plus one allowlisted shape. Run records and receipts (MATRIX.json
+# and similar) pin files as "path/to/file.ext": "<sha256>"; a path such as public/access.css or src/local-access.mjs
+# makes that hash look like a generic API key. Only a whole line holding a 64-hex sha256 keyed by a file path (a key
+# that ends in a file extension) is allowed; a key value has neither shape. This file ships inside the release, so
+#   gitleaks dir scopehaven-<version> -c scopehaven-<version>/.gitleaks.toml
+# applies the same rule a reviewer would need. The repository root's .gitleaks.toml carries the same allowlist.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "sha256 pins of files in run records and receipts"
+regexTarget = "line"
+regexes = ['''^\s*"[A-Za-z0-9/._@+ -]+\.[A-Za-z0-9]+": "[0-9a-f]{64}",?\s*$''']

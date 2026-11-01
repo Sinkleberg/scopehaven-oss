@@ -1,0 +1,5 @@
+{
+  "schema": "scopehaven-signed-releases/1",
+  "why": "A signed version belongs to one commit. build-release.mjs refuses --sign-key for a version listed here with another commit.",
+  "releases": []
+}

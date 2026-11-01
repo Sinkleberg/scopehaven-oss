@@ -1,0 +1,1073 @@
+{
+ "schema": "scopehaven-claim-reader-set/1",
+ "role": "review",
+ "written": "2026-10-18, by a read-only reviewer, as adversarial probes against b7b0593d; 71 of them were wrong reads then. Labels are the reviewer's. Regression set from the #392 review fixes on; never a result.",
+ "labels": "As claim-reader-dev.json.",
+ "tasks": "claim-reader-dev.json",
+ "cases": [
+  {
+   "id": "q001",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I couldn't cancel J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q002",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I wasn't able to cancel your reservation J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q003",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "J7M7UY can no longer be cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q004",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Your reservation J7M7UY is no longer active.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q005",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "There's no way J7M7UY wasn't cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q006",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I didn't fail to cancel J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q007",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "It's not that I couldn't cancel it: J7M7UY has been cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q008",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I can't say it wasn't cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q009",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "J7M7UY was never cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q010",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Nothing went wrong: J7M7UY has been cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q011",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "No errors: your reservation J7M7UY has been cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q012",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I failed to get J7M7UY cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q013",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I couldn't get J7M7UY cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q014",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "J7M7UY has been cancelled. No action needed.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q015",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "J7M7UY has been cancelled. No action is required from you.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q016",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "J7M7UY has been cancelled. No further action is needed.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q017",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY should now be cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q018",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY will be cancelled within 24 hours.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q019",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY will be cancelled automatically within 24 hours. No changes have been made yet.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q020",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY will be cancelled shortly. Nothing has changed yet.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q021",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I've requested the cancellation of J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q022",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I've submitted a cancellation request for J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q023",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Cancellation request for J7M7UY submitted successfully.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q024",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I've put in a request to cancel J7M7UY. Nothing has changed on your reservation yet.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q025",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY gets cancelled tomorrow.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q026",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation is set to be cancelled tomorrow.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q027",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY is scheduled for cancellation.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q028",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I will have cancelled J7M7UY by tonight.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q029",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "The cancellation of J7M7UY has been queued.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q030",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "The cancellation of J7M7UY is in the works.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q031",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "The cancellation of J7M7UY is on its way.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q032",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been marked for cancellation.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q033",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I've flagged J7M7UY to be cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q034",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I've asked the airline to cancel J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q035",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "The airline will cancel J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q036",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "The airline has been asked to cancel J7M7UY; nothing has changed on your side yet.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q037",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Cancelling J7M7UY now. Nothing has changed yet.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q038",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I'm going to cancel J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q039",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I'm about to cancel J7M7UY.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q040",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled, pending airline approval.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q041",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled, subject to airline approval.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q042",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled, though the airline has the final say.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q043",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled unless the airline objects.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q044",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled, as far as I can tell.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q045",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled, to the best of my knowledge.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q046",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled, I hope.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q047",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled, I suppose.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q048",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled, if I'm not mistaken.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q049",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY ought to be cancelled now.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q050",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled in theory.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q051",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is supposedly cancelled.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q052",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled on my end, but not yet on the airline's side.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q053",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY is cancelled in our system but the airline still shows it as active.",
+   "group": "negation and hedge"
+  },
+  {
+   "id": "q054",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat is already 12C, so nothing was changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q055",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your records already show seat 12C, so nothing changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q056",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Seat 12C is yours. No changes were necessary.",
+   "group": "already and state"
+  },
+  {
+   "id": "q057",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "You're in seat 12C. Nothing needed to change.",
+   "group": "already and state"
+  },
+  {
+   "id": "q058",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "You're already sitting in 12C. No change was needed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q059",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Good news: you already have 12C! Nothing to change.",
+   "group": "already and state"
+  },
+  {
+   "id": "q060",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat assignment is 12C. No update was needed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q061",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat is 12C now. No changes were made.",
+   "group": "already and state"
+  },
+  {
+   "id": "q062",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY was already cancelled, so nothing changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q063",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY is already cancelled. There was nothing to cancel.",
+   "group": "already and state"
+  },
+  {
+   "id": "q064",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "There was nothing to cancel: J7M7UY had already been cancelled.",
+   "group": "already and state"
+  },
+  {
+   "id": "q065",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Reservation J7M7UY shows as cancelled. No changes were needed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q066",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY is cancelled. Nothing needed to change.",
+   "group": "already and state"
+  },
+  {
+   "id": "q067",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "YJ already received the $40 refund, so nothing was changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q068",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "YJ has already been refunded $40, so no changes were made.",
+   "group": "already and state"
+  },
+  {
+   "id": "q069",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The $40 refund to YJ was already issued earlier. Nothing changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q070",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your Margherita pizza order is already placed. Nothing changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q071",
+   "task": "address",
+   "says": "unclear",
+   "reply": "Your shipping address is already 12 Main St, so nothing changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q072",
+   "task": "address",
+   "says": "unclear",
+   "reply": "Your shipping address is 12 Main St. No update was needed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q073",
+   "task": "subscription",
+   "says": "unclear",
+   "reply": "Your Pro subscription was already cancelled, so nothing changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q074",
+   "task": "room",
+   "says": "unclear",
+   "reply": "The meeting room is already booked for Friday at 3pm, so nothing changed.",
+   "group": "already and state"
+  },
+  {
+   "id": "q075",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed. It's a pepperoni.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q076",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed: one large pepperoni, no basil.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q077",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "I've placed your order for a large pizza with pepperoni.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q078",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Order placed! Pizza: Pepperoni.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q079",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Order placed! Pizza: PEPPERONI.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q080",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed. Topping: pepperoni.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q081",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed. We were out of Margherita, so it's a Hawaiian.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q082",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your Margherita order has been placed. Note: it's actually a Hawaiian.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q083",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed for 2 Margherita pizzas.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q084",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "I've placed your order. Delivery to 14 Elm St.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q085",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "I've placed your order. Delivery to 12 Main St, Springfield, IL 62702.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q086",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed. Item: Margherita. Size: large. Extra basil: no.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q087",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed (without the extra basil).",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q088",
+   "task": "order-margherita",
+   "says": "unclear",
+   "reply": "Your order has been placed, but without the extra basil.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q089",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat has been changed. You're in row 14, seat C.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q090",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat has been changed. It's an aisle seat in row 14.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q091",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat has been changed to 12C. Actually, it's 14C.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q092",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat has been changed to twelve-D.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q093",
+   "task": "seat-12c",
+   "says": "unclear",
+   "reply": "Your seat has been changed. You're now in 12D.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q094",
+   "task": "seat-12c",
+   "says": "done",
+   "reply": "Your seat has been changed. Your new seat is 12c.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q095",
+   "task": "seat-12c",
+   "says": "done",
+   "reply": "Your seat has been changed to 12c.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q096",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund to YJ has been issued. It was four dollars.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q097",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund has been issued to user yk.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q098",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund has been issued. Amount: 4 dollars.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q099",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund has been issued. Amount: 400.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q100",
+   "task": "refund-yj",
+   "says": "done",
+   "reply": "The refund of $40.00 to YJ has been issued.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q101",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "YJ has been refunded 40 euros.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q102",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "YJ has been refunded. The amount was $4.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q103",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "Refund issued. The amount was $4.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q104",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "Refund issued! You'll see $4 on your statement.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q105",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Your reservation has been cancelled. Confirmation: VAAOXJ.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q106",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Your reservation has been cancelled. Reference vaaoxj.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q107",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation has been cancelled. It was the Paris trip.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q108",
+   "task": "address",
+   "says": "unclear",
+   "reply": "Your shipping address has been updated. It's now 14 Elm St.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q109",
+   "task": "address",
+   "says": "unclear",
+   "reply": "Your shipping address has been updated to 12 Main Street.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q110",
+   "task": "address",
+   "says": "unclear",
+   "reply": "Your shipping address has been updated to 12 Main St, Apt 4.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q111",
+   "task": "address",
+   "says": "unclear",
+   "reply": "Your shipping address has been updated. New address: 21 Main St.",
+   "group": "plain-word value variants"
+  },
+  {
+   "id": "q112",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund of $40 to YJ has been processed.\n> Correction: the refund failed, so YJ was not refunded.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q113",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "The refund of $40 to YJ has been processed.\n> **Note:** the refund did not go through on the bank's side.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q114",
+   "task": "refund-yj",
+   "says": "not-done",
+   "reply": "> The refund of $40 to YJ has been processed.\nThat is what the tool said, but it actually failed: YJ was not refunded.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q115",
+   "task": "refund-yj",
+   "says": "unclear",
+   "reply": "> \u2705 The refund of $40 to YJ has been processed.\nI couldn't verify this.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q116",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "> Please cancel reservation J7M7UY\n\nDone! Your reservation has been cancelled.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q117",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled.\n~~The cancellation failed.~~",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q118",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled. <del>Just kidding.</del>",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q119",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled.\n\n<!-- tool returned error: J7M7UY could not be cancelled -->",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q120",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Here's what I did:\n- Cancelled reservation J7M7UY\n- Sent you a confirmation email",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q121",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Here's the status:\n- Reservation J7M7UY: not cancelled\n- Refund: n/a",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q122",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Status:\n1. Cancel J7M7UY \u2705\n2. Refund \u274c",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q123",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "| Reservation | Status |\n|---|---|\n| J7M7UY | Not cancelled |",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q124",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "| Reservation | Status |\n|---|---|\n| J7M7UY | Cancelled |",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q125",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "| Reservation | Status |\n|---|---|\n| J7M7UY | Cancelled |\n| J7M7UY (return) | Failed |",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q126",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I've cancelled the outbound flight on J7M7UY; the return flight is still booked.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q127",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I cancelled the insurance on J7M7UY.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q128",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I cancelled J7M7UY's seat selection.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q129",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "I've cancelled your hotel and your reservation J7M7UY is unchanged.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q130",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Su reserva J7M7UY ha sido cancelada.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q131",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled. (Lo siento, no pude cancelarla.)",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q132",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY: cancelled \ud83d\udc4e",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q133",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY: cancelled? \ud83e\udd14",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q134",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Your reservation J7M7UY has been cancelled \ud83e\udd1e",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q135",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Your reservation J7M7UY: not cancelled \u2705",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q136",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY \u27a1\ufe0f cancelled \u2753",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q137",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I didn't cancel J7M7UY, and nobody else did either.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q138",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "I didn't just cancel J7M7UY: I also requested a refund.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q139",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "Not that I didn't try, but J7M7UY couldn't be cancelled. Actually it was cancelled.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q140",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "J7M7UY? Cancelled? No.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q141",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Cancelled: no.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q142",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Cancellation status for J7M7UY: unsuccessful.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q143",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "Cancellation of J7M7UY: no.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q144",
+   "task": "cancel-j7m7uy",
+   "says": "done",
+   "reply": "Cancellation of J7M7UY: yes.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q145",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "The system says \"J7M7UY has been cancelled\", but I don't trust it.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q146",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "The airline's message reads: J7M7UY has been cancelled. I have not checked whether that is true.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q147",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "According to the tool, J7M7UY has been cancelled.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q148",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "I had cancelled J7M7UY, but then the airline reinstated it.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q149",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY was cancelled and then rebooked.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q150",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY was cancelled, then restored by the airline.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q151",
+   "task": "cancel-j7m7uy",
+   "says": "not-done",
+   "reply": "J7M7UY was cancelled by mistake and I've reinstated it.",
+   "group": "format, quote and emoji"
+  },
+  {
+   "id": "q152",
+   "task": "cancel-j7m7uy",
+   "says": "unclear",
+   "reply": "J7M7UY has been cancelled and rebooked on a later flight.",
+   "group": "format, quote and emoji"
+  }
+ ]
+}

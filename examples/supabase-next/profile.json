@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "targets": [
+    {
+      "id": "supabase-next",
+      "name": "My Supabase + Next.js app (local supabase start copy)",
+      "applicationId": "supabase-next",
+      "origin": "http://127.0.0.1:54321",
+      "buildLabel": "REPLACE: which build of your app, on a local copy with synthetic data",
+      "contextId": "synthetic-seed-1",
+      "actors": {
+        "a": {
+          "principalId": "REPLACE_USER_A_ID",
+          "tenantId": "tenant-a",
+          "role": "admin",
+          "credentialEnv": "SCOPEHAVEN_TARGET_SUPABASE_NEXT_A",
+          "identityValue": "a@tenant-a.example"
+        },
+        "b": {
+          "principalId": "REPLACE_USER_B_ID",
+          "tenantId": "tenant-b",
+          "role": "member",
+          "credentialEnv": "SCOPEHAVEN_TARGET_SUPABASE_NEXT_B",
+          "identityValue": "b@tenant-b.example"
+        },
+        "revoked": {
+          "principalId": "REPLACE_USER_C_ID",
+          "tenantId": "tenant-b",
+          "role": "member",
+          "credentialEnv": "SCOPEHAVEN_TARGET_SUPABASE_NEXT_REVOKED"
+        },
+        "anonymous": {
+          "principalId": "anonymous"
+        }
+      },
+      "requiredControlIds": [
+        "A-WHOAMI",
+        "B-WHOAMI",
+        "A-OWN-NOTE",
+        "B-OWN-NOTE",
+        "A-OWN-WORKSPACE-UPDATE",
+        "B-OWN-NOTE-UPDATE"
+      ],
+      "observers": [
+        {
+          "id": "db",
+          "type": "pg-snapshot",
+          "host": "127.0.0.1",
+          "port": 54322,
+          "database": "postgres",
+          "credentialEnv": "SCOPEHAVEN_TARGET_SUPABASE_NEXT_DB_READ",
+          "platform": "supabase",
+          "settleMs": 500,
+          "tables": [
+            { "table": "notes", "key": "id" },
+            { "table": "workspaces", "key": "id" }
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "id": "A-WHOAMI",
+          "title": "User A's session names user A",
+          "category": "Identity",
+          "severity": "control",
+          "actorId": "a",
+          "method": "GET",
+          "path": "/auth/v1/user",
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.equals", "expected": 200 },
+            { "kind": "json.equals", "pointer": "/email", "expected": "a@tenant-a.example" }
+          ]
+        },
+        {
+          "id": "B-WHOAMI",
+          "title": "User B's session names user B",
+          "category": "Identity",
+          "severity": "control",
+          "actorId": "b",
+          "method": "GET",
+          "path": "/auth/v1/user",
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.equals", "expected": 200 },
+            { "kind": "json.equals", "pointer": "/email", "expected": "b@tenant-b.example" }
+          ]
+        },
+        {
+          "id": "A-OWN-NOTE",
+          "title": "User A opens a note in tenant A (allowed use)",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "a",
+          "method": "GET",
+          "path": "/rest/v1/notes?id=eq.REPLACE_NOTE_A_ID&select=id,title",
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.equals", "expected": 200 },
+            { "kind": "json.equals", "pointer": "/0/id", "expected": "REPLACE_NOTE_A_ID" }
+          ]
+        },
+        {
+          "id": "B-OWN-NOTE",
+          "title": "User B opens its own note in tenant B (allowed use)",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "b",
+          "method": "GET",
+          "path": "/rest/v1/notes?id=eq.REPLACE_NOTE_B_ID&select=id,title",
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.equals", "expected": 200 },
+            { "kind": "json.equals", "pointer": "/0/id", "expected": "REPLACE_NOTE_B_ID" }
+          ]
+        },
+        {
+          "id": "A-OWN-WORKSPACE-UPDATE",
+          "title": "User A, an admin, renames tenant A's workspace (allowed use; shows the observer sees workspace updates)",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "a",
+          "method": "PATCH",
+          "path": "/rest/v1/workspaces?id=eq.REPLACE_WORKSPACE_A_ID",
+          "body": { "name": "Tenant A workspace (renamed by the allowed-use control)" },
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.equals", "expected": 204 }
+          ],
+          "effects": [
+            { "kind": "effect.exists", "select": { "source": "sql-snapshot", "operation": "update", "name": "workspaces", "resource": "workspaces/REPLACE_WORKSPACE_A_ID" } }
+          ]
+        },
+        {
+          "id": "B-OWN-NOTE-UPDATE",
+          "title": "User B edits its own note (allowed use; shows the observer sees note updates)",
+          "category": "Allowed use",
+          "severity": "control",
+          "actorId": "b",
+          "method": "PATCH",
+          "path": "/rest/v1/notes?id=eq.REPLACE_NOTE_B_ID",
+          "body": { "title": "Synthetic note B (edited by the allowed-use control)" },
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.equals", "expected": 204 }
+          ],
+          "effects": [
+            { "kind": "effect.exists", "select": { "source": "sql-snapshot", "operation": "update", "name": "notes", "resource": "notes/REPLACE_NOTE_B_ID" } }
+          ]
+        },
+        {
+          "id": "B-READS-A-NOTE",
+          "title": "User B cannot read a note of tenant A (row-level security answers 200 with no rows)",
+          "category": "Tenant isolation",
+          "severity": "high",
+          "actorId": "b",
+          "method": "GET",
+          "path": "/rest/v1/notes?id=eq.REPLACE_NOTE_A_ID&select=id,title",
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.equals", "expected": 200 },
+            { "kind": "json.exists", "pointer": "/0", "expected": false }
+          ]
+        },
+        {
+          "id": "A-READS-B-NOTE",
+          "title": "User A cannot read a note of tenant B (row-level security answers 200 with no rows)",
+          "category": "Tenant isolation",
+          "severity": "high",
+          "actorId": "a",
+          "method": "GET",
+          "path": "/rest/v1/notes?id=eq.REPLACE_NOTE_B_ID&select=id,title",
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.equals", "expected": 200 },
+            { "kind": "json.exists", "pointer": "/0", "expected": false }
+          ]
+        },
+        {
+          "id": "ANON-READS-A-NOTE",
+          "title": "A request with no session cannot read a note of tenant A",
+          "category": "Tenant isolation",
+          "severity": "high",
+          "actorId": "anonymous",
+          "method": "GET",
+          "path": "/rest/v1/notes?id=eq.REPLACE_NOTE_A_ID&select=id,title",
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.in", "expected": [401, 403] }
+          ]
+        },
+        {
+          "id": "B-MEMBER-ADMIN-WRITE",
+          "title": "User B, a member, cannot rename tenant B's workspace (an admin-only write); the rows decide, not the 204",
+          "category": "Role boundary",
+          "severity": "high",
+          "actorId": "b",
+          "method": "PATCH",
+          "path": "/rest/v1/workspaces?id=eq.REPLACE_WORKSPACE_B_ID",
+          "body": { "name": "Renamed by a member" },
+          "evidenceRequirement": "backend",
+          "assertions": [
+            { "kind": "status.equals", "expected": 204 }
+          ],
+          "effects": [
+            { "kind": "effect.none", "select": { "source": "sql-snapshot", "operation": "update", "name": "workspaces" } }
+          ]
+        },
+        {
+          "id": "REVOKED-WHOAMI",
+          "title": "A signed-out session is no longer an identity at the auth server",
+          "category": "Session",
+          "severity": "high",
+          "actorId": "revoked",
+          "method": "GET",
+          "path": "/auth/v1/user",
+          "evidenceRequirement": "response",
+          "assertions": [
+            { "kind": "status.in", "expected": [401, 403] }
+          ]
+        },
+        {
+          "id": "REVOKED-WRITES-OWN-NOTE",
+          "title": "A signed-out session cannot edit the note it wrote while signed in; the rows decide",
+          "category": "Session",
+          "severity": "high",
+          "actorId": "revoked",
+          "method": "PATCH",
+          "path": "/rest/v1/notes?id=eq.REPLACE_NOTE_C_ID",
+          "body": { "title": "Edited after sign-out" },
+          "evidenceRequirement": "backend",
+          "assertions": [
+            { "kind": "status.in", "expected": [401, 403] }
+          ],
+          "effects": [
+            { "kind": "effect.none", "select": { "source": "sql-snapshot", "operation": "update", "name": "notes" } }
+          ]
+        }
+      ]
+    }
+  ]
+}

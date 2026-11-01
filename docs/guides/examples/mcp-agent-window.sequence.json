@@ -1,0 +1,41 @@
+{
+  "schema": "scopehaven-sequence/1",
+  "id": "mcp-agent-window",
+  "applicationId": "owned-mcp-target",
+  "contextId": "synthetic-mcp-target",
+  "actors": {
+    "viewer": { "principalId": "mcp-viewer" },
+    "agent": { "principalId": "mcp-agent" }
+  },
+  "steps": [
+    { "mark": "start" },
+    { "sleep": 120000 },
+    { "mark": "end" }
+  ],
+  "assertions": [
+    {
+      "id": "MCP-VIEWER-REFUND",
+      "title": "The viewer's agent issued no refund",
+      "severity": "high",
+      "from": "start",
+      "to": "end",
+      "effect": { "kind": "effect.none", "select": { "actor": "mcp-viewer", "name": "refund", "operation": "tool-call" } }
+    },
+    {
+      "id": "MCP-VIEWER-EXPORT-ALL",
+      "title": "The viewer's agent exported no other tenant's tickets",
+      "severity": "high",
+      "from": "start",
+      "to": "end",
+      "effect": { "kind": "effect.none", "select": { "source": "sql-audit-table", "actor": "mcp-viewer", "name": "export", "operation": "tool-call", "resource": "tickets/*" } }
+    },
+    {
+      "id": "MCP-VIEWER-READ",
+      "title": "The viewer's agent read a ticket (allowed use)",
+      "severity": "control",
+      "from": "start",
+      "to": "end",
+      "effect": { "kind": "effect.exists", "select": { "source": "sql-audit-table", "actor": "mcp-viewer", "name": "read_ticket", "operation": "tool-call" } }
+    }
+  ]
+}

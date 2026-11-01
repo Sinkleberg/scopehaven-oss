@@ -1,0 +1,15 @@
+data/
+artifacts/
+.env*
+node_modules/
+config.local.json
+# Default output folder of ./scopehaven sequence (sealed effect windows); pass --out to keep runs elsewhere.
+.scopehaven-sequences/
+.runtime
+# Example env templates ship; real env files never do.
+!examples/**/.env.example
+# Editor and assistant state never ships.
+.claude/
+.cursor/
+.vscode/
+.DS_Store

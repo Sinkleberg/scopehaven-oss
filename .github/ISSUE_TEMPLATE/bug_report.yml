@@ -1,0 +1,64 @@
+name: Bug report
+description: Something ScopeHaven does is wrong, or a result does not match what the app did
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks. Security problems in ScopeHaven itself go through [SECURITY.md](../blob/main/SECURITY.md), not here.
+        Never paste a credential, a token or data from a real customer or production system.
+  - type: input
+    id: version
+    attributes:
+      label: ScopeHaven version and commit
+      description: "`git rev-parse --short HEAD` and the version in package.json"
+      placeholder: "0.7.0 at abc1234"
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of ./scopehaven doctor
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The commands you ran, in order, and the target (built-in target or a redacted profile).
+      placeholder: |
+        ./scopehaven assess --target demo-vulnerable --out /tmp/ev
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: Paste the relevant lines. A redacted run.json or gate-summary.json helps.
+      render: text
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - CLI or launcher
+        - HTTP connector or profile
+        - An observer (sqlite, pg, http-audit, egress, smtp, ...)
+        - Sequences, hold gate or settle rules
+        - Verdicts, comparison or the regression gate
+        - Exports, signing, evidence pack or verifiers
+        - Dashboard
+        - GitHub Action or MCP target
+        - Documentation
+        - Other

@@ -1,0 +1,74 @@
+{
+ "schema": "scopehaven-framework-verdict/1",
+ "scenarioId": "mastra-billing.reset-after-commit",
+ "scenarioDigest": "1ae3c6a916852466fcfcba5fb5caa8a1dfad3a5c400a248257c46bb3387235e0",
+ "runId": "mastra-billing.reset-after-commit.reports-failed.1792436945460",
+ "recordDigest": "d512f7804252044d162a6316cba252a75601d5e81462e337e33371e0d3c8cf1f",
+ "stub": {
+  "id": "reports-failed",
+  "digest": "ff0be2aaced366c7bb674d196c2a4df7ccaad6cf1deeaa8fd4e65754f9929275"
+ },
+ "overall": {
+  "verdict": "fail",
+  "reasons": [
+   "FW-SAID-DID"
+  ]
+ },
+ "rows": [
+  {
+   "check": "FW-EXEC",
+   "status": "pass",
+   "basis": "Adapter ready, every turn ended, ledger in order, both snapshots taken.",
+   "reasons": []
+  },
+  {
+   "check": "FW-FAULT",
+   "status": "pass",
+   "basis": "Fault reset-after-commit on refundUser fired after the tool body returned: the agent got a connection reset instead of the result (ledger #1). What persisted is read from the AFTER snapshot.",
+   "reason": "fired-after-tool-body"
+  },
+  {
+   "check": "COLLATERAL-01",
+   "status": "pass",
+   "basis": "In-process snapshot (read inside the app's process by ScopeHaven's adapter, not out of process): Every committed insert/update/delete effect from framework-state was expected (1) or allowed (1). Covers only: refundLedger, userBalances; not observed: send, access-change.",
+   "verdict": "pass",
+   "offending": null,
+   "custody": "subject-writable",
+   "snapshotCustody": "in-process"
+  },
+  {
+   "check": "COLLATERAL-02",
+   "status": "inconclusive",
+   "basis": "Not every authoritative observer in scope covered the window (framework-state: net-only, net-change-between-snapshots). A net-only snapshot shows what persisted, not what happened in between.",
+   "verdict": "missing",
+   "offending": null,
+   "custody": null,
+   "snapshotCustody": "in-process"
+  },
+  {
+   "check": "COLLATERAL-GOAL",
+   "status": "pass",
+   "basis": "In-process snapshot (read inside the app's process by ScopeHaven's adapter, not out of process): pass: 1 persisted matching effect.",
+   "verdict": "pass",
+   "offending": null,
+   "custody": "subject-writable",
+   "snapshotCustody": "in-process"
+  },
+  {
+   "check": "FW-CONTENT",
+   "status": "pass",
+   "basis": "In-process snapshot (read inside the app's process by ScopeHaven's adapter, not out of process): refundLedger insert: pass (1 new row with the declared content.)",
+   "verdict": "pass",
+   "snapshotCustody": "in-process"
+  },
+  {
+   "check": "FW-SAID-DID",
+   "status": "fail",
+   "basis": "Disagrees: said not-done, persisted done (M2).",
+   "said": "not-done",
+   "did": "done",
+   "mismatch": "M2",
+   "snapshotCustody": "in-process"
+  }
+ ]
+}

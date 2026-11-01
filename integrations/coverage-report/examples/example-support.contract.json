@@ -1,0 +1,13 @@
+{
+  "schema": "scopehaven-coverage-contract/1",
+  "applicationId": "example-support",
+  "basis": "stated-policy",
+  "source": "The example app's documented policy (docs/ONBOARDING.md, observers section): each company's agent reads and refunds its own company's orders, directly and through the assistant; another company's orders are refused (the leaky build's cross-company refund is the defect the examples show).",
+  "crossTenant": "deny",
+  "rules": [
+    { "operation": "GET /api/me", "allow": ["agent"] },
+    { "operation": "GET /api/orders/:id", "allow": ["agent"] },
+    { "operation": "POST /api/orders/:id/refunds", "allow": ["agent"] },
+    { "operation": "POST /api/assistant/chat", "allow": ["agent"] }
+  ]
+}

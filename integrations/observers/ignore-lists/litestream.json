@@ -1,0 +1,10 @@
+{
+  "schema": "scopehaven-ignore-list/1",
+  "platform": "litestream",
+  "engine": "sqlite",
+  "note": "Tables Litestream writes into the SQLite database it replicates, on its own schedule. SQLite's own tables (sqlite_sequence, sqlite_stat1 and the other sqlite_ tables) are never application tables and are not watched on any platform.",
+  "entries": [
+    { "table": "_litestream_seq", "writer": "Litestream", "why": "a counter Litestream writes on each sync to force a WAL frame" },
+    { "table": "_litestream_lock", "writer": "Litestream", "why": "a table Litestream writes to hold its own read lock during a checkpoint" }
+  ]
+}

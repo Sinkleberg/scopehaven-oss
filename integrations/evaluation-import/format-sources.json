@@ -1,0 +1,46 @@
+{
+  "tool": "promptfoo",
+  "mapping_package_version": "0.123.1",
+  "commit": "34f74d34e140b5e17d23770dfb2340057b1936b8",
+  "source_kind": "official public source; immutable commit",
+  "retrieved_date_user_timezone": "2026-10-03",
+  "sources": [
+    {
+      "path": "package.json",
+      "url": "https://raw.githubusercontent.com/promptfoo/promptfoo/34f74d34e140b5e17d23770dfb2340057b1936b8/package.json",
+      "sha256": "208ce88e9e2a9e7518f0c29d384a30250a7708c19267b2db0971afafdadc86e3",
+      "bytes": 14821
+    },
+    {
+      "path": "src/types/index.ts",
+      "url": "https://raw.githubusercontent.com/promptfoo/promptfoo/34f74d34e140b5e17d23770dfb2340057b1936b8/src/types/index.ts",
+      "sha256": "37b5b6f3e52d6f397397efe19e2d5aced39bd0ec3936de5a64071caa1f899096",
+      "bytes": 49973
+    },
+    {
+      "path": "src/evaluator.ts",
+      "url": "https://raw.githubusercontent.com/promptfoo/promptfoo/34f74d34e140b5e17d23770dfb2340057b1936b8/src/evaluator.ts",
+      "sha256": "0e6859a4a1fdabd9fd273983a3e86d11b516b468c1af20bc3843315df767276c",
+      "bytes": 157115
+    },
+    {
+      "path": "site/docs/integrations/ci-cd.md",
+      "url": "https://raw.githubusercontent.com/promptfoo/promptfoo/34f74d34e140b5e17d23770dfb2340057b1936b8/site/docs/integrations/ci-cd.md",
+      "sha256": "561d6e58ab0ad71a430f937b2cc1d2f6d2f2c27fd5daf8d6993f3c62f4fca57f",
+      "bytes": 16450
+    },
+    {
+      "path": "site/docs/configuration/reference.md",
+      "url": "https://raw.githubusercontent.com/promptfoo/promptfoo/34f74d34e140b5e17d23770dfb2340057b1936b8/site/docs/configuration/reference.md",
+      "sha256": "c80b3d5a2e3104181a7fca5925651bf5dc0b8dcba5e969373b59cab72d791490",
+      "bytes": 81926
+    },
+    {
+      "path": "site/docs/configuration/outputs.md",
+      "url": "https://raw.githubusercontent.com/promptfoo/promptfoo/34f74d34e140b5e17d23770dfb2340057b1936b8/site/docs/configuration/outputs.md",
+      "sha256": "e23926d6a6f5ad811207c48dc9f51c397e42e8a2aa1467c377af5c11c912ecbd",
+      "bytes": 11174
+    }
+  ],
+  "vendor_execution": "not performed"
+}

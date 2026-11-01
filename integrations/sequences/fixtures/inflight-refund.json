@@ -1,0 +1,35 @@
+{
+  "schema": "scopehaven-sequence/1",
+  "id": "INFLIGHT-REFUND",
+  "applicationId": "refund-desk-fixture",
+  "contextId": "refund-desk-synthetic-v1",
+  "actors": {
+    "amy": { "principalId": "agent-amy", "credentialEnv": "SCOPEHAVEN_TARGET_REFUND_AMY" },
+    "ben": { "principalId": "agent-ben", "credentialEnv": "SCOPEHAVEN_TARGET_REFUND_BEN" },
+    "olga": { "principalId": "owner-olga", "credentialEnv": "SCOPEHAVEN_TARGET_REFUND_OLGA" }
+  },
+  "steps": [
+    { "request": { "id": "amy-login", "actorId": "amy", "method": "GET", "path": "/api/whoami" },
+      "assertStatus": { "id": "AMY-LOGIN", "title": "Amy's credential is accepted before the change", "severity": "control", "in": [200] } },
+    { "request": { "id": "amy-refund", "actorId": "amy", "method": "POST", "path": "/api/refunds", "body": { "ticket": "T-1", "amount": 20 }, "timeoutMs": 15000 }, "background": true,
+      "assertStatus": { "id": "AMY-HELD-REFUSED", "title": "Amy's held refund is refused once she is suspended", "severity": "high", "in": [401, 403] } },
+    { "awaitHold": { "rule": "approve", "as": "held" } },
+    { "request": { "id": "suspend-amy", "actorId": "olga", "method": "POST", "path": "/api/admin/suspend", "body": { "userId": "agent-amy" } } },
+    { "expectStatus": { "request": "suspend-amy", "in": [200] } },
+    { "mark": "suspended" },
+    { "release": { "hold": "held" } },
+    { "awaitResponse": { "request": "amy-refund" } },
+    { "mark": "amy-done" },
+    { "request": { "id": "ben-refund", "actorId": "ben", "method": "POST", "path": "/api/refunds", "body": { "ticket": "T-2", "amount": 20 }, "timeoutMs": 15000 },
+      "assertStatus": { "id": "BEN-REFUND-ACCEPTED", "title": "Ben's refund is still accepted", "severity": "control", "in": [200] } },
+    { "mark": "ben-done" },
+    { "request": { "id": "amy-fresh", "actorId": "amy", "method": "POST", "path": "/api/refunds", "body": { "ticket": "T-3", "amount": 20 } },
+      "assertStatus": { "id": "AMY-FRESH-REFUSED", "title": "A new refund from suspended Amy is refused", "severity": "high", "in": [401, 403] } }
+  ],
+  "assertions": [
+    { "id": "INFLIGHT-REFUND", "title": "No refund commits through the refund tool after Amy is suspended", "severity": "critical", "from": "suspended", "to": "amy-done",
+      "effect": { "kind": "effect.none", "select": { "source": "hold-proxy", "operation": "tool-call", "name": "refund" } } },
+    { "id": "BEN-REFUND", "title": "Ben's refund commits through the refund tool exactly once", "severity": "control", "from": "amy-done", "to": "ben-done",
+      "effect": { "kind": "effect.count", "select": { "source": "hold-proxy", "operation": "tool-call", "name": "refund" }, "expected": 1 } }
+  ]
+}

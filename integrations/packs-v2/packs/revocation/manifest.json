@@ -1,0 +1,90 @@
+{
+  "schema": "scopehaven-pack/1",
+  "name": "revocation",
+  "version": "1.0.0",
+  "behaviour": "A session its user revokes stops working at once: the revoked credential is refused and its write makes no effect.",
+  "derivedFrom": [
+    "owned fixture suite: REVOKE-01 (revocation takes effect before cached access) and MIDTASK-01 (access removed mid-task stops the pending action)",
+    "docs/ONBOARDING.md account changes mid-run (lifecycle)"
+  ],
+  "parameters": {
+    "actor": {
+      "type": "actor",
+      "description": "The user who revokes its own session; give it its own actor, used by no other check after this pack."
+    },
+    "identityPath": {
+      "type": "path",
+      "default": "/api/me",
+      "description": "A GET that names the signed-in user."
+    },
+    "identityPointer": {
+      "type": "pointer",
+      "default": "/email",
+      "description": "Where that response names the user (compared with the actor's identityValue)."
+    },
+    "readPath": {
+      "type": "path",
+      "description": "A record the user may read before the revocation (GET)."
+    },
+    "revokePath": {
+      "type": "path",
+      "description": "The user's own revocation route (POST: sign out everywhere, revoke this key)."
+    },
+    "revokeStatus": {
+      "type": "status",
+      "default": 200,
+      "description": "The status of an accepted revocation."
+    },
+    "writeBeforePath": {
+      "type": "path",
+      "description": "A write the user makes before the revocation (POST): its effect shows the selector selects."
+    },
+    "writePath": {
+      "type": "path",
+      "description": "The same kind of write, sent after the revocation with the revoked credential (POST)."
+    },
+    "effectSource": {
+      "type": "string",
+      "default": "http-egress",
+      "description": "The observer source that records the action's effect (http-egress: a payment call on the request path)."
+    },
+    "effectOperation": {
+      "type": "string",
+      "default": "send",
+      "description": "The operation that source records for the effect (send for an outbound call, insert for an audit row)."
+    },
+    "effectName": {
+      "type": "string",
+      "description": "The effect's exact name: the destination host for http-egress, the action for an audit table."
+    },
+    "resourcePrefix": {
+      "type": "string",
+      "description": "The resource prefix every effect of this action carries (such as POST /v1/refunds/ for http-egress): the twin shows it selects, and the refusal must make none."
+    },
+    "writeStatus": {
+      "type": "status",
+      "default": 201,
+      "description": "The status of the write before the revocation."
+    },
+    "refusalStatuses": {
+      "type": "refusals",
+      "default": [
+        401,
+        403
+      ],
+      "description": "The statuses that count as a refusal of the revoked credential: 401, 403, or the actor's declared signInRedirectStatus (the lifecycle rule allows no other)."
+    }
+  },
+  "constraints": [
+    [
+      "different",
+      "writeBeforePath",
+      "writePath"
+    ]
+  ],
+  "regulation": null,
+  "files": {
+    "checks.json": "59b2be36f6da382acb90b8819470a000442b1d606fb1b1e9efa173b033c9da2e",
+    "cases.json": "9626c0a83f2335a461ada0c7ffb9865aa7d37cef243254ee45d9f5f5b186ffbd"
+  }
+}

@@ -1,0 +1,9 @@
+# ScopeHaven has no npm dependencies. Dependabot keeps the pinned GitHub Actions current.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"

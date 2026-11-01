@@ -1,0 +1,76 @@
+{
+  "schema": "scopehaven-pack/1",
+  "name": "discount-cap",
+  "version": "1.0.0",
+  "behaviour": "A discount at the cap is applied once, and one above the cap is refused with no discount made.",
+  "derivedFrom": [
+    "owned fixture suite: PROMISE-02 (no discount above the cap) and PROMISE-05 (a discount within the cap is granted as stated)",
+    "src/fixture.mjs POLICY discount cap"
+  ],
+  "parameters": {
+    "actor": {
+      "type": "actor",
+      "description": "The actor asking for the discounts (it owns both orders)."
+    },
+    "capPath": {
+      "type": "path",
+      "description": "The discount route of the order discounted at the cap (POST)."
+    },
+    "overCapPath": {
+      "type": "path",
+      "description": "The discount route of the order asked for more than the cap (POST)."
+    },
+    "capPercent": {
+      "type": "integer",
+      "description": "The cap, in percent: allowed."
+    },
+    "overCapPercent": {
+      "type": "integer",
+      "description": "A percentage above the cap: refused."
+    },
+    "effectSource": {
+      "type": "string",
+      "default": "http-egress",
+      "description": "The observer source that records the action's effect (http-egress: a payment call on the request path)."
+    },
+    "effectOperation": {
+      "type": "string",
+      "default": "send",
+      "description": "The operation that source records for the effect (send for an outbound call, insert for an audit row)."
+    },
+    "effectName": {
+      "type": "string",
+      "description": "The effect's exact name: the destination host for http-egress, the action for an audit table."
+    },
+    "resourcePrefix": {
+      "type": "string",
+      "description": "The resource prefix every effect of this action carries (such as POST /v1/refunds/ for http-egress): the twin shows it selects, and the refusal must make none."
+    },
+    "successStatus": {
+      "type": "status",
+      "default": 201,
+      "description": "The status of an applied discount."
+    },
+    "refusalStatuses": {
+      "type": "statuses",
+      "default": [
+        400,
+        403,
+        422
+      ],
+      "description": "The statuses that count as a refusal."
+    }
+  },
+  "constraints": [
+    [
+      "greater",
+      "overCapPercent",
+      "capPercent"
+    ]
+  ],
+  "regulation": null,
+  "files": {
+    "checks.json": "e8f04bc834c77f9a4d4ed3d788c4b64602e1a21776c4a3c8ce94b1ab6d9d321b",
+    "cases.json": "175381e867d0bb014f74d2f6a83d10c2d5f43713bcf6b16369514e5f94393d16"
+  }
+}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#090a0b">
+  <title>Scopehaven · Assessment workbench</title>
+  <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAACxLAAAsSwGlPZapAAABsElEQVRYw2NgQAI8PDwi7OycjezsHGfZOTg/A/F/KuFPQDPPsHFw1PPy8gozYANsnJwB7BwcH6hoKXbMzvGejY3TD4vlnH9pbjkC/4U7Ahzs9PA5Zki8Y+DjE2IAxnkDsgQvH///yqqa/zt27v5/6MhRknFqegbRjgCmiTqgAzjOIQuCLP/46QvZuKa2jpRQOMOAntp37tpDPwdwcH5kQBc8cfIMPR3wn6ADbO3s/6upaxKNxcUlqOsARWUVmuYGkh3Q3dP3f8qUaSThrp7e/17ePtRxwOMnz8lOH/EJSQPrgI2bNg+sA0BmU+yAwMDg/6Fh4UThtIxM6juAFAzSO/QdAApGYoMcFD1UdwApGJRAKXbA5s1bB9YBoMJiQB0AwqBiE1R8klrkgoppqjiAWpjqDgBVtaRUzaCqnKoOADU2KGms4HLAJ3o5ANTQRTWT4wMDtBdEFwdUVFZjNkpB3SViHQBqcpPTVAf5vLyiCtzkR2uW1zKA+mqg7tKAdUzAXTM2Tn/6d824fFD7h8C+GshV9PA5huVwAAwScJoAJg5Qp4GKFn8EmnkaHOewYIcCANkyoyu8vW2tAAAAAElFTkSuQmCC" type="image/png" sizes="32x32">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23070809'/%3E%3Cpath transform='translate(6 6) scale(.88)' fill='%23f1f2f4' d='M66 8H18Q8 8 8 18V60Q8 70 18 70H64V56H22V22H66Z M36 30H82Q92 30 92 40V82Q92 92 82 92H34V78H78V44H36Z'/%3E%3C/svg%3E" type="image/svg+xml" sizes="any">
+  <link rel="stylesheet" href="/access.css">
+  <link rel="stylesheet" href="/dashboard/dashboard.css">
+  <script type="module" src="/workbench-host.js"></script>
+</head>
+<body>
+  <div id="dashboard-root"></div>
+  <dialog id="access-panel" class="access-panel" aria-labelledby="access-heading">
+    <h1 id="access-heading">Unlock your local workbench</h1>
+    <p>Open this project's private <code>data/local-access.html</code> launch file, or enter its workbench key below. This key is separate from application test-account credentials.</p>
+    <form id="access-form">
+      <label for="access-key">Local workbench key</label>
+      <input id="access-key" type="password" autocomplete="off" spellcheck="false" maxlength="128" required>
+      <div class="access-actions"><button id="unlock-button" type="submit">Unlock workbench</button><button id="close-access" class="access-cancel" type="button">Cancel</button></div>
+    </form>
+    <p id="access-status" role="status" aria-live="polite"></p>
+    <small>The key stays in page memory. Locking, leaving or reloading clears this view. Saved evidence stays on this computer.</small>
+  </dialog>
+  <a class="host-link" href="/intro/" target="_blank" rel="noopener noreferrer">About Scopehaven ↗</a>
+  <noscript><p class="host-noscript">JavaScript is required for the local workbench. CLI assessments and exports remain available with ./scopehaven. <a href="/intro/">Read about Scopehaven</a>.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{
+  "schema": "scopehaven-pack-checks/1",
+  "checks": [
+    {
+      "id": "{{as}}-AT-CAP",
+      "title": "{{actor}} gets a discount at the cap ({{as}}, discount cap pack)",
+      "category": "Allowed use",
+      "severity": "control",
+      "actorId": "{{actor}}",
+      "method": "POST",
+      "path": "{{capPath}}",
+      "body": {
+        "percent": "{{capPercent}}"
+      },
+      "evidenceRequirement": "response",
+      "assertions": [
+        {
+          "kind": "status.equals",
+          "expected": "{{successStatus}}"
+        }
+      ],
+      "effects": [
+        {
+          "kind": "effect.count",
+          "select": {
+            "source": "{{effectSource}}",
+            "operation": "{{effectOperation}}",
+            "name": "{{effectName}}",
+            "resource": {
+              "prefix": "{{resourcePrefix}}"
+            }
+          },
+          "expected": 1
+        }
+      ]
+    },
+    {
+      "id": "{{as}}-OVER-CAP",
+      "title": "{{actor}} gets no discount above the cap ({{as}}, discount cap pack)",
+      "category": "Discount policy",
+      "severity": "high",
+      "actorId": "{{actor}}",
+      "method": "POST",
+      "path": "{{overCapPath}}",
+      "body": {
+        "percent": "{{overCapPercent}}"
+      },
+      "evidenceRequirement": "backend",
+      "assertions": [
+        {
+          "kind": "status.in",
+          "expected": "{{refusalStatuses}}"
+        }
+      ],
+      "effects": [
+        {
+          "kind": "effect.none",
+          "select": {
+            "source": "{{effectSource}}",
+            "operation": "{{effectOperation}}",
+            "name": "{{effectName}}",
+            "resource": {
+              "prefix": "{{resourcePrefix}}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "requiredControlIds": [
+    "{{as}}-AT-CAP"
+  ]
+}

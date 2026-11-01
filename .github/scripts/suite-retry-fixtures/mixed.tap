@@ -1,0 +1,141 @@
+TAP version 13
+# Subtest: passing
+ok 1 - passing
+  ---
+  duration_ms: 0.297792
+  type: 'test'
+  ...
+# Subtest: failing
+not ok 2 - failing
+  ---
+  duration_ms: 0.265875
+  type: 'test'
+  location: '@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:4:1'
+  failureType: 'testCodeFailure'
+  error: 'benign synthetic failure'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    TestContext.<anonymous> (file://@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:4:30)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: TODO failure
+not ok 3 - TODO failure # TODO
+  ---
+  duration_ms: 0.047333
+  type: 'test'
+  location: '@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:5:1'
+  failureType: 'testCodeFailure'
+  error: 'expected TODO'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    TestContext.<anonymous> (file://@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:5:49)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1402:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+    Test.postRun (node:internal/test_runner/test:1542:19)
+    Test.run (node:internal/test_runner/test:1467:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+  ...
+# Subtest: skipped
+ok 4 - skipped # SKIP
+  ---
+  duration_ms: 0.134375
+  type: 'test'
+  ...
+# Subtest: nested parent
+    # Subtest: nested child
+    not ok 1 - nested child
+      ---
+      duration_ms: 0.226375
+      type: 'test'
+      location: '@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:7:43'
+      failureType: 'testCodeFailure'
+      error: 'nested'
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      operator: 'fail'
+      stack: |-
+        TestContext.<anonymous> (file://@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:7:77)
+        Test.runInAsyncScope (node:async_hooks:227:14)
+        Test.run (node:internal/test_runner/test:1402:25)
+        Test.start (node:internal/test_runner/test:1262:17)
+        TestContext.test (node:internal/test_runner/test:400:20)
+        TestContext.<anonymous> (file://@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:7:43)
+        Test.runInAsyncScope (node:async_hooks:227:14)
+        Test.run (node:internal/test_runner/test:1402:25)
+        Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+        Test.postRun (node:internal/test_runner/test:1542:19)
+      ...
+    1..1
+not ok 5 - nested parent
+  ---
+  duration_ms: 0.561708
+  type: 'test'
+  location: '@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:7:1'
+  failureType: 'subtestsFailed'
+  error: '1 subtest failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: failing suite
+    # Subtest: child pass
+    ok 1 - child pass
+      ---
+      duration_ms: 0.069416
+      type: 'test'
+      ...
+    # Subtest: child fail
+    not ok 2 - child fail
+      ---
+      duration_ms: 0.15125
+      type: 'test'
+      location: '@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:8:62'
+      failureType: 'testCodeFailure'
+      error: 'suite child'
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      operator: 'fail'
+      stack: |-
+        TestContext.<anonymous> (file://@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:8:92)
+        Test.runInAsyncScope (node:async_hooks:227:14)
+        Test.run (node:internal/test_runner/test:1402:25)
+        Suite.processPendingSubtests (node:internal/test_runner/test:974:18)
+        Test.postRun (node:internal/test_runner/test:1542:19)
+        Test.run (node:internal/test_runner/test:1467:12)
+        async Promise.all (index 0)
+        async Suite.run (node:internal/test_runner/test:1905:7)
+        async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+      ...
+    1..2
+not ok 6 - failing suite
+  ---
+  duration_ms: 0.526083
+  type: 'suite'
+  location: '@ROOT@/.github/scripts/suite-retry-fixtures/mixed.mjs:8:1'
+  failureType: 'subtestsFailed'
+  error: '1 subtest failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: skipped suite
+ok 7 - skipped suite # SKIP
+  ---
+  duration_ms: 0.157125
+  type: 'suite'
+  ...
+1..7
+# tests 8
+# suites 2
+# pass 2
+# fail 4
+# cancelled 0
+# skipped 1
+# todo 1
+# duration_ms 48.814584

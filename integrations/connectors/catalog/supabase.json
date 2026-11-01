@@ -1,0 +1,93 @@
+{
+  "schema": "scopehaven-connector/1",
+  "stack": "supabase",
+  "title": "Supabase (GoTrue sessions, PostgREST, Postgres) on a local stack",
+  "kind": "http",
+  "summary": "An app whose users sign in with Supabase Auth and whose data is Postgres behind row-level security, run as a local `supabase start` copy. Init probes the app or PostgREST itself with each user's access token, judges row-level security's empty answers by their body, and decides the backend row from the Postgres write-ahead log, which the app cannot edit.",
+  "identity": {
+    "credential": "bearer",
+    "gatewayHeaders": [
+      { "header": "apikey", "envSuffix": "APIKEY", "required": false, "why": "Supabase's gateway (Kong) may want the project's anon key in an apikey header beside the user's bearer token. The local CLI stack accepts the user's token alone; a gateway that answers 401 without the header needs the src/ gateway-header hook (connectors/README.md)." }
+    ],
+    "whoami": [
+      { "path": "/auth/v1/user", "pointer": "/email" },
+      { "path": "/api/me", "pointer": "/email" },
+      { "path": "/api/auth/me", "pointer": "/email" },
+      { "path": "/api/user", "pointer": "/email" }
+    ],
+    "signedOut": [401, 403]
+  },
+  "refusals": [
+    { "status": 200, "body": "empty-array", "means": "PostgREST answers a row that row-level security hides with 200 and an empty list, never 403." },
+    { "status": 200, "body": "null", "means": "A single-row read (Accept: application/vnd.pgrst.object, or an app route over .maybeSingle()) of a hidden row answers null." },
+    { "status": 204, "body": "empty", "means": "An UPDATE or DELETE that row-level security filters changes zero rows and answers 204 (or 200 []), never 403." },
+    { "status": 401, "body": "any", "means": "A signed-out request to an app route, or PostgREST without a valid token where anon has no grant." },
+    { "status": 403, "body": "any", "means": "An app route that checks ownership itself." },
+    { "status": 404, "body": "any", "means": "An app route that hides another tenant's record." },
+    { "status": 406, "body": "any", "means": "PostgREST's single-object read of a hidden row (vnd.pgrst.object with zero rows)." }
+  ],
+  "records": {
+    "templates": ["/rest/v1/{table}?{key}=eq.{id}", "/rest/v1/{table}?{key}=eq.{id}&select=*"]
+  },
+  "observers": [
+    {
+      "type": "pg-wal", "role": "absence", "source": "sql-wal",
+      "why": "The Postgres write-ahead log, read through a temporary logical slot the observer's own session holds. The app cannot remove a committed change from it, so a window with no change to the record decides the backend row (custody observer-held, for an absence only).",
+      "defaults": { "host": "127.0.0.1", "port": 54322, "database": "postgres", "platform": "supabase", "settleMs": 500, "barrierMs": 2000 },
+      "credentialEnvSuffix": "DB_WAL",
+      "unloggedTables": [
+        { "entry": "net.http_request_queue", "usedBy": ["net.http_", "pg_net", "supabase_functions.http_request", "http_post(", "http_get(", "http_delete(", "http_collect_response("], "live": "pg_net", "scan": ["supabase/migrations", "supabase/seed.sql"], "why": "pg_net's request queue is unlogged, so the WAL never carries it and every window reads partial (table-not-in-wal). init --stack never ignores it: it reports whether the migrations and the live catalog show pg_net used, and windows stay partial until its requests are observed on the wire (an egress recorder under a confined run)." }
+      ],
+      "setup": [
+        "A local `supabase start` stack runs Postgres with wal_level=logical already; check with `select current_setting('wal_level')`.",
+        "Create the observer's own role once, as supabase_admin on the local copy only: CREATE ROLE scopehaven_wal LOGIN REPLICATION PASSWORD '<a generated test password>'; (it needs no SELECT on any table).",
+        "Put SCOPEHAVEN_TARGET_<APP>_DB_WAL=scopehaven_wal:<that password> in the observer env file (--observer-env), never in the identities' env file or the app's .env.",
+        "With pg_cron installed, also GRANT USAGE ON SCHEMA cron TO scopehaven_wal; GRANT SELECT ON cron.job TO scopehaven_wal; ALTER ROLE scopehaven_wal BYPASSRLS; (cron.job has row-level security, so without BYPASSRLS the role sees only its own jobs) so init's report can say whether a job calls pg_net (the queue stays watched either way)."
+      ]
+    },
+    {
+      "type": "pg-snapshot", "role": "presence", "source": "sql-snapshot",
+      "why": "Reads the app's rows before and after a check. The app can write those rows, so it decides allowed-use controls and FAILs, never a boundary pass on its own.",
+      "defaults": { "host": "127.0.0.1", "port": 54322, "database": "postgres", "platform": "supabase", "settleMs": 500 },
+      "credentialEnvSuffix": "DB_READ",
+      "setup": [
+        "Create a read-only role as supabase_admin on the local copy: CREATE ROLE scopehaven_read LOGIN BYPASSRLS PASSWORD '<a generated test password>'; GRANT USAGE ON SCHEMA public TO scopehaven_read; GRANT SELECT ON <the observed tables> TO scopehaven_read;"
+      ]
+    },
+    {
+      "type": "smtp-sink", "role": "absence", "source": "smtp-capture",
+      "why": "Supabase Auth and app mail pointed at a loopback SMTP sink (in place of Inbucket or Mailpit), so mail the app sends is seen on the wire.",
+      "defaults": {}
+    },
+    {
+      "type": "egress-recorder", "role": "absence", "source": "http-egress",
+      "why": "The app's outbound API base URLs (model, payments, webhooks) pointed at the loopback egress recorder.",
+      "defaults": {}
+    }
+  ],
+  "backendRow": {
+    "observer": "pg-wal",
+    "clauses": ["record-row-unchanged", "record-table-unchanged"],
+    "title": "The foreign record's row is not changed by the read (Postgres write-ahead log)"
+  },
+  "policyImporter": {
+    "source": "rls",
+    "paths": ["supabase/migrations"],
+    "roles": ["anon", "authenticated"],
+    "bypassRoles": ["service_role", "postgres", "supabase_admin"]
+  },
+  "rules": {
+    "supabaseRules": {
+      "serviceRoles": ["service_role", "postgres", "supabase_admin"],
+      "needs": "An actor capture installed by a superuser on the disposable copy (integrations/observers/pg-actor.mjs). Init drafts the block; installing it is the operator's step, since it changes the copy's schema."
+    }
+  },
+  "packs": ["tenant-isolation"],
+  "reset": { "argv": ["supabase", "db", "reset"], "cwd": "app", "note": "Re-applies the migrations and seed to the local copy. Never against a hosted project." },
+  "limits": [
+    "Local `supabase start` copies only, on loopback. A hosted Supabase project is never probed or observed.",
+    "The backend row decides that the foreign record's row was not written during the read. Postgres does not log reads, so no observer here shows the row was never loaded.",
+    "The apikey gateway header is declared but sent only once the gateway-header hook lands in src/; until then a gateway that requires it reads 401 on every row.",
+    "Write checks, the RLS zero-row rule and actor capture are drafted, not run, by init."
+  ]
+}

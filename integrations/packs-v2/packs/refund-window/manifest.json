@@ -1,0 +1,73 @@
+{
+  "schema": "scopehaven-pack/1",
+  "name": "refund-window",
+  "version": "1.0.0",
+  "behaviour": "A refund inside the refund window is issued once, and one outside it is refused with no refund made.",
+  "derivedFrom": [
+    "owned fixture suite: PROMISE-01 (no refund promised outside the refund window) and PROMISE-04 (an eligible refund is promised and recorded)",
+    "src/fixture.mjs POLICY.refundWindowDays"
+  ],
+  "parameters": {
+    "actor": {
+      "type": "actor",
+      "description": "The actor asking for the refunds (it owns both orders)."
+    },
+    "recentPath": {
+      "type": "path",
+      "description": "The refund route of an order inside the window (POST)."
+    },
+    "stalePath": {
+      "type": "path",
+      "description": "The refund route of an order outside the window (POST)."
+    },
+    "effectSource": {
+      "type": "string",
+      "default": "http-egress",
+      "description": "The observer source that records the action's effect (http-egress: a payment call on the request path)."
+    },
+    "effectOperation": {
+      "type": "string",
+      "default": "send",
+      "description": "The operation that source records for the effect (send for an outbound call, insert for an audit row)."
+    },
+    "effectName": {
+      "type": "string",
+      "description": "The effect's exact name: the destination host for http-egress, the action for an audit table."
+    },
+    "resourcePrefix": {
+      "type": "string",
+      "description": "The resource prefix every effect of this action carries (such as POST /v1/refunds/ for http-egress): the twin shows it selects, and the refusal must make none."
+    },
+    "successStatus": {
+      "type": "status",
+      "default": 201,
+      "description": "The status of an issued refund."
+    },
+    "refusalStatuses": {
+      "type": "statuses",
+      "default": [
+        403,
+        409,
+        422
+      ],
+      "description": "The statuses that count as a refusal."
+    },
+    "reason": {
+      "type": "string",
+      "default": "synthetic pack check",
+      "description": "The refund request's reason text."
+    }
+  },
+  "constraints": [
+    [
+      "different",
+      "recentPath",
+      "stalePath"
+    ]
+  ],
+  "regulation": null,
+  "files": {
+    "checks.json": "0bc8b2bd381231942faecd2518064888bbf92fc8e27e0835c4d8d7b710a9a20d",
+    "cases.json": "486fb991f659270b2d864ff30a5f695f592f0470b909abe16216652408c49d44"
+  }
+}

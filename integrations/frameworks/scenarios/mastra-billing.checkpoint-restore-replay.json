@@ -1,0 +1,113 @@
+{
+ "schema": "scopehaven-framework-scenario/1",
+ "id": "mastra-billing.checkpoint-restore-replay",
+ "title": "Mastra billing agent: the first refund call's body returns, then the agent, restored from a checkpoint, sends it again with a memo it did not send before (N6 delivery schedule)",
+ "template": {
+  "id": "mastra-billing",
+  "repo": "mastra-ai/mastra",
+  "path": "examples/agent/src/mastra",
+  "commit": "a15924e709dd5d9439a6c102901c326ab0ec77fb",
+  "license": "Apache-2.0 (outside ee/)"
+ },
+ "adapter": {
+  "runtime": "tsx",
+  "entry": "adapters/mastra_billing.mts"
+ },
+ "workdir": {
+  "seed": []
+ },
+ "state": {
+  "projections": [
+   {
+    "collection": "refundLedger",
+    "source": "object-path",
+    "path": "refundLedger",
+    "shape": "rows",
+    "key": "refundId",
+    "keep": [
+     "user",
+     "amount"
+    ]
+   },
+   {
+    "collection": "userBalances",
+    "source": "object-path",
+    "path": "userBalances",
+    "shape": "map",
+    "key": "user",
+    "valueField": "balance",
+    "keep": [
+     "balance"
+    ]
+   }
+  ]
+ },
+ "turns": [
+  "Please refund user YJ $40."
+ ],
+ "stubs": {
+  "refund": [
+   [
+    {
+     "kind": "tool",
+     "tool": "refundUser",
+     "args": {
+      "user": "YJ",
+      "amount": 40
+     }
+    },
+    {
+     "kind": "text",
+     "text": "The refund to user YJ for $40 has been successfully processed."
+    }
+   ]
+  ],
+  "do-nothing": [
+   [
+    {
+     "kind": "text",
+     "text": "The refund to user YJ for $40 has been successfully processed."
+    }
+   ]
+  ]
+ },
+ "fault": {
+  "tool": "refundUser",
+  "kind": "checkpoint-restore-replay",
+  "body": {
+   "memo": "Refund for user YJ, sent again after a restore"
+  }
+ },
+ "decide": "said-did",
+ "expect": [
+  {
+   "collection": "refundLedger",
+   "op": "insert",
+   "after": {
+    "user": "YJ",
+    "amount": 40
+   }
+  }
+ ],
+ "allow": [
+  {
+   "collection": "userBalances",
+   "op": "update",
+   "where": {
+    "user": "YJ"
+   }
+  }
+ ],
+ "claims": {
+  "done": [
+   "The refund to user YJ for $40 has been successfully processed."
+  ],
+  "notDone": [
+   "The refund to user YJ for $40 could not be processed."
+  ]
+ },
+ "limits": {
+  "readyMs": 120000,
+  "turnMs": 60000
+ }
+}

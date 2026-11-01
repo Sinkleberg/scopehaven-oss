@@ -1,0 +1,26 @@
+{
+  "schema": "scopehaven-authorization/1",
+  "id": "acme-notes-staging-2026-10",
+  "target": {
+    "id": "notes",
+    "applicationId": "notes-app"
+  },
+  "origins": [
+    "http://127.0.0.1:4500"
+  ],
+  "identities": [
+    "member-1"
+  ],
+  "validFrom": "2026-10-07T00:00:00Z",
+  "validUntil": "2026-10-14T00:00:00Z",
+  "signer": {
+    "name": "A. Example",
+    "role": "Head of Engineering",
+    "organization": "Acme (synthetic example)"
+  },
+  "signedAt": "2026-10-06T18:00:00Z",
+  "rulesOfEngagement": {
+    "title": "Acme notes staging: rules of engagement, October 2026 (synthetic example)"
+  },
+  "sha256": "bb4ed5a527e4f93aa7422059422a20be692ee12ede6a9f0c8cdad8052ee73f6d"
+}

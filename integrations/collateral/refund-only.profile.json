@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "targets": [
+    {
+      "id": "example-refund-only",
+      "name": "Example support app (a refund and nothing else)",
+      "applicationId": "example-support",
+      "origin": "http://127.0.0.1:8080",
+      "buildLabel": "example support app, local test build",
+      "contextId": "synthetic-two-company",
+      "actors": {
+        "agentB": { "principalId": "agent-b", "tenantId": "globex", "role": "agent", "credentialEnv": "SCOPEHAVEN_TARGET_EXAMPLE_AGENT_B", "identityValue": "agent-b@globex.test" }
+      },
+      "requiredControlIds": ["B-WHOAMI", "B-OWN-REFUND", "B-OWN-REFUND-AFTER"],
+      "observers": [
+        {
+          "id": "app-audit",
+          "type": "sqlite-audit",
+          "path": "/absolute/private/support.db",
+          "settleMs": 500,
+          "principals": ["agent-a", "agent-b"],
+          "audit": {
+            "table": "audit",
+            "idColumn": "id",
+            "actorColumn": "who",
+            "actionColumn": "action",
+            "resourceColumn": "target",
+            "actions": { "refund.create": "insert", "discount.create": "insert", "subscription.cancel": "update" }
+          }
+        }
+      ],
+      "checks": [
+        { "id": "B-WHOAMI", "title": "Agent B session is agent B", "category": "Identity", "severity": "control", "actorId": "agentB", "method": "GET", "path": "/api/me", "evidenceRequirement": "response",
+          "assertions": [{ "kind": "status.equals", "expected": 200 }, { "kind": "json.equals", "pointer": "/email", "expected": "agent-b@globex.test" }] },
+        { "id": "B-OWN-REFUND", "title": "Agent B requests a refund on Globex order B-1", "category": "Allowed use", "severity": "control", "actorId": "agentB", "method": "POST", "path": "/api/orders/B-1/refunds", "body": { "reason": "synthetic control" }, "evidenceRequirement": "response",
+          "assertions": [{ "kind": "status.equals", "expected": 201 }],
+          "effects": [{ "kind": "effect.count", "select": { "source": "sql-audit-table", "actor": "agent-b", "name": "refund.create", "resource": "orders/B-1" }, "expected": 1 }] },
+        { "id": "B-REFUND-ONLY", "title": "A refund on Globex order B-2 changes nothing else", "category": "Collateral", "severity": "high", "actorId": "agentB", "method": "POST", "path": "/api/orders/B-2/refunds", "body": { "reason": "synthetic task" }, "evidenceRequirement": "backend",
+          "assertions": [{ "kind": "status.equals", "expected": 201 }],
+          "effects": [{ "kind": "effect.only", "expect": [{ "select": { "source": "sql-audit-table", "actor": "agent-b", "operation": "insert", "name": "refund.create", "resource": "orders/B-2" }, "count": 1 }], "allow": [] }] },
+        { "id": "B-OWN-REFUND-AFTER", "title": "Agent B requests a refund on Globex order B-3 (after the collateral check)", "category": "Allowed use", "severity": "control", "actorId": "agentB", "method": "POST", "path": "/api/orders/B-3/refunds", "body": { "reason": "synthetic control" }, "evidenceRequirement": "response",
+          "assertions": [{ "kind": "status.equals", "expected": 201 }],
+          "effects": [{ "kind": "effect.count", "select": { "source": "sql-audit-table", "actor": "agent-b", "name": "refund.create", "resource": "orders/B-3" }, "expected": 1 }] }
+      ]
+    }
+  ]
+}

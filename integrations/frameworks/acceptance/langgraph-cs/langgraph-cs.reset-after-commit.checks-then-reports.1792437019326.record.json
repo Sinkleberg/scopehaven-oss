@@ -1,0 +1,813 @@
+{
+ "schema": "scopehaven-framework-run/1",
+ "runId": "langgraph-cs.reset-after-commit.checks-then-reports.1792437019326",
+ "label": null,
+ "scenarioId": "langgraph-cs.reset-after-commit",
+ "scenarioDigest": "c01397329c89146183183533e7720417352b303f303f1e2f98629c3f7be6fdd6",
+ "stub": {
+  "id": "checks-then-reports",
+  "digest": "6b1d903460331aec1fc153d1a7fede85d91bbe9f3359de756121f8ee978187a2"
+ },
+ "template": {
+  "id": "langgraph-cs",
+  "repo": "langchain-ai/langgraph",
+  "path": "docs/docs/tutorials/customer-support",
+  "commit": "23961cff61a42b52525f3b20b4094d8d2fba1744",
+  "license": "MIT"
+ },
+ "adapter": {
+  "entry": "adapters/langgraph_cs.py",
+  "sha256": "85b2448995213851d715b2ae7fe3ffc27b21aa680af1d1493da4c6b429633212",
+  "runtime": "python",
+  "args": [
+   "--passenger",
+   "3442 587242"
+  ],
+  "checkout": {
+   "commit": "23961cff61a42b52525f3b20b4094d8d2fba1744",
+   "clean": true
+  },
+  "seeds": [
+   {
+    "to": "travel2.sqlite",
+    "sha256": "7646259e80230dc9bd92914466e13874bba82f461473d6a66552e819898eb66b"
+   },
+   {
+    "to": "travel2.backup.sqlite",
+    "sha256": "7646259e80230dc9bd92914466e13874bba82f461473d6a66552e819898eb66b"
+   },
+   {
+    "to": "swiss_faq.md",
+    "sha256": "864c718edfcf80ef46575a16180210ecb41c354a891bf397a0b29dcb96f585f1"
+   }
+  ],
+  "runtimeName": "python"
+ },
+ "startedAt": "2026-10-19T19:10:19.326Z",
+ "endedAt": "2026-10-19T19:10:33.944Z",
+ "ready": {
+  "type": "ready",
+  "framework": "langgraph",
+  "tools": [
+   "tavily_search_results_json",
+   "fetch_user_flight_information",
+   "search_flights",
+   "lookup_policy",
+   "update_ticket_to_new_flight",
+   "cancel_ticket",
+   "search_car_rentals",
+   "book_car_rental",
+   "update_car_rental",
+   "cancel_car_rental",
+   "search_hotels",
+   "book_hotel",
+   "update_hotel",
+   "cancel_hotel",
+   "search_trip_recommendations",
+   "book_excursion",
+   "update_excursion",
+   "cancel_excursion"
+  ],
+  "template": {
+   "notebook": "docs/docs/tutorials/customer-support/customer-support.ipynb",
+   "notebookSha256": "e7978a3851462159756c459282a2db54e68f902fb90895620f708b0a273aebfe",
+   "cells": [
+    5,
+    7,
+    9,
+    11,
+    13,
+    15,
+    17,
+    19,
+    21,
+    23
+   ],
+   "variant": null,
+   "versions": {
+    "langgraph": "1.0.5",
+    "langchain-core": "1.2.7",
+    "langchain-community": "0.4.1",
+    "pandas": "2.3.3"
+   }
+  },
+  "substitutions": [
+   {
+    "name": "faq-local",
+    "beforeSha256": "4a17126092a54482c00b235cc9e6a4a90e27e006e2f2a9e82744b66928ca887d",
+    "afterSha256": "404211e507f4c42cd85e0a9127f2e9337559c53a27321738a33f2824b3b63a58"
+   },
+   {
+    "name": "retriever-local",
+    "beforeSha256": "404211e507f4c42cd85e0a9127f2e9337559c53a27321738a33f2824b3b63a58",
+    "afterSha256": "de3be87f659b13970e71a4dc3f335fd3ab85658cf5691131d7c4c162acae6df9"
+   },
+   {
+    "name": "llm-stub",
+    "beforeSha256": "b4b0664a176ccd97ed067dd75ed70b988f059102c3456f066a3a846cbe422c41",
+    "afterSha256": "70caee39ee058c83c2878171afa60a4a220b5fba0d9829dc37d87aced734161e"
+   },
+   {
+    "name": "search-stub",
+    "beforeSha256": "70caee39ee058c83c2878171afa60a4a220b5fba0d9829dc37d87aced734161e",
+    "afterSha256": "35d71c34754a3403a50396060888f76cb0ea4413102d5848659337d57194852e"
+   }
+  ]
+ },
+ "fault": {
+  "tool": "update_ticket_to_new_flight",
+  "kind": "reset-after-commit",
+  "message": "connection reset by peer"
+ },
+ "turns": [
+  {
+   "id": 1,
+   "user": "Hi, please move my ticket 7240005432906569 to flight_id 19251 (LX0112, CDG to Basel, about a week from now).",
+   "reply": "Your ticket 7240005432906569 is now on flight 19251 (LX0112, CDG to BSL).",
+   "messages": [
+    "Your ticket 7240005432906569 is now on flight 19251 (LX0112, CDG to BSL)."
+   ],
+   "ended": true,
+   "ms": 1377,
+   "stub": {
+    "consumed": 3,
+    "exhausted": false
+   }
+  }
+ ],
+ "ledger": {
+  "evidence": "presence-only",
+  "ordered": true,
+  "records": [
+   {
+    "turn": 1,
+    "seq": 1,
+    "tool": "update_ticket_to_new_flight",
+    "args": {
+     "args": [],
+     "kwargs": {
+      "ticket_no": "7240005432906569",
+      "new_flight_id": 19251,
+      "config": "<omitted>"
+     }
+    },
+    "status": "returned",
+    "result": "Ticket successfully updated to new flight.",
+    "fault": "reset-after-commit"
+   },
+   {
+    "turn": 1,
+    "seq": 2,
+    "tool": "fetch_user_flight_information",
+    "args": {
+     "args": [],
+     "kwargs": {
+      "config": "<omitted>"
+     }
+    },
+    "status": "returned",
+    "result": []
+   }
+  ]
+ },
+ "snapshots": {
+  "before": {
+   "ok": true,
+   "at": "2026-10-19T19:10:24.244Z",
+   "point": "before",
+   "takenBy": "scopehaven",
+   "custody": "out-of-process",
+   "sources": [
+    "sqlite-file"
+   ],
+   "state": {
+    "ticket_flights": [
+     {
+      "rowid": 574782,
+      "ticket_no": "7240005432906569",
+      "flight_id": 19250,
+      "fare_conditions": "Economy",
+      "amount": "#cad8e60c58242841c1feac048a5f1a93b79a115782663d08d37d04185c768994"
+     },
+     {
+      "rowid": 641900,
+      "ticket_no": "0010005432112552",
+      "flight_id": 7855,
+      "fare_conditions": "Economy",
+      "amount": "#5e76bb1b4814ada4e4d948628b98d645fa9046499b9448e40b3d18a28928b078"
+     },
+     {
+      "rowid": 774107,
+      "ticket_no": "7240005432906569",
+      "flight_id": 1459,
+      "fare_conditions": "Economy",
+      "amount": "#30d63387f8a105f0cae1dc31ade7a0f8f4c6e2c89513bada99f25ecced888fc9"
+     },
+     {
+      "rowid": "~remainder",
+      "rows": 1045723,
+      "digest": "#b049ea88fc74c7c523ce69b97cb7df70328c18296706429c4cee692e9cd705f3"
+     }
+    ],
+    "car_rentals": [
+     {
+      "id": 1,
+      "name": "#99e4f13d55db9e7e6e4767df4f5281f1c8b73a4a16caf3b78ce11ee290672b0f",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#1be8b2d190144c25da7587531d3c7ff93d437b8eac1267cb728d0b6f15ecf875",
+      "start_date": "#e43d87a0485c32be52aac9ea8688cd89d8667deadc28afa622b5a8b16c75a7f1",
+      "end_date": "#575c52a52cac63a7baa53eb9dde5f1ce5862978eb9d90e1616f1fc6b94e124a7",
+      "booked": 0
+     },
+     {
+      "id": 2,
+      "name": "#4dc438a1f986f9ac8091d5f067e7837a469c68408dabfb67b23c7902599950ad",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#94f5480537622e6fbd87f6d2112b902c2697df877376a27dc14e5b5f46e59467",
+      "start_date": "#3478435142c59f04d5309ba2fae42ee8fe0573194e856f040be6c6cb4141b1c4",
+      "end_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "booked": 0
+     },
+     {
+      "id": 3,
+      "name": "#195889dffe04ec1a33fc17b598a4ca90ec29a1c016316037e2bf768746be03a1",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#fabacd3a3190d1c0b3d78cc3cb4d927f83b6cb65adc60499234ce4577ade98ce",
+      "start_date": "#3478435142c59f04d5309ba2fae42ee8fe0573194e856f040be6c6cb4141b1c4",
+      "end_date": "#a9c950f9076573c48773210a7bbb523cb84a47b09c7e6d8e39f35d7f1baa7794",
+      "booked": 0
+     },
+     {
+      "id": 4,
+      "name": "#f90168741affda8d027953fc65d27079dce4357329abe3f63118245422941f18",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "price_tier": "#1a873937654531d48710121d60dee7091f6cb067b7b06795ab06d974cbf95d2d",
+      "start_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "end_date": "#62c1408320190859e89e76247555e40cd14e8651faa65a193349b5e9cbafc195",
+      "booked": 0
+     },
+     {
+      "id": 5,
+      "name": "#bde1e837db059ba449ef782852160851d83a3bdc389d77c9d482af70a75601b3",
+      "location": "#52557c5d396304d94b5c38a1db847f1ca19ef2a84f825f4c51876752edcac82e",
+      "price_tier": "#850a2a61f465d0d896d3e66b030300b4b0f3bfb6fc946968a14d8f5a732bd525",
+      "start_date": "#eb957acf2b7d5a1131d5ca2d3594aa228768ee179b79875926239334cf1d3c2d",
+      "end_date": "#fd36bba34b8fed1d9aa4d5f9278171a22942f92a43d14e2eefba9337218671ec",
+      "booked": 0
+     },
+     {
+      "id": 6,
+      "name": "#1765c8973d6c0c694186b3d98664b60e89c6c400e79668a24396740c4476c3bf",
+      "location": "#aeb4039297144f3f76a6e8e264c04a83d807fb744c2f43bf104e35aeaa2285e8",
+      "price_tier": "#353c68bcef62d0929c0e41bd83cd79c8593857d14e272c0f1911eb9ee9e77db2",
+      "start_date": "#d46a60a1fb307d8d2efecb4c1953ea6e9f3cbe9a2b8cb4ca831855da1daf64a4",
+      "end_date": "#794c6762f639396ad2f98acb2c35d11874faf67f7077b309902d637c11179f7d",
+      "booked": 0
+     },
+     {
+      "id": 7,
+      "name": "#c040e01857f5fd738cb79e68512f0295487f0ff634c20b72528fef57b19cfdc3",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#5918339ffb1af000e9a5172448dc6e45550e67f80d649c95c291fe86a747e7be",
+      "start_date": "#0d5da72f59dcc2961f43ab7ba69a534c86d26d1fb5bcb710c19719428df60ca3",
+      "end_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "booked": 0
+     },
+     {
+      "id": 8,
+      "name": "#523cde1cea1f70614f4298f10c3e60a00d2408133ad6a64dfdd87321b4d6a1ba",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#1be8b2d190144c25da7587531d3c7ff93d437b8eac1267cb728d0b6f15ecf875",
+      "start_date": "#789b4df93e3f556bf501b03e5b26c6084e385a05285f76c0b10fd8c91ac12112",
+      "end_date": "#a3c9490ca92f04d6e1fbd978edcf68e02de9ec7ff0c2b7a61f70fcf6b35aef62",
+      "booked": 0
+     },
+     {
+      "id": 9,
+      "name": "#dc21a849c79b107d8fcba2e7401287c23b74f363a24cf8a5294ae19724482118",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#fabacd3a3190d1c0b3d78cc3cb4d927f83b6cb65adc60499234ce4577ade98ce",
+      "start_date": "#2c198e9b744fe8d4b3e33c2f94ccc9edcf5fe7987df2cbb59869ac1346c864a2",
+      "end_date": "#62c1408320190859e89e76247555e40cd14e8651faa65a193349b5e9cbafc195",
+      "booked": 0
+     },
+     {
+      "id": 10,
+      "name": "#eaebfc76bc800e24923bf3e9497608e83f0925c1d60bea1dea310ac3e49b4b86",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "price_tier": "#850a2a61f465d0d896d3e66b030300b4b0f3bfb6fc946968a14d8f5a732bd525",
+      "start_date": "#eb23922ca6dbf2c0e56b958db4d81ad45a9674122f2ae456e025e36e5a0ada66",
+      "end_date": "#a4b09a5d0d4a1243b7a6f88ee38bd373af4045fc9393ba3392d108a4fa2ed69e",
+      "booked": 0
+     }
+    ],
+    "hotels": [
+     {
+      "id": 1,
+      "name": "#654cc1aa4d3ab7cdc1378b652cc55699e805abff437ed27ebe971a14c978bc9b",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#94f5480537622e6fbd87f6d2112b902c2697df877376a27dc14e5b5f46e59467",
+      "checkin_date": "#0d5da72f59dcc2961f43ab7ba69a534c86d26d1fb5bcb710c19719428df60ca3",
+      "checkout_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "booked": 0
+     },
+     {
+      "id": 2,
+      "name": "#d5a086d3538e2746bff4c4714978f319271ca35ef80e70459bedbcb9b63354f1",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#c8c657220fce5293c61f46f2e53b700f1a74fcccf1a181ddcc4b5cfde4aceafb",
+      "checkin_date": "#e43d87a0485c32be52aac9ea8688cd89d8667deadc28afa622b5a8b16c75a7f1",
+      "checkout_date": "#a3c9490ca92f04d6e1fbd978edcf68e02de9ec7ff0c2b7a61f70fcf6b35aef62",
+      "booked": 0
+     },
+     {
+      "id": 3,
+      "name": "#fe60c78c16db2b488babf8c06ca8102c6c4c181ae7279b87c2f3d221b97beaaf",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#2b51b12cb666682ee8214c35d5e747dd806a09554582f82a3e09feac703fbf0c",
+      "checkin_date": "#ced2cf998f761e72cdf46b9859aee526250f38a6e09d804011c3cceb48b7520c",
+      "checkout_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "booked": 0
+     },
+     {
+      "id": 4,
+      "name": "#c18b27c363dcb921b6f6d3aae001185d02c169af9b4789dbad8279ed0da5bbf3",
+      "location": "#52557c5d396304d94b5c38a1db847f1ca19ef2a84f825f4c51876752edcac82e",
+      "price_tier": "#b2b395a3a2da71f7f95783924e1cc9692a70822b3a67b3c3e7e0fd957325220c",
+      "checkin_date": "#f98171f07e09c44d10599eedfef0b47874735ce7caa1af3a1cb85cbbe934f721",
+      "checkout_date": "#7c2ccf80a0fd1749c069499ff0c08b5e7d52adda2192e625a9ca43c5ca86aef7",
+      "booked": 0
+     },
+     {
+      "id": 5,
+      "name": "#32be44eee16e7e9317a70451d9c9d1cf5d2d7f7e90c77a909c85d53aa976abe6",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "price_tier": "#1febd98d5989e4a37e6d1b6a9708f3685db418310a8eeb265e211e4aa64732fe",
+      "checkin_date": "#eb23922ca6dbf2c0e56b958db4d81ad45a9674122f2ae456e025e36e5a0ada66",
+      "checkout_date": "#eb957acf2b7d5a1131d5ca2d3594aa228768ee179b79875926239334cf1d3c2d",
+      "booked": 0
+     },
+     {
+      "id": 6,
+      "name": "#c3737549b45af0bfe4210fb7d07b2e901e415544049824579e53dbbd5b2d6eda",
+      "location": "#aeb4039297144f3f76a6e8e264c04a83d807fb744c2f43bf104e35aeaa2285e8",
+      "price_tier": "#94f5480537622e6fbd87f6d2112b902c2697df877376a27dc14e5b5f46e59467",
+      "checkin_date": "#eb23922ca6dbf2c0e56b958db4d81ad45a9674122f2ae456e025e36e5a0ada66",
+      "checkout_date": "#f252a72a98900c367307e76d3103efd3ab536d03743c59579f9e720a50c6eee3",
+      "booked": 0
+     },
+     {
+      "id": 7,
+      "name": "#3c6fe7de4fc4c2e6debb0616fa7fd66d737ac66c609b53eea52cfab96a47bdaf",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#2b51b12cb666682ee8214c35d5e747dd806a09554582f82a3e09feac703fbf0c",
+      "checkin_date": "#d46a60a1fb307d8d2efecb4c1953ea6e9f3cbe9a2b8cb4ca831855da1daf64a4",
+      "checkout_date": "#ced2cf998f761e72cdf46b9859aee526250f38a6e09d804011c3cceb48b7520c",
+      "booked": 0
+     },
+     {
+      "id": 8,
+      "name": "#de54ff677966c448db99c0975e2c54f47b6453f8d46deebeb1eb2751a573b272",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#1febd98d5989e4a37e6d1b6a9708f3685db418310a8eeb265e211e4aa64732fe",
+      "checkin_date": "#f98171f07e09c44d10599eedfef0b47874735ce7caa1af3a1cb85cbbe934f721",
+      "checkout_date": "#42a9956f035e9ea4411ff6d79e13610467a430c636f79fd51896a365e0ce4e6e",
+      "booked": 0
+     },
+     {
+      "id": 9,
+      "name": "#de164f082b442bc8dd717ac31b613783b1d0643bac584084bd998d51e5095f3d",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#c8c657220fce5293c61f46f2e53b700f1a74fcccf1a181ddcc4b5cfde4aceafb",
+      "checkin_date": "#a4b09a5d0d4a1243b7a6f88ee38bd373af4045fc9393ba3392d108a4fa2ed69e",
+      "checkout_date": "#8877bb4d27c501b6bc60c14f2252a0e77d579019594266a99a9f2b8a2c7ffd53",
+      "booked": 0
+     },
+     {
+      "id": 10,
+      "name": "#e570d53050c44bd8b65d6743dec5765f82638397c0033a0fa40fe1799dab0f6f",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "price_tier": "#b2b395a3a2da71f7f95783924e1cc9692a70822b3a67b3c3e7e0fd957325220c",
+      "checkin_date": "#4bcf0cd7b187cd9c857f5e1be6db7643e5158085a0a885a5db3290d109370e2c",
+      "checkout_date": "#e9f3674f0c46fa7ea68351acbcdab2956f44e341d26d014ffaaadacfd3183614",
+      "booked": 0
+     }
+    ],
+    "trip_recommendations": [
+     {
+      "id": 1,
+      "name": "#3a75b4becfcc8144190bce3ea655cb14438f7688d9272053bfedb9177335beaf",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "keywords": "#2207f8139bba8f1f015611d18f53143186f1493d0b89268ee28efd6eadb9f38d",
+      "details": "#3c2418e02efea6bc58c2b9d0654551476f790e7b9d82fe9bb4f28e3eb61bf7ee",
+      "booked": 0
+     },
+     {
+      "id": 2,
+      "name": "#12da65a491370ee328c52695c04c2b9cbefb9e0fbd71097765956372553a94f9",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "keywords": "#00f4e0256bb906bb4094ffb45e892c15ee9e18c9434a8ca3e310f697708bc15e",
+      "details": "#1b1401d5d5fb14ccb5b1950054f6e931a4cd3368dfb46bc676ddbbbe5a81e429",
+      "booked": 0
+     },
+     {
+      "id": 3,
+      "name": "#7416554ca870ba5a42a28b327534028e483b58210be18f8a57703eebb23ad8ca",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "keywords": "#e0f2ae31920901f81907cc9d2bfb2e1bec4a5b7b2c4968262944eb4766c3b372",
+      "details": "#f0203683977132fd4e9d23ad7104fcb269de698ac320a969af3ac05f41dc8fbc",
+      "booked": 0
+     },
+     {
+      "id": 4,
+      "name": "#2740379a9ef8c9cf8c7d7b2c720c1701d7a5203824b185b742417687ddd4ea93",
+      "location": "#52557c5d396304d94b5c38a1db847f1ca19ef2a84f825f4c51876752edcac82e",
+      "keywords": "#2207f8139bba8f1f015611d18f53143186f1493d0b89268ee28efd6eadb9f38d",
+      "details": "#ae6d81ae4342eb35d9c892086119b5d706dc4594bf88caed71bb290a09583b62",
+      "booked": 0
+     },
+     {
+      "id": 5,
+      "name": "#1c798d6fd2c24981ef48f40da561e48bec3c59e1d8b02c8c082a1a445be5a88a",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "keywords": "#a99101e288f5ba6225c26767dacfc9b02c29e01d07204f7662f220f73fd1a936",
+      "details": "#0f27b2328c34a4321823bd9e4ca6be8cff6f169651b027d365cba3d98f73275a",
+      "booked": 0
+     },
+     {
+      "id": 6,
+      "name": "#65d81e8bdea730b20b72781ea4d19625a69f13bc9f15160511964c02a0533845",
+      "location": "#aeb4039297144f3f76a6e8e264c04a83d807fb744c2f43bf104e35aeaa2285e8",
+      "keywords": "#69426d46ff6df94d84972ca1e8a7b86b105cfb5e4118cbce9dca53301f4e1830",
+      "details": "#1e162f44609758fdf8b122fe99722e82e79a00af9cec35c8bd03e33f78e230a6",
+      "booked": 0
+     },
+     {
+      "id": 7,
+      "name": "#4fe8c0735d5482edda777c49c08f43a62ad3e043717717d8e64bc7a1e68b246c",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "keywords": "#a0c435b2c856ceedbe0f17c6f91479744a775de14a91dee6d2ef454a5cb6fa04",
+      "details": "#7c02ed48c939d7a8d7d9d256cfb5d255658d9cdca984852482736bf5e5aaf054",
+      "booked": 0
+     },
+     {
+      "id": 8,
+      "name": "#0828fa437519320744ef0490227fd9249cc9d573253a162d47061c331bd778f7",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "keywords": "#00f6543638d76150518a103008c302bbaf231a5669f48d818376bc55af183bed",
+      "details": "#aa01acc3e2d8c6a48326e505596a0284ac07ba8eb51ecd800bca12e5d9e873dd",
+      "booked": 0
+     },
+     {
+      "id": 9,
+      "name": "#982a6266f7e81cbcefbaec706b6833c2f4436c2652eb117f93f42231d981053e",
+      "location": "#52557c5d396304d94b5c38a1db847f1ca19ef2a84f825f4c51876752edcac82e",
+      "keywords": "#bfbb080430faf54175d987f2eaaa250b72940ec9a29804bef5a60745cd6d47e0",
+      "details": "#eee9ffefbd207fe2a54b2ef44bde412dfcb9c1a935f79229264027a748f2840d",
+      "booked": 0
+     },
+     {
+      "id": 10,
+      "name": "#4d90b5fed7b3d70488c2cfa0e8fbb868d3b12d1d5f35838975dae34711922cbd",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "keywords": "#2207f8139bba8f1f015611d18f53143186f1493d0b89268ee28efd6eadb9f38d",
+      "details": "#67ea660cbffa726f12024f1dda7ea078690d1d5503482b7c0d91315638d6438f",
+      "booked": 0
+     }
+    ]
+   }
+  },
+  "after": {
+   "ok": true,
+   "at": "2026-10-19T19:10:29.831Z",
+   "point": "after",
+   "takenBy": "scopehaven",
+   "custody": "out-of-process",
+   "sources": [
+    "sqlite-file"
+   ],
+   "state": {
+    "ticket_flights": [
+     {
+      "rowid": 574782,
+      "ticket_no": "7240005432906569",
+      "flight_id": 19251,
+      "fare_conditions": "Economy",
+      "amount": "#cad8e60c58242841c1feac048a5f1a93b79a115782663d08d37d04185c768994"
+     },
+     {
+      "rowid": 641900,
+      "ticket_no": "0010005432112552",
+      "flight_id": 7855,
+      "fare_conditions": "Economy",
+      "amount": "#5e76bb1b4814ada4e4d948628b98d645fa9046499b9448e40b3d18a28928b078"
+     },
+     {
+      "rowid": 774107,
+      "ticket_no": "7240005432906569",
+      "flight_id": 19251,
+      "fare_conditions": "Economy",
+      "amount": "#30d63387f8a105f0cae1dc31ade7a0f8f4c6e2c89513bada99f25ecced888fc9"
+     },
+     {
+      "rowid": "~remainder",
+      "rows": 1045723,
+      "digest": "#b049ea88fc74c7c523ce69b97cb7df70328c18296706429c4cee692e9cd705f3"
+     }
+    ],
+    "car_rentals": [
+     {
+      "id": 1,
+      "name": "#99e4f13d55db9e7e6e4767df4f5281f1c8b73a4a16caf3b78ce11ee290672b0f",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#1be8b2d190144c25da7587531d3c7ff93d437b8eac1267cb728d0b6f15ecf875",
+      "start_date": "#e43d87a0485c32be52aac9ea8688cd89d8667deadc28afa622b5a8b16c75a7f1",
+      "end_date": "#575c52a52cac63a7baa53eb9dde5f1ce5862978eb9d90e1616f1fc6b94e124a7",
+      "booked": 0
+     },
+     {
+      "id": 2,
+      "name": "#4dc438a1f986f9ac8091d5f067e7837a469c68408dabfb67b23c7902599950ad",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#94f5480537622e6fbd87f6d2112b902c2697df877376a27dc14e5b5f46e59467",
+      "start_date": "#3478435142c59f04d5309ba2fae42ee8fe0573194e856f040be6c6cb4141b1c4",
+      "end_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "booked": 0
+     },
+     {
+      "id": 3,
+      "name": "#195889dffe04ec1a33fc17b598a4ca90ec29a1c016316037e2bf768746be03a1",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#fabacd3a3190d1c0b3d78cc3cb4d927f83b6cb65adc60499234ce4577ade98ce",
+      "start_date": "#3478435142c59f04d5309ba2fae42ee8fe0573194e856f040be6c6cb4141b1c4",
+      "end_date": "#a9c950f9076573c48773210a7bbb523cb84a47b09c7e6d8e39f35d7f1baa7794",
+      "booked": 0
+     },
+     {
+      "id": 4,
+      "name": "#f90168741affda8d027953fc65d27079dce4357329abe3f63118245422941f18",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "price_tier": "#1a873937654531d48710121d60dee7091f6cb067b7b06795ab06d974cbf95d2d",
+      "start_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "end_date": "#62c1408320190859e89e76247555e40cd14e8651faa65a193349b5e9cbafc195",
+      "booked": 0
+     },
+     {
+      "id": 5,
+      "name": "#bde1e837db059ba449ef782852160851d83a3bdc389d77c9d482af70a75601b3",
+      "location": "#52557c5d396304d94b5c38a1db847f1ca19ef2a84f825f4c51876752edcac82e",
+      "price_tier": "#850a2a61f465d0d896d3e66b030300b4b0f3bfb6fc946968a14d8f5a732bd525",
+      "start_date": "#eb957acf2b7d5a1131d5ca2d3594aa228768ee179b79875926239334cf1d3c2d",
+      "end_date": "#fd36bba34b8fed1d9aa4d5f9278171a22942f92a43d14e2eefba9337218671ec",
+      "booked": 0
+     },
+     {
+      "id": 6,
+      "name": "#1765c8973d6c0c694186b3d98664b60e89c6c400e79668a24396740c4476c3bf",
+      "location": "#aeb4039297144f3f76a6e8e264c04a83d807fb744c2f43bf104e35aeaa2285e8",
+      "price_tier": "#353c68bcef62d0929c0e41bd83cd79c8593857d14e272c0f1911eb9ee9e77db2",
+      "start_date": "#d46a60a1fb307d8d2efecb4c1953ea6e9f3cbe9a2b8cb4ca831855da1daf64a4",
+      "end_date": "#794c6762f639396ad2f98acb2c35d11874faf67f7077b309902d637c11179f7d",
+      "booked": 0
+     },
+     {
+      "id": 7,
+      "name": "#c040e01857f5fd738cb79e68512f0295487f0ff634c20b72528fef57b19cfdc3",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#5918339ffb1af000e9a5172448dc6e45550e67f80d649c95c291fe86a747e7be",
+      "start_date": "#0d5da72f59dcc2961f43ab7ba69a534c86d26d1fb5bcb710c19719428df60ca3",
+      "end_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "booked": 0
+     },
+     {
+      "id": 8,
+      "name": "#523cde1cea1f70614f4298f10c3e60a00d2408133ad6a64dfdd87321b4d6a1ba",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#1be8b2d190144c25da7587531d3c7ff93d437b8eac1267cb728d0b6f15ecf875",
+      "start_date": "#789b4df93e3f556bf501b03e5b26c6084e385a05285f76c0b10fd8c91ac12112",
+      "end_date": "#a3c9490ca92f04d6e1fbd978edcf68e02de9ec7ff0c2b7a61f70fcf6b35aef62",
+      "booked": 0
+     },
+     {
+      "id": 9,
+      "name": "#dc21a849c79b107d8fcba2e7401287c23b74f363a24cf8a5294ae19724482118",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#fabacd3a3190d1c0b3d78cc3cb4d927f83b6cb65adc60499234ce4577ade98ce",
+      "start_date": "#2c198e9b744fe8d4b3e33c2f94ccc9edcf5fe7987df2cbb59869ac1346c864a2",
+      "end_date": "#62c1408320190859e89e76247555e40cd14e8651faa65a193349b5e9cbafc195",
+      "booked": 0
+     },
+     {
+      "id": 10,
+      "name": "#eaebfc76bc800e24923bf3e9497608e83f0925c1d60bea1dea310ac3e49b4b86",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "price_tier": "#850a2a61f465d0d896d3e66b030300b4b0f3bfb6fc946968a14d8f5a732bd525",
+      "start_date": "#eb23922ca6dbf2c0e56b958db4d81ad45a9674122f2ae456e025e36e5a0ada66",
+      "end_date": "#a4b09a5d0d4a1243b7a6f88ee38bd373af4045fc9393ba3392d108a4fa2ed69e",
+      "booked": 0
+     }
+    ],
+    "hotels": [
+     {
+      "id": 1,
+      "name": "#654cc1aa4d3ab7cdc1378b652cc55699e805abff437ed27ebe971a14c978bc9b",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#94f5480537622e6fbd87f6d2112b902c2697df877376a27dc14e5b5f46e59467",
+      "checkin_date": "#0d5da72f59dcc2961f43ab7ba69a534c86d26d1fb5bcb710c19719428df60ca3",
+      "checkout_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "booked": 0
+     },
+     {
+      "id": 2,
+      "name": "#d5a086d3538e2746bff4c4714978f319271ca35ef80e70459bedbcb9b63354f1",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#c8c657220fce5293c61f46f2e53b700f1a74fcccf1a181ddcc4b5cfde4aceafb",
+      "checkin_date": "#e43d87a0485c32be52aac9ea8688cd89d8667deadc28afa622b5a8b16c75a7f1",
+      "checkout_date": "#a3c9490ca92f04d6e1fbd978edcf68e02de9ec7ff0c2b7a61f70fcf6b35aef62",
+      "booked": 0
+     },
+     {
+      "id": 3,
+      "name": "#fe60c78c16db2b488babf8c06ca8102c6c4c181ae7279b87c2f3d221b97beaaf",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#2b51b12cb666682ee8214c35d5e747dd806a09554582f82a3e09feac703fbf0c",
+      "checkin_date": "#ced2cf998f761e72cdf46b9859aee526250f38a6e09d804011c3cceb48b7520c",
+      "checkout_date": "#0b5731c2663e6484284754e1b2406a6699167d7b9a5fa3ed68023bde70bef1ef",
+      "booked": 0
+     },
+     {
+      "id": 4,
+      "name": "#c18b27c363dcb921b6f6d3aae001185d02c169af9b4789dbad8279ed0da5bbf3",
+      "location": "#52557c5d396304d94b5c38a1db847f1ca19ef2a84f825f4c51876752edcac82e",
+      "price_tier": "#b2b395a3a2da71f7f95783924e1cc9692a70822b3a67b3c3e7e0fd957325220c",
+      "checkin_date": "#f98171f07e09c44d10599eedfef0b47874735ce7caa1af3a1cb85cbbe934f721",
+      "checkout_date": "#7c2ccf80a0fd1749c069499ff0c08b5e7d52adda2192e625a9ca43c5ca86aef7",
+      "booked": 0
+     },
+     {
+      "id": 5,
+      "name": "#32be44eee16e7e9317a70451d9c9d1cf5d2d7f7e90c77a909c85d53aa976abe6",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "price_tier": "#1febd98d5989e4a37e6d1b6a9708f3685db418310a8eeb265e211e4aa64732fe",
+      "checkin_date": "#eb23922ca6dbf2c0e56b958db4d81ad45a9674122f2ae456e025e36e5a0ada66",
+      "checkout_date": "#eb957acf2b7d5a1131d5ca2d3594aa228768ee179b79875926239334cf1d3c2d",
+      "booked": 0
+     },
+     {
+      "id": 6,
+      "name": "#c3737549b45af0bfe4210fb7d07b2e901e415544049824579e53dbbd5b2d6eda",
+      "location": "#aeb4039297144f3f76a6e8e264c04a83d807fb744c2f43bf104e35aeaa2285e8",
+      "price_tier": "#94f5480537622e6fbd87f6d2112b902c2697df877376a27dc14e5b5f46e59467",
+      "checkin_date": "#eb23922ca6dbf2c0e56b958db4d81ad45a9674122f2ae456e025e36e5a0ada66",
+      "checkout_date": "#f252a72a98900c367307e76d3103efd3ab536d03743c59579f9e720a50c6eee3",
+      "booked": 0
+     },
+     {
+      "id": 7,
+      "name": "#3c6fe7de4fc4c2e6debb0616fa7fd66d737ac66c609b53eea52cfab96a47bdaf",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#2b51b12cb666682ee8214c35d5e747dd806a09554582f82a3e09feac703fbf0c",
+      "checkin_date": "#d46a60a1fb307d8d2efecb4c1953ea6e9f3cbe9a2b8cb4ca831855da1daf64a4",
+      "checkout_date": "#ced2cf998f761e72cdf46b9859aee526250f38a6e09d804011c3cceb48b7520c",
+      "booked": 0
+     },
+     {
+      "id": 8,
+      "name": "#de54ff677966c448db99c0975e2c54f47b6453f8d46deebeb1eb2751a573b272",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "price_tier": "#1febd98d5989e4a37e6d1b6a9708f3685db418310a8eeb265e211e4aa64732fe",
+      "checkin_date": "#f98171f07e09c44d10599eedfef0b47874735ce7caa1af3a1cb85cbbe934f721",
+      "checkout_date": "#42a9956f035e9ea4411ff6d79e13610467a430c636f79fd51896a365e0ce4e6e",
+      "booked": 0
+     },
+     {
+      "id": 9,
+      "name": "#de164f082b442bc8dd717ac31b613783b1d0643bac584084bd998d51e5095f3d",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "price_tier": "#c8c657220fce5293c61f46f2e53b700f1a74fcccf1a181ddcc4b5cfde4aceafb",
+      "checkin_date": "#a4b09a5d0d4a1243b7a6f88ee38bd373af4045fc9393ba3392d108a4fa2ed69e",
+      "checkout_date": "#8877bb4d27c501b6bc60c14f2252a0e77d579019594266a99a9f2b8a2c7ffd53",
+      "booked": 0
+     },
+     {
+      "id": 10,
+      "name": "#e570d53050c44bd8b65d6743dec5765f82638397c0033a0fa40fe1799dab0f6f",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "price_tier": "#b2b395a3a2da71f7f95783924e1cc9692a70822b3a67b3c3e7e0fd957325220c",
+      "checkin_date": "#4bcf0cd7b187cd9c857f5e1be6db7643e5158085a0a885a5db3290d109370e2c",
+      "checkout_date": "#e9f3674f0c46fa7ea68351acbcdab2956f44e341d26d014ffaaadacfd3183614",
+      "booked": 0
+     }
+    ],
+    "trip_recommendations": [
+     {
+      "id": 1,
+      "name": "#3a75b4becfcc8144190bce3ea655cb14438f7688d9272053bfedb9177335beaf",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "keywords": "#2207f8139bba8f1f015611d18f53143186f1493d0b89268ee28efd6eadb9f38d",
+      "details": "#3c2418e02efea6bc58c2b9d0654551476f790e7b9d82fe9bb4f28e3eb61bf7ee",
+      "booked": 0
+     },
+     {
+      "id": 2,
+      "name": "#12da65a491370ee328c52695c04c2b9cbefb9e0fbd71097765956372553a94f9",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "keywords": "#00f4e0256bb906bb4094ffb45e892c15ee9e18c9434a8ca3e310f697708bc15e",
+      "details": "#1b1401d5d5fb14ccb5b1950054f6e931a4cd3368dfb46bc676ddbbbe5a81e429",
+      "booked": 0
+     },
+     {
+      "id": 3,
+      "name": "#7416554ca870ba5a42a28b327534028e483b58210be18f8a57703eebb23ad8ca",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "keywords": "#e0f2ae31920901f81907cc9d2bfb2e1bec4a5b7b2c4968262944eb4766c3b372",
+      "details": "#f0203683977132fd4e9d23ad7104fcb269de698ac320a969af3ac05f41dc8fbc",
+      "booked": 0
+     },
+     {
+      "id": 4,
+      "name": "#2740379a9ef8c9cf8c7d7b2c720c1701d7a5203824b185b742417687ddd4ea93",
+      "location": "#52557c5d396304d94b5c38a1db847f1ca19ef2a84f825f4c51876752edcac82e",
+      "keywords": "#2207f8139bba8f1f015611d18f53143186f1493d0b89268ee28efd6eadb9f38d",
+      "details": "#ae6d81ae4342eb35d9c892086119b5d706dc4594bf88caed71bb290a09583b62",
+      "booked": 0
+     },
+     {
+      "id": 5,
+      "name": "#1c798d6fd2c24981ef48f40da561e48bec3c59e1d8b02c8c082a1a445be5a88a",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "keywords": "#a99101e288f5ba6225c26767dacfc9b02c29e01d07204f7662f220f73fd1a936",
+      "details": "#0f27b2328c34a4321823bd9e4ca6be8cff6f169651b027d365cba3d98f73275a",
+      "booked": 0
+     },
+     {
+      "id": 6,
+      "name": "#65d81e8bdea730b20b72781ea4d19625a69f13bc9f15160511964c02a0533845",
+      "location": "#aeb4039297144f3f76a6e8e264c04a83d807fb744c2f43bf104e35aeaa2285e8",
+      "keywords": "#69426d46ff6df94d84972ca1e8a7b86b105cfb5e4118cbce9dca53301f4e1830",
+      "details": "#1e162f44609758fdf8b122fe99722e82e79a00af9cec35c8bd03e33f78e230a6",
+      "booked": 0
+     },
+     {
+      "id": 7,
+      "name": "#4fe8c0735d5482edda777c49c08f43a62ad3e043717717d8e64bc7a1e68b246c",
+      "location": "#32650a8546ff22fcc914c4256508dd3bb2a6caff64d516c50a60254b3c450501",
+      "keywords": "#a0c435b2c856ceedbe0f17c6f91479744a775de14a91dee6d2ef454a5cb6fa04",
+      "details": "#7c02ed48c939d7a8d7d9d256cfb5d255658d9cdca984852482736bf5e5aaf054",
+      "booked": 0
+     },
+     {
+      "id": 8,
+      "name": "#0828fa437519320744ef0490227fd9249cc9d573253a162d47061c331bd778f7",
+      "location": "#8ce0b9beedbb3102751752017bd804c3938afee11deae1b583177ce586628cc9",
+      "keywords": "#00f6543638d76150518a103008c302bbaf231a5669f48d818376bc55af183bed",
+      "details": "#aa01acc3e2d8c6a48326e505596a0284ac07ba8eb51ecd800bca12e5d9e873dd",
+      "booked": 0
+     },
+     {
+      "id": 9,
+      "name": "#982a6266f7e81cbcefbaec706b6833c2f4436c2652eb117f93f42231d981053e",
+      "location": "#52557c5d396304d94b5c38a1db847f1ca19ef2a84f825f4c51876752edcac82e",
+      "keywords": "#bfbb080430faf54175d987f2eaaa250b72940ec9a29804bef5a60745cd6d47e0",
+      "details": "#eee9ffefbd207fe2a54b2ef44bde412dfcb9c1a935f79229264027a748f2840d",
+      "booked": 0
+     },
+     {
+      "id": 10,
+      "name": "#4d90b5fed7b3d70488c2cfa0e8fbb868d3b12d1d5f35838975dae34711922cbd",
+      "location": "#a1323d8fa56228ed56ed2c778718289f5de70ad97c381cab868b6ad5fd2f2569",
+      "keywords": "#2207f8139bba8f1f015611d18f53143186f1493d0b89268ee28efd6eadb9f38d",
+      "details": "#67ea660cbffa726f12024f1dda7ea078690d1d5503482b7c0d91315638d6438f",
+      "booked": 0
+     }
+    ]
+   }
+  }
+ },
+ "quiet": {
+  "settleMs": 300,
+  "before": {
+   "same": true
+  },
+  "afterObjects": null,
+  "afterExit": {
+   "same": true
+  }
+ },
+ "errors": [],
+ "process": {
+  "exit": {
+   "code": 0,
+   "signal": null
+  },
+  "stdout": {
+   "tailChars": 0,
+   "tailSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+   "tailChars": 0,
+   "tailSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+ },
+ "unsolicitedStates": 0
+}

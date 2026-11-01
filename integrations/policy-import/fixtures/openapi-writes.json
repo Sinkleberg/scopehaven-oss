@@ -1,0 +1,58 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Synthetic ticketing API (write drafting fixture)", "version": "1.0.0" },
+  "servers": [{ "url": "/api" }],
+  "security": [{ "session": [] }],
+  "components": {
+    "securitySchemes": {
+      "session": { "type": "http", "scheme": "bearer" },
+      "oauth": { "type": "oauth2", "flows": { "clientCredentials": { "tokenUrl": "/token", "scopes": { "admin": "" } } } }
+    },
+    "schemas": {
+      "NewTicket": {
+        "type": "object",
+        "required": ["title", "priority"],
+        "properties": {
+          "title": { "type": "string", "example": "Synthetic ticket" },
+          "priority": { "type": "string", "enum": ["low", "normal", "high"] },
+          "tenant": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "TicketPatch": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "assignee": { "$ref": "#/components/schemas/Assignee" },
+          "dueAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Assignee": { "type": "object", "required": ["email"], "properties": { "email": { "type": "string", "format": "email" } } },
+      "Comment": { "type": "object", "required": ["text"], "properties": { "text": { "type": "string" }, "internal": { "type": "boolean" } } }
+    }
+  },
+  "paths": {
+    "/me": { "get": { "operationId": "me" } },
+    "/tickets": {
+      "get": { "operationId": "listTickets" },
+      "post": { "operationId": "createTicket", "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NewTicket" } } } } }
+    },
+    "/tickets/{ticketId}": {
+      "get": { "operationId": "getTicket", "parameters": [{ "name": "ticketId", "in": "path", "required": true, "schema": { "type": "string" } }] },
+      "patch": { "operationId": "patchTicket", "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TicketPatch" } } } } },
+      "delete": { "operationId": "deleteTicket" }
+    },
+    "/tickets/{ticketId}/comments/{commentId}": {
+      "delete": { "operationId": "deleteComment" }
+    },
+    "/tickets/{ticketId}/comments": {
+      "post": { "operationId": "addComment", "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Comment" } } } } }
+    },
+    "/public/feedback": {
+      "post": { "operationId": "feedback", "security": [], "requestBody": { "content": { "application/json": { "schema": { "type": "object", "required": ["message"], "properties": { "message": { "type": "string" } } } } } } }
+    },
+    "/admin/reindex": { "post": { "operationId": "reindex", "security": [{ "oauth": ["admin"] }] } },
+    "/legacy/{id}": { "servers": [{ "url": "https://legacy.example" }], "put": { "operationId": "legacyPut" } },
+    "/exports": { "post": { "operationId": "exportCsv", "requestBody": { "required": true, "content": { "text/csv": { "schema": { "type": "string" } } } } } }
+  }
+}
