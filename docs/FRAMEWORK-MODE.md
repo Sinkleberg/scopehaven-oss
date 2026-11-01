@@ -97,7 +97,7 @@ Not yet: a `migration-between-runs` flag waits for the catalog fingerprint in th
 ## Checks
 
 ```sh
-.runtime/node-v24.21.0-darwin-arm64/bin/node --test integrations/frameworks/assess.test.mjs integrations/frameworks/vr1.test.mjs
+.runtime/node-v24.22.2-darwin-arm64/bin/node --test integrations/frameworks/assess.test.mjs integrations/frameworks/vr1.test.mjs
 ```
 
 The tests use no Python and no network:

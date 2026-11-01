@@ -11,6 +11,8 @@ Third-party material in this repository keeps its own licence and notice:
 
 - src/standards-vocabularies.json: identifiers and names from OWASP, MITRE ATLAS and CWE vocabularies, each under
   its publisher's terms. See src/standards-vocabularies.NOTICE.md.
+- src/public-suffix-list.mjs: a subset of the Public Suffix List (https://publicsuffix.org), vendored as data under the
+  Mozilla Public License 2.0 (https://mozilla.org/MPL/2.0/). Only that file carries the MPL-2.0.
 
 This is the open edition of ScopeHaven. Check packs, class templates, incident replays, adversarial carrier
 fixtures, the assessor pack and hosted services are distributed separately under their own terms and are not

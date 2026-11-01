@@ -9,7 +9,7 @@ The open edition is the whole checking engine: the five verdicts and their rules
 ## What is not, and why
 
 - **The check-pack library beyond the five samples, the class templates and the incident replays.** These are the accumulated, reviewed knowledge of which agent actions go wrong in which kinds of app. They are what I sell, and what pays for the time that keeps the engine free.
-- **The adversarial carrier fixtures.** They were built to harden the pass semantics against evidence that looks right and is not. Publishing them would hand the exact shapes to whatever they are meant to catch, so they stay private even for people I trust.
+- **The adversarial carrier fixtures.** They were built to harden the pass semantics against evidence that looks right and is not. Publishing them would hand the exact shapes to whatever they are meant to catch, so they stay private.
 - **The assessor and insurer pack.** It bundles the above with reporting and terms for third parties who sign off on other people's systems, which needs support and liability I can't offer in an open repository.
 - **Hosted services**: shared run history, team dashboards, signed-evidence custody, support. Each needs an operator who holds something for you, and the whole point of the open edition is that nobody but you holds anything.
 

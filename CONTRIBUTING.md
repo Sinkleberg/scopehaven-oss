@@ -16,7 +16,7 @@ ScopeHaven has no npm dependencies. You need Node.js 22 or 24 LTS in the range `
 
 ```sh
 git clone https://github.com/YusefSyed/scopehaven-oss.git
-cd scopehaven
+cd scopehaven-oss
 ./scopehaven doctor        # checks Node, modules, data directory and the loopback port; installs nothing
 ./scopehaven test          # the whole suite (about 10 minutes on a laptop, 4 shards in CI; it starts loopback servers on 127.0.0.1 only)
 ```

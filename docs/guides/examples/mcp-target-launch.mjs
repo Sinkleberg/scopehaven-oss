@@ -74,7 +74,7 @@ export async function launch({ dir, port = 4810, mode = 'bound', env = process.e
   log(`  identities: ${Object.values(ACTORS).map(a => `${a.principalId} (Bearer from ${a.credentialEnv})`).join(', ')}`);
   log(`  records:    ${frameLog} (MCP traffic), ${dbPath} (the server's audit table)`);
   log(`  written:    ${join(folder, 'observers.json')}, ${join(folder, 'authorization.json')} (valid 24 hours)`);
-  log('Open the window from the scopehaven folder, then let the agent work while it is open:');
+  log('Open the window from the repository folder, then let the agent work while it is open:');
   log(`  ./scopehaven sequence --sequence docs/guides/examples/mcp-agent-window.sequence.json --origin ${origin} --observers ${join(folder, 'observers.json')} --authorization ${join(folder, 'authorization.json')} --out ${join(folder, 'runs')}`);
   const stop = async () => { await proxy.stop(); await server.stop(); };
   return { origin, url: proxy.url, serverOrigin: server.origin, folder, stop };

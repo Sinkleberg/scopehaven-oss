@@ -106,7 +106,7 @@ jobs:
 
       - name: Scopehaven, previous release
         id: previous
-        uses: ./integrations/github-action
+        uses: ./
         with:
           profile: data/http-lab.targets.json
           authorization: data/http-lab.authorization.json
@@ -146,7 +146,7 @@ jobs:
 
       - name: Scopehaven, this release gated against the previous one
         id: release
-        uses: ./integrations/github-action
+        uses: ./
         with:
           profile: data/http-lab.targets.json
           authorization: data/http-lab.authorization.json

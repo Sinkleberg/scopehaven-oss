@@ -9,7 +9,8 @@
 It runs an agent's tasks against a local copy of your application as different users, then decides every check from
 the app's own records when you declare an observer, or from the HTTP responses when you don't, and says which one it
 used. It tests whether an agent's actions remain authorized when access changes, and whether "done" matches what
-actually happened. No model takes part in a verdict. Nothing leaves your machine.
+actually happened. No model takes part in a verdict. By default nothing leaves your machine except traffic to the target you name; the opt-in exceptions (a model provider, a
+timestamp authority) are listed in [docs/DATA-HANDLING.md](docs/DATA-HANDLING.md).
 
 It is for teams whose agents write into their own product: refunds, credits, plan changes, account updates, exports.
 
@@ -26,7 +27,7 @@ You need Node.js 22 or 24 LTS (`>=22.23.4 <23 || >=24.22.1 <25`) and nothing els
 Already on Node 22 LTS (22.23.4 or newer) or Node 24 LTS (24.22.1 or newer)? Nothing to add: clone and run.
 
 ```sh
-git clone https://github.com/YusefSyed/scopehaven-oss.git && cd scopehaven
+git clone https://github.com/YusefSyed/scopehaven-oss.git && cd scopehaven-oss
 ./scopehaven assess --target demo-vulnerable --out /absolute/private/evidence    # exit 1: 26 of 44 checks fail
 ```
 
@@ -37,7 +38,7 @@ anything itself; `./scopehaven doctor` prints which Node it selected and, if non
 
 ```sh
 git clone https://github.com/YusefSyed/scopehaven-oss.git
-cd scopehaven
+cd scopehaven-oss
 ./scopehaven doctor                                                              # local checks; installs, downloads and starts nothing
 ./scopehaven assess --target demo-vulnerable --out /absolute/private/evidence    # exit 1: 26 of 44 checks fail
 ./scopehaven assess --target demo-repaired  --out /absolute/private/evidence     # exit 0: all 44 pass
@@ -80,7 +81,7 @@ To see the comparison yourself, run the one-shot gate twice into the same privat
 
 ## Use it from CI or from your agent
 
-Two ways in that need no profile of your own yet. **In CI.** The repository root is a GitHub Action. One step after your app is up on the runner's loopback runs the
+Two ways in. **In CI.** The repository root is a GitHub Action. One step after your app is up on the runner's loopback runs the
 checks under your authorization record, gates them against a saved run, uploads the evidence and, if you ask, SARIF:
 
 ```yaml
@@ -103,6 +104,9 @@ with one identity's token, open a window, and let the agent call tools. The rows
 the server's own audit table, not from what the agent said:
 
 ```sh
+export SCOPEHAVEN_TARGET_MCP_VIEWER=choose-a-synthetic-viewer-token
+export SCOPEHAVEN_TARGET_MCP_AGENT=choose-a-synthetic-agent-token
+export SCOPEHAVEN_TARGET_MCP_ADMIN=choose-a-synthetic-admin-token
 node docs/guides/examples/mcp-target-launch.mjs --dir /absolute/private/mcp-target --port 4810
 claude mcp add --transport http scopehaven-target http://127.0.0.1:4810/mcp --header "Authorization: Bearer $SCOPEHAVEN_TARGET_MCP_VIEWER"
 ./scopehaven sequence --sequence docs/guides/examples/mcp-agent-window.sequence.json --origin http://127.0.0.1:4810 \
@@ -115,8 +119,8 @@ client configuration for both tools, what each record can and cannot show, and h
 
 ## How a check decides
 
-- **Five verdicts**: pass, fail, inconclusive (unobservable or missing evidence) and observer failure. Missing
-  evidence never reads as a pass. An action still in flight makes its window partial. An aborted sequence never passes.
+- **Five row statuses**: pass, fail, inconclusive (unobservable or missing evidence), error (an observer or the run
+  itself failed, read as observer failure) and not applicable. Missing evidence never reads as a pass. An action still in flight makes its window partial. An aborted sequence never passes.
 - **Attribution**: an effect counts only when it is attributed to the acting user and tenant; an unattributed actor
   blocks a pass.
 - **Custody**: a pass of an observed effect needs an observer held outside the application (a hold gate, an egress
@@ -139,7 +143,7 @@ client configuration for both tools, what each record can and cannot show, and h
    `mysql-snapshot`, `http-audit`, `audit-file`, an `egress-recorder` for outbound HTTP, an `smtp-sink` for mail, a
    `provider-feed`, a `dns-stub`, an MCP or OpenTelemetry source. [integrations/observers](integrations/observers/README.md)
    lists each one and what it can and cannot prove.
-4. Sign an **authorization record** that names the target, every endpoint and every test account
+4. Seal an **authorization record** that names the target, every endpoint and every test account
    ([docs/RULES-OF-ENGAGEMENT.md](docs/RULES-OF-ENGAGEMENT.md)). Nothing runs against a configured target without it.
 5. `./scopehaven assess --config /absolute/private/profile.json --target ID --authorization /absolute/private/authorization.json --out /absolute/private/evidence`,
    then `gate` before and after a change, then `export` or `evidence-pack` to hand the result on.
@@ -215,7 +219,8 @@ If you want those, write to <hello@scopehaven.dev>.
 ```
 
 `assess` exit codes: 0 every check passed, 1 failed, inconclusive or error evidence, 2 setup failure. `gate`: 0 clean,
-1 failed or incomplete evidence (including not-applicable rows), 2 runtime, configuration or error-status failure.
+1 failed or incomplete evidence (including not-applicable rows), 2 runtime, configuration or error-status failure. `sequence`: 0 every row passed, 1 a row failed, 3 nothing failed but a row
+is inconclusive or an observer failed, 2 configuration error.
 The launcher selects Node from `SCOPEHAVEN_NODE`, then a project-local `.runtime/`, then `PATH`.
 
 ## Contributing, security, licence

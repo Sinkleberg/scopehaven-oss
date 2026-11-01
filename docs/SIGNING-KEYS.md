@@ -65,8 +65,8 @@ These rules are also in the key set's `policy` field.
 
 ## Limits
 
-- **The interim key.** The current countersigning key is interim: made on 2026-10-29 for the sample pack, held on one machine outside the repository, protected by file permissions only (no passphrase or hardware key). It will be retired, under the rotation rule above, when a founder-held key replaces it.
-- **No hosted endpoint and no licence check yet.** Countersigning is a local CLI that ScopeHaven runs with its key. The request format is the one a hosted endpoint will take. Today `licenceId` is whatever ScopeHaven types, and nothing checks a subscription.
+- **The interim key.** The current countersigning key is interim: made on 2026-10-29 for the sample pack, held on one machine outside the repository, protected by file permissions only (no passphrase or hardware key). It will be retired, under the rotation rule above, when a hardware-backed key replaces it.
+- **No hosted endpoint and no licence check yet.** Countersigning is a local CLI that ScopeHaven runs with its key. The request format is the one a hosted endpoint will take. Today `licenceId` is a label the countersigner writes by hand, and nothing verifies it.
 - **What it shows.** A countersignature shows that ScopeHaven's key signed these hashes, for the named licence, before the TSA's time. It does not show that ScopeHaven ran the checks, or that the checks, the application or the results are correct. A licensee can have the hash of any statement countersigned, including one built by hand.
 - **Edits before signing.** The countersignature does not stop the operator's key holder from editing a run before packing it. It fixes when the pack existed, and that the operator's key signed it then.
 - **The key set is not itself signed.** Trust rests on HTTPS to scopehaven.dev and on this repository.

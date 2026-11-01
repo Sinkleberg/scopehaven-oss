@@ -79,9 +79,9 @@ Completed decisions are written once to `gate-summaries/<run-id>.json` with mode
 Focused verification and isolated demonstration:
 
 ```sh
-.runtime/node-v24.21.0-darwin-arm64/bin/node --test test/regression-gate.test.mjs integrations/regression-gate/report-only.test.mjs integrations/regression-gate/trials.test.mjs
+.runtime/node-v24.22.2-darwin-arm64/bin/node --test test/regression-gate.test.mjs integrations/regression-gate/report-only.test.mjs integrations/regression-gate/trials.test.mjs
 ./scopehaven gate-demo
-.runtime/node-v24.21.0-darwin-arm64/bin/node integrations/regression-gate/launcher-acceptance.mjs
+.runtime/node-v24.22.2-darwin-arm64/bin/node integrations/regression-gate/launcher-acceptance.mjs
 ```
 
 The demonstration expects the vulnerable fixture's assessment to fail, then requires a clean repaired comparison. It emits a compact receipt and removes its temporary evidence directory. `demo-result.json` records the actual demonstration performed for this implementation; its raw run files were temporary. The launcher acceptance checks the integrated command's actual exits against owned synthetic/HTTP fixtures, verifies private saved summaries and source hashes, and removes its temporary evidence. `launcher-acceptance-result.json` records that execution. `ci-invocation.sh.example` is inert text illustrating a future local/CI invocation; it installs nothing and enables no workflow. See [RECURRING-CHECKS.md](RECURRING-CHECKS.md) for the decisions and operational verification still needed before recurring checks.

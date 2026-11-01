@@ -55,7 +55,7 @@ An application that makes no call, or calls only passive paths, never reads `NO_
 From the `scopehaven` folder (the path has a space; quote it):
 
 ```sh
-.runtime/node-v24.21.0-darwin-arm64/bin/node integrations/sequences/sweep/cli.mjs --spec /abs/spec.json --out /abs/dir [--concurrency N]
+.runtime/node-v24.22.2-darwin-arm64/bin/node integrations/sequences/sweep/cli.mjs --spec /abs/spec.json --out /abs/dir [--concurrency N]
 ```
 
 It prints one line per run and then the verdict. Exit codes: `0` NO_FLAG, `1` FLAG, `3` ABSTAIN, `2` configuration error or a sweep that could not finish.

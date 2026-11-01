@@ -145,7 +145,7 @@ runs:
     - name: Set up Node.js 24.22.2
       uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
       with:
-        # Exact, equal to the launcher's pinned download (scopehaven/scopehaven); no newer 24.x.
+        # Exact, equal to the launcher's pinned download; no newer 24.x.
         node-version: '24.22.2'
         check-latest: false
     - name: Prepare Scopehaven workspace

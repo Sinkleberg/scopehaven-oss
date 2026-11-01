@@ -30,7 +30,7 @@ Owned MCP server (grants: bound) behind the recording proxy at http://127.0.0.1:
   identities: mcp-viewer (Bearer from SCOPEHAVEN_TARGET_MCP_VIEWER), mcp-agent (Bearer from SCOPEHAVEN_TARGET_MCP_AGENT), mcp-admin (Bearer from SCOPEHAVEN_TARGET_MCP_ADMIN)
   records:    /absolute/private/mcp-target/mcp-frames.jsonl (MCP traffic), /absolute/private/mcp-target/server.db (the server's audit table)
   written:    /absolute/private/mcp-target/observers.json, /absolute/private/mcp-target/authorization.json (valid 24 hours)
-Open the window from the scopehaven folder, then let the agent work while it is open:
+Open the window from the repository folder, then let the agent work while it is open:
   ./scopehaven sequence --sequence docs/guides/examples/mcp-agent-window.sequence.json --origin http://127.0.0.1:4810 ...
 ```
 
@@ -98,7 +98,7 @@ with 403, as is one whose bearer token is unknown (401).
 
 ## 3. Open the window, then let the agent work
 
-From the `scopehaven` folder, with the paths the launcher printed:
+From the repository folder, with the paths the launcher printed:
 
 ```sh
 ./scopehaven sequence \

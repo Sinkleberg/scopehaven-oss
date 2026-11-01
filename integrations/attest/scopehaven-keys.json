@@ -11,7 +11,7 @@
       "notBefore": "2026-10-29T00:00:00.000Z",
       "notAfter": null,
       "revokedAt": null,
-      "note": "Interim countersigning key, made 2026-10-29 for the sample evidence pack and the first design partners. It is held outside the repository on one machine, protected by file permissions only. It will be retired (notAfter set) when a report key held by the founder replaces it; countersignatures stamped before then stay valid."
+      "note": "Interim countersigning key, made 2026-10-29 for the sample evidence pack. It is held outside the repository on one machine, protected by file permissions only. It will be retired (notAfter set) when a report key held by the founder replaces it; countersignatures stamped before then stay valid."
     }
   ],
   "timestampAuthorities": [

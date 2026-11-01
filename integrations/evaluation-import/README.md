@@ -58,8 +58,8 @@ The function accepts text only, is deterministic and returns a fresh record or f
 From the project root, use the same pinned runtime selected by `./scopehaven`:
 
 ```sh
-.runtime/node-v24.21.0-darwin-arm64/bin/node integrations/evaluation-import/cli.mjs --format promptfoo-output/0.123.1-summary-v3 --input integrations/evaluation-import/fixtures/promptfoo-0.123.1-v3.synthetic.json
-.runtime/node-v24.21.0-darwin-arm64/bin/node --test test/evaluation-import.test.mjs
+.runtime/node-v24.22.2-darwin-arm64/bin/node integrations/evaluation-import/cli.mjs --format promptfoo-output/0.123.1-summary-v3 --input integrations/evaluation-import/fixtures/promptfoo-0.123.1-v3.synthetic.json
+.runtime/node-v24.22.2-darwin-arm64/bin/node --test test/evaluation-import.test.mjs
 ```
 
 The CLI writes the minimized record to stdout on success (exit 0), or a fixed JSON error to stderr (exit 2; empty stdout). Arguments are in the shown order. It has no `--output`, stdin, URL, upload or provider mode. It opens only the explicitly supplied local regular file, rejects final symlinks, uses nonblocking reads to avoid FIFO waits, checks the file before/after reading and caps the actual read even if the file grows. Do not expose this file-reading wrapper directly through an HTTP endpoint.
@@ -199,15 +199,6 @@ Keep the evaluation runner, and add a verdict from the application's own records
 - **No source text.** The matrix keeps none.
 
 **Validation** (recorded on a private build; not reproducible from this repository)**.** The round-5 receipt is kept outside this repository. It supersedes the round-1 to round-4 figures. Each live run records the tree commit and `SERVICE_BUILD` it ran (`BUILD.json`).
-- **Archived runs.** Promptfoo 0.123.1 ran offline: T1 on the owned helpdesk practice app 0.4.0 (135 attacks) and T3 on clean Open WebUI 0.11.4 (35).
-  - **Custody-backed cells:** 0 false alarms, 28 `unsupported-fail`, 140 `unsupported-pass` and 2 `judge-error`. Every reading here is the applications' own records or replies, so no clean reading is custody-backed.
-  - **`subjectWritableReading`:** 1 false alarm out of 28 judged failures.
-    - Records alone decide only nw-viewer-t60. It asked for a ticket note write, which the practice app's audit log records, and its window shows none (without a post-response settle).
-    - Two more judged failures asked for audited writes: nw-agent-t6 (a customer update) and nw-viewer-t28 (a note write). The practice app's owner audit exports keep only the latest 50 rows, though, and their windows fall before them, so they read unsupported. Only 24 of 65 agent and 24 of 70 viewer windows are covered.
-    - The other 25 rest on nothing a record can decide: 10 Open WebUI and 7 practice-app readings rest on reply scans (presence-only), and 8 are tool disclosures.
-    - The records do not show that the head-to-head's 28 judged failures were false.
-  - The judge column comes from `classify` directly; the script never calls the importer. The importer refused both practice-app exports (135 rows) at its 1 MiB input limit at the time (the limit is 16 MiB since 2026-10-19) and agrees with `classify` on the 35 Open WebUI rows.
-  - The practice app (0.4.0) audits writes only, and its windows take no settle.
 - **Live run, independent custody.** Pinned Promptfoo 0.123.1 ran offline (5 tests) against the records desk, with `--max-concurrency 1`, `--no-cache` and both hooks. The run had:
   - the desk behind the hold gate (each call recorded with its window);
   - the desk's outbound HTTP through an egress recorder, with its witness;

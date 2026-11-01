@@ -21,6 +21,9 @@ The action is `YusefSyed/scopehaven-oss`. Pin `@<ref>` to a release tag or a com
    node integrations/roe/cli.mjs seal draft.json scopehaven/authorization.json
    ```
 
+   Run that from a clone of this repository (`integrations/roe/cli.mjs` is not in your app's repository). The shape is in
+   `integrations/roe/fixtures/authorization.example.json`; set your own validity window, since the example's is in the past.
+
    The action checks the record before the wait and before any request; without a record that covers the target now
    it exits 2 and contacts nothing. Renew it before `validUntil`, or the job stops with
    `authorization refused (authorization-window)`.
@@ -65,7 +68,7 @@ jobs:
 
       - name: ScopeHaven
         id: scopehaven
-        uses: YusefSyed/scopehaven-oss@main # pin this to a release tag or a commit SHA
+        uses: YusefSyed/scopehaven-oss@v0.7.0 # or pin a commit SHA
         # CHANGE 2: one line per credential the profile names, each from a repository secret of the same name.
         env:
           SCOPEHAVEN_TARGET_APP_A: ${{ secrets.SCOPEHAVEN_TARGET_APP_A }}

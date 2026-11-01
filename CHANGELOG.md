@@ -15,7 +15,7 @@ First public release of the open edition, cut from the private 0.7.0 tree.
 
 - The local workbench and CLI (`./scopehaven`): assess, gate, compare, export, evidence pack, sequences, attest,
   policy import, monitor, watch-first, packs and `init`, with no npm dependencies.
-- The deterministic effect and evidence engine: five verdicts (pass, fail, unobservable, missing, observer-failure),
+- The deterministic effect and evidence engine: five row statuses (pass, fail, inconclusive, error, not_applicable),
   actor attribution, settle and in-flight rules, custody tags, and the rule that missing evidence never passes.
 - Observers on an application's own records (SQLite audit and snapshot, HTTP audit, audit file, Postgres and MySQL
   snapshots, egress recorder, SMTP sink, provider feed, DNS stub, MCP, OpenTelemetry).
